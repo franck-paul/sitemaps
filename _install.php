@@ -63,6 +63,21 @@ try {
 	// Preferences
 	$core->blog->settings->sitemaps->put('sitemaps_pings','google','string','',false,true);
 
+	// Remove yahoo and mslive search engines from current blog settings
+	$pings = explode(',',$core->blog->settings->sitemaps->sitemaps_pings);
+	$removed = false;
+	if ($k = array_search('yahoo',$pings)) {
+		unset($pings[$k]);
+		$removed = true;
+	}
+	if ($k = array_search('mslive',$pings)) {
+		unset($pings[$k]);
+		$removed = true;
+	}
+	if ($removed) {
+		$core->blog->settings->sitemaps->put('sitemaps_pings',implode(',',$pings),'string','',true,false);
+	}
+
 	$core->setVersion('sitemaps',$package_version);
 	unset($package_version,$installed_version);
 	return true;
