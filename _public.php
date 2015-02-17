@@ -26,7 +26,7 @@ class sitemapsTemplates
 			'<?php while ($_ctx->sitemap_urls->fetch()) : ?>'.$content.'<?php endwhile; ?>'.
 			'<?php endif; ?>'."\n";
 	}
-	
+
 	public static function SitemapEntryIf($attr,$content)
 	{
 		$if = '';
@@ -44,7 +44,7 @@ class sitemapsTemplates
 			return $content;
 		}
 	}
-	
+
 	public static function SitemapEntryLoc($attr)
 	{
 		$f = $GLOBALS['core']->tpl->getFilters($attr);

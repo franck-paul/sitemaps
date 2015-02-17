@@ -26,7 +26,7 @@ class dcSitemaps
 		$this->urls  = array();
 		$this->freqs = array('','always','hourly','daily','weekly','monthly','never');
 		$post_types = array();
-		
+
 		// Default post types
 		$this->addPostType(
 			'post',
@@ -61,7 +61,7 @@ class dcSitemaps
 		}
 		return false;
 	}
-	
+
 	public function addEntry($loc,$priority,$frequency,$lastmod = '')
 	{
 		$this->urls[] = array(
@@ -95,14 +95,14 @@ class dcSitemaps
 		// Let's have fun !
 		$query =
 			"SELECT p.post_id, p.post_url, p.post_tz, ".
-			"p.post_upddt, MAX(c.comment_upddt) AS comments_dt ".	
+			"p.post_upddt, MAX(c.comment_upddt) AS comments_dt ".
 			"FROM ".$this->blog->prefix."post AS p ".
 			"LEFT OUTER JOIN ".$this->blog->prefix."comment AS c ON c.post_id = p.post_id ".
-			"WHERE p.blog_id = '".$this->blog->con->escape($this->blog->id)."' ".	
+			"WHERE p.blog_id = '".$this->blog->con->escape($this->blog->id)."' ".
 			"AND p.post_type = '".$type."' AND p.post_status = 1 AND p.post_password IS NULL ".
 			'GROUP BY p.post_id, p.post_url, p.post_tz, p.post_upddt, p.post_dt '.
 			'ORDER BY p.post_dt ASC';
-			
+
 		$rs = $this->blog->con->select($query);
 		while ($rs->fetch()) {
 			if ($rs->comments_dt !== null) {
@@ -115,7 +115,7 @@ class dcSitemaps
 			$this->addEntry($url,$prio,$freq,$last_dt);
 		}
 	}
-	
+
 	protected function collectURLs()
 	{
 		// Homepage URL
@@ -169,7 +169,7 @@ class dcSitemaps
 		{
 			$freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_tags_fq);
 			$prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_tags_pr);
-			
+
 			$meta = new dcMeta($this->core);
 			$tags = $meta->getMeta('tag');
 			while ($tags->fetch()) {
@@ -178,7 +178,7 @@ class dcSitemaps
 					$prio,$freq);
 			}
 		}
-		
+
 		// External parts ?
 		# --BEHAVIOR-- sitemapsURLsCollect
 		$this->core->callBehavior('sitemapsURLsCollect', $this);

@@ -53,16 +53,8 @@ try {
 			'name' 	=> 'Google',
 			'url' 	=> 'http://www.google.com/webmasters/tools/ping'
 		),
-		'mslive'	=> array(
-			'name'	=> 'MS Live Search',
-			'url'	=> 'http://www.bing.com/webmaster/ping.aspx'
-		),
 		'bing'	=> array(
 			'name'	=> 'MS Bing',
-			'url'	=> 'http://www.bing.com/webmaster/ping.aspx'
-		),
-		'yahoo'	=> array(
-			'name'	=> 'Yahoo!',
 			'url'	=> 'http://www.bing.com/webmaster/ping.aspx'
 		)
 	);

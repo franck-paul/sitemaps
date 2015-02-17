@@ -157,7 +157,7 @@ if (!empty($msg)) {
 		<strong><?php echo $core->blog->url.$core->url->getBase('gsitemap'); ?></strong>
 		</p>
 	</div>
-	
+
 	<div class="fieldset">
 		<h4><?php echo __('Elements to integrate'); ?></h4>
 		<table class="maximal">

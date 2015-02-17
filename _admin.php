@@ -13,7 +13,7 @@ if (!defined('DC_CONTEXT_ADMIN')) return;
 $_menu['Blog']->addItem(__('Sitemaps'),'plugin.php?p=sitemaps','index.php?pf=sitemaps/icon.png',
 		preg_match('/plugin.php\?p=sitemaps(&.*)?$/',$_SERVER['REQUEST_URI']),
 		$core->auth->check('contentadmin',$core->blog->id));
-		
+
 $core->addBehavior('adminDashboardFavorites','sitemapsDashboardFavorites');
 
 function sitemapsDashboardFavorites($core,$favs)

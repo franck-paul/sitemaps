@@ -14,7 +14,7 @@ msgstr ""
 "X-Poedit-SourceCharset: iso-8859-1\n"
 
 msgid "Add XML Sitemaps"
-msgstr "Ajoutez Sitemaps XML"
+msgstr "Ajoutez des Sitemaps XML à votre blog"
 
 #: _admin.php:13
 msgid "Sitemaps"

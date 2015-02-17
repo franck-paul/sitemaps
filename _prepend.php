@@ -21,7 +21,7 @@ class sitemapsBehaviors
 	{
 		$core->tpl->setPath($core->tpl->getPath(),dirname(__FILE__).'/default-templates');
 	}
-	
+
 }
 
 $core->addBehavior('publicBeforeDocument', array('sitemapsBehaviors','addTemplatePath'));
@@ -33,7 +33,7 @@ class sitemapsUrlHandlers extends dcUrlHandlers
 	public static function sitemap($args)
 	{
 		global $core,$_ctx;
-		
+
 		if (!$core->blog->settings->sitemaps->sitemaps_active) {
 			self::p404();
 			return;
