@@ -30,13 +30,13 @@ class dcSitemaps
 		// Default post types
 		$this->addPostType(
 			'post',
-			$this->blog->url.$this->core->url->getBase('post').'/',
+			$this->blog->url.$this->core->url->getURLFor('post').'/',
 			$this->blog->settings->sitemaps->sitemaps_posts_fq,
 			$this->blog->settings->sitemaps->sitemaps_posts_pr
 		);
 		$this->addPostType(
 			'page',
-			$this->blog->url.$this->core->url->getBase('pages').'/',
+			$this->blog->url.$this->core->url->getURLFor('pages').'/',
 			$this->blog->settings->sitemaps->sitemaps_pages_fq,
 			$this->blog->settings->sitemaps->sitemaps_pages_pr
 		);
@@ -134,10 +134,10 @@ class dcSitemaps
 			$prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_feeds_pr);
 
 			$this->addEntry(
-					$this->blog->url.$this->core->url->getBase('feed').'/rss2',
+					$this->blog->url.$this->core->url->getURLFor('feed').'/rss2',
 					$prio,$freq);
 			$this->addEntry(
-					$this->blog->url.$this->core->url->getBase('feed').'/atom',
+					$this->blog->url.$this->core->url->getURLFor('feed').'/atom',
 					$prio,$freq);
 		}
 
@@ -160,7 +160,7 @@ class dcSitemaps
 			$cats = $this->blog->getCategories(array('post_type'=>'post'));
 			while ($cats->fetch()) {
 				$this->addEntry(
-						$this->blog->url.$this->core->url->getBase("category")."/".$cats->cat_url,
+						$this->blog->url.$this->core->url->getURLFor("category")."/".$cats->cat_url,
 						$prio,$freq);
 			}
 		}
@@ -174,7 +174,7 @@ class dcSitemaps
 			$tags = $meta->getMeta('tag');
 			while ($tags->fetch()) {
 				$this->addEntry(
-					$this->blog->url.$this->core->url->getBase("tag")."/".rawurlencode($tags->meta_id),
+					$this->blog->url.$this->core->url->getURLFor("tag")."/".rawurlencode($tags->meta_id),
 					$prio,$freq);
 			}
 		}
