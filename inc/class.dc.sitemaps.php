@@ -134,10 +134,10 @@ class dcSitemaps
 			$prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_feeds_pr);
 
 			$this->addEntry(
-					$this->blog->url.$this->core->url->getURLFor('feed').'/rss2',
+					$this->blog->url.$this->core->url->getURLFor('feed','rss2'),
 					$prio,$freq);
 			$this->addEntry(
-					$this->blog->url.$this->core->url->getURLFor('feed').'/atom',
+					$this->blog->url.$this->core->url->getURLFor('feed','atom'),
 					$prio,$freq);
 		}
 
@@ -157,10 +157,10 @@ class dcSitemaps
 			$freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_cats_fq);
 			$prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_cats_pr);
 
-			$cats = $this->blog->getCategories(array('post_type'=>'post'));
+			$cats = $this->blog->getCategories(array('post_type' => 'post'));
 			while ($cats->fetch()) {
 				$this->addEntry(
-						$this->blog->url.$this->core->url->getURLFor("category")."/".$cats->cat_url,
+						$this->blog->url.$this->core->url->getURLFor('category',$cats->cat_url),
 						$prio,$freq);
 			}
 		}
@@ -174,7 +174,7 @@ class dcSitemaps
 			$tags = $meta->getMeta('tag');
 			while ($tags->fetch()) {
 				$this->addEntry(
-					$this->blog->url.$this->core->url->getURLFor("tag")."/".rawurlencode($tags->meta_id),
+					$this->blog->url.$this->core->url->getURLFor('tag',rawurlencode($tags->meta_id)),
 					$prio,$freq);
 			}
 		}
