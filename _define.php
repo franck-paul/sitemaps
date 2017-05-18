@@ -14,7 +14,7 @@ $this->registerModule(
 	/* Name */		"Sitemaps",
 	/* Description*/	"Add XML Sitemaps",
 	/* Author */		"Pep and contributors",
-	/* Version */		'1.3.2',
+	/* Version */		'1.3.3',
 	/* Properties */
 	array(
 		'requires' => array(array('core','2.11')),
