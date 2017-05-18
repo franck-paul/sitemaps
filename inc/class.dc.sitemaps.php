@@ -30,13 +30,11 @@ class dcSitemaps
 		// Default post types
 		$this->addPostType(
 			'post',
-			$this->blog->url.$this->core->url->getURLFor('post').'/',
 			$this->blog->settings->sitemaps->sitemaps_posts_fq,
 			$this->blog->settings->sitemaps->sitemaps_posts_pr
 		);
 		$this->addPostType(
 			'page',
-			$this->blog->url.$this->core->url->getURLFor('pages').'/',
 			$this->blog->settings->sitemaps->sitemaps_pages_fq,
 			$this->blog->settings->sitemaps->sitemaps_pages_pr
 		);
@@ -51,10 +49,9 @@ class dcSitemaps
 		return $this->urls;
 	}
 
-	public function addPostType($type,$base_url,$freq = 0, $priority = 0.3)
+	public function addPostType($type,$freq = 0,$priority = 0.3)
 	{
 		if (preg_match('!^([a-z_-]+)$!',$type)) {
-			$this->post_types[$type]['base_url']	= $base_url;
 			$this->post_types[$type]['frequency']	= $this->getFrequency($freq);
 			$this->post_types[$type]['priority']	= $this->getPriority($priority);
 			return true;
@@ -65,10 +62,10 @@ class dcSitemaps
 	public function addEntry($loc,$priority,$frequency,$lastmod = '')
 	{
 		$this->urls[] = array(
-			'loc'	  => $loc,
+			'loc'	 	=> $loc,
 			'priority'  => $priority,
-			'frequency' => ($frequency == '')?null:$frequency,
-			'lastmod'	  => ($lastmod == '')?null:$lastmod
+			'frequency' => ($frequency == '') ? null : $frequency,
+			'lastmod'	=> ($lastmod == '') ? null : $lastmod
 			);
 	}
 
@@ -88,9 +85,8 @@ class dcSitemaps
 			return;
 		}
 
-		$freq 	= $this->post_types[$type]['frequency'];
-		$prio 	= $this->post_types[$type]['priority'];
-		$base_url = $this->post_types[$type]['base_url'];
+		$freq = $this->post_types[$type]['frequency'];
+		$prio = $this->post_types[$type]['priority'];
 
 		// Let's have fun !
 		$query =
@@ -111,7 +107,7 @@ class dcSitemaps
 				$last_ts = strtotime($rs->post_upddt);
 			}
 			$last_dt = dt::iso8601($last_ts,$rs->post_tz);
-			$url = $base_url.html::sanitizeURL($rs->post_url);
+			$url = $this->blog->url.$this->core->url->getURLFor($type,html::sanitizeURL($rs->post_url));
 			$this->addEntry($url,$prio,$freq,$last_dt);
 		}
 	}
@@ -160,8 +156,8 @@ class dcSitemaps
 			$cats = $this->blog->getCategories(array('post_type' => 'post'));
 			while ($cats->fetch()) {
 				$this->addEntry(
-						$this->blog->url.$this->core->url->getURLFor('category',$cats->cat_url),
-						$prio,$freq);
+					$this->blog->url.$this->core->url->getURLFor('category',$cats->cat_url),
+					$prio,$freq);
 			}
 		}
 
@@ -181,6 +177,6 @@ class dcSitemaps
 
 		// External parts ?
 		# --BEHAVIOR-- sitemapsURLsCollect
-		$this->core->callBehavior('sitemapsURLsCollect', $this);
+		$this->core->callBehavior('sitemapsURLsCollect',$this);
 	}
 }
