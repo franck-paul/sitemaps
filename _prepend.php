@@ -1,53 +1,54 @@
 <?php
-# -- BEGIN LICENSE BLOCK ----------------------------------
-#
-# This file is part of Sitemaps, a plugin for DotClear2.
-# Copyright (c) 2006-2015 Pep and contributors.
-# Licensed under the GPL version 2.0 license.
-# See LICENSE file or
-# http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-#
-# -- END LICENSE BLOCK ------------------------------------
-if (!defined('DC_RC_PATH')) return;
+/**
+ * @brief socialMeta, a plugin for Dotclear 2
+ *
+ * @package Dotclear
+ * @subpackage Plugins
+ *
+ * @author Pep
+ *
+ * @copyright Pep
+ * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
+
+if (!defined('DC_RC_PATH')) {return;}
 
 global $core, $__autoload;
 
-$__autoload['dcSitemaps'] = dirname(__FILE__).'/inc/class.dc.sitemaps.php';
+$__autoload['dcSitemaps'] = dirname(__FILE__) . '/inc/class.dc.sitemaps.php';
 
 // Behavior(s)
 class sitemapsBehaviors
 {
-	public static function addTemplatePath($core)
-	{
-		$core->tpl->setPath($core->tpl->getPath(),dirname(__FILE__).'/default-templates');
-	}
+    public static function addTemplatePath($core)
+    {
+        $core->tpl->setPath($core->tpl->getPath(), dirname(__FILE__) . '/default-templates');
+    }
 
 }
 
-$core->addBehavior('publicBeforeDocument', array('sitemapsBehaviors','addTemplatePath'));
-
+$core->addBehavior('publicBeforeDocument', array('sitemapsBehaviors', 'addTemplatePath'));
 
 // URL Handler(s)
 class sitemapsUrlHandlers extends dcUrlHandlers
 {
-	public static function sitemap($args)
-	{
-		global $core,$_ctx;
+    public static function sitemap($args)
+    {
+        global $core, $_ctx;
 
-		if (!$core->blog->settings->sitemaps->sitemaps_active) {
-			self::p404();
-			return;
-		}
+        if (!$core->blog->settings->sitemaps->sitemaps_active) {
+            self::p404();
+            return;
+        }
 
-		$sitemap = new dcSitemaps($core);
-		$_ctx->sitemap_urls = staticRecord::newFromArray($sitemap->getURLs());
-		if ($_ctx->sitemap_urls->isEmpty()) {
-			self::p404();
-		}
-		else {
-			self::serveDocument('sitemap.xml','text/xml');
-		}
-	}
+        $sitemap            = new dcSitemaps($core);
+        $_ctx->sitemap_urls = staticRecord::newFromArray($sitemap->getURLs());
+        if ($_ctx->sitemap_urls->isEmpty()) {
+            self::p404();
+        } else {
+            self::serveDocument('sitemap.xml', 'text/xml');
+        }
+    }
 }
 
-$core->url->register('gsitemap','sitemap.xml','^sitemap[_\.]xml$',array('sitemapsUrlHandlers','sitemap'));
+$core->url->register('gsitemap', 'sitemap.xml', '^sitemap[_\.]xml$', array('sitemapsUrlHandlers', 'sitemap'));
