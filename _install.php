@@ -51,16 +51,16 @@ try {
 
     // Search engines notification
     // Services endpoints
-    $search_engines = array(
-        'google' => array(
+    $search_engines = [
+        'google' => [
             'name' => 'Google',
             'url'  => 'http://www.google.com/webmasters/tools/ping'
-        ),
-        'bing'   => array(
+        ],
+        'bing'   => [
             'name' => 'MS Bing',
             'url'  => 'http://www.bing.com/webmaster/ping.aspx'
-        )
-    );
+        ]
+    ];
     $core->blog->settings->sitemaps->put('sitemaps_engines', @serialize($search_engines), 'string', '', true, true);
 
     // Preferences

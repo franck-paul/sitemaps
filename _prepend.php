@@ -27,7 +27,7 @@ class sitemapsBehaviors
 
 }
 
-$core->addBehavior('publicBeforeDocument', array('sitemapsBehaviors', 'addTemplatePath'));
+$core->addBehavior('publicBeforeDocument', ['sitemapsBehaviors', 'addTemplatePath']);
 
 // URL Handler(s)
 class sitemapsUrlHandlers extends dcUrlHandlers
@@ -51,4 +51,4 @@ class sitemapsUrlHandlers extends dcUrlHandlers
     }
 }
 
-$core->url->register('gsitemap', 'sitemap.xml', '^sitemap[_\.]xml$', array('sitemapsUrlHandlers', 'sitemap'));
+$core->url->register('gsitemap', 'sitemap.xml', '^sitemap[_\.]xml$', ['sitemapsUrlHandlers', 'sitemap']);

@@ -26,9 +26,9 @@ class dcSitemaps
         $this->core = $core;
         $this->blog = $core->blog;
 
-        $this->urls  = array();
-        $this->freqs = array('', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never');
-        $post_types  = array();
+        $this->urls  = [];
+        $this->freqs = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];
+        $post_types  = [];
 
         // Default post types
         $this->addPostType(
@@ -66,12 +66,12 @@ class dcSitemaps
 
     public function addEntry($loc, $priority, $frequency, $lastmod = '')
     {
-        $this->urls[] = array(
+        $this->urls[] = [
             'loc'       => $loc,
             'priority'  => $priority,
             'frequency' => ($frequency == '') ? null : $frequency,
             'lastmod'   => ($lastmod == '') ? null : $lastmod
-        );
+        ];
     }
 
     public function getPriority($value)
@@ -156,7 +156,7 @@ class dcSitemaps
             $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_cats_fq);
             $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_cats_pr);
 
-            $cats = $this->blog->getCategories(array('post_type' => 'post'));
+            $cats = $this->blog->getCategories(['post_type' => 'post']);
             while ($cats->fetch()) {
                 $this->addEntry(
                     $this->blog->url . $this->core->url->getURLFor('category', $cats->cat_url),

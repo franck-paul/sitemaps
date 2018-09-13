@@ -15,7 +15,7 @@ if (!defined('DC_CONTEXT_ADMIN')) {return;}
 
 $page_title = __('XML Sitemaps');
 
-$periods = array(
+$periods = [
     __('undefined') => 0,
     __('always')    => 1,
     __('hourly')    => 2,
@@ -23,16 +23,16 @@ $periods = array(
     __('weekly')    => 4,
     __('monthly')   => 5,
     __('never')     => 6
-);
+];
 
-$map_parts = new ArrayObject(array(
+$map_parts = new ArrayObject([
     __('Homepage')   => 'home',
     __('Feeds')      => 'feeds',
     __('Posts')      => 'posts',
     __('Pages')      => 'pages',
     __('Categories') => 'cats',
     __('Tags')       => 'tags'
-));
+]);
 
 # --BEHAVIOR-- sitemapsDefineParts
 $core->callBehavior('sitemapsDefineParts', $map_parts);
@@ -131,10 +131,10 @@ elseif (!empty($_POST['ping'])) {
 <body>
 <?php
 echo dcPage::breadcrumb(
-    array(
+    [
         html::escapeHTML($core->blog->name)                   => '',
         '<span class="page-title">' . $page_title . '</span>' => ''
-    ));
+    ]);
 
 if (!empty($msg)) {
     dcPage::success($msg);

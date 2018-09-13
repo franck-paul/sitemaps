@@ -17,13 +17,13 @@ $this->registerModule(
     "Sitemaps",             // Name
     "Add XML Sitemaps",     // Description
     "Pep and contributors", // Author
-    '1.3.3',                // Version
+    '1.4',                  // Version
                             // Properties
-    array(
-        'requires'    => array(array('core', '2.11')),
+    [
+        'requires'    => [['core', '2.13']],
         'permissions' => 'contentadmin',
         'type'        => 'plugin',
         'support'     => 'http://forum.dotclear.org/viewtopic.php?id=48307',
         'details'     => 'http://plugins.dotaddict.org/dc2/details/sitemaps'
-    )
+    ]
 );

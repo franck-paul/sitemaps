@@ -13,12 +13,12 @@
 
 if (!defined('DC_RC_PATH')) {return;}
 
-$core->tpl->addBlock('SitemapEntries', array('sitemapsTemplates', 'SitemapEntries'));
-$core->tpl->addBlock('SitemapEntryIf', array('sitemapsTemplates', 'SitemapEntryIf'));
-$core->tpl->addValue('SitemapEntryLoc', array('sitemapsTemplates', 'SitemapEntryLoc'));
-$core->tpl->addValue('SitemapEntryFrequency', array('sitemapsTemplates', 'SitemapEntryFrequency'));
-$core->tpl->addValue('SitemapEntryPriority', array('sitemapsTemplates', 'SitemapEntryPriority'));
-$core->tpl->addValue('SitemapEntryLastmod', array('sitemapsTemplates', 'SitemapEntryLastmod'));
+$core->tpl->addBlock('SitemapEntries', ['sitemapsTemplates', 'SitemapEntries']);
+$core->tpl->addBlock('SitemapEntryIf', ['sitemapsTemplates', 'SitemapEntryIf']);
+$core->tpl->addValue('SitemapEntryLoc', ['sitemapsTemplates', 'SitemapEntryLoc']);
+$core->tpl->addValue('SitemapEntryFrequency', ['sitemapsTemplates', 'SitemapEntryFrequency']);
+$core->tpl->addValue('SitemapEntryPriority', ['sitemapsTemplates', 'SitemapEntryPriority']);
+$core->tpl->addValue('SitemapEntryLastmod', ['sitemapsTemplates', 'SitemapEntryLastmod']);
 
 class sitemapsTemplates
 {

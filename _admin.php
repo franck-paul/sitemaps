@@ -23,11 +23,11 @@ $core->addBehavior('adminDashboardFavorites', 'sitemapsDashboardFavorites');
 
 function sitemapsDashboardFavorites($core, $favs)
 {
-    $favs->register('sitemaps', array(
+    $favs->register('sitemaps', [
         'title'       => __('Sitemaps'),
         'url'         => 'plugin.php?p=sitemaps',
         'small-icon'  => urldecode(dcPage::getPF('sitemaps/icon.png')),
         'large-icon'  => urldecode(dcPage::getPF('sitemaps/icon-big.png')),
         'permissions' => 'usage,contentadmin'
-    ));
+    ]);
 }
