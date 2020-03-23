@@ -23,7 +23,7 @@ $this->registerModule(
         'requires'    => [['core', '2.13']],
         'permissions' => 'contentadmin',
         'type'        => 'plugin',
-        'support'     => 'http://forum.dotclear.org/viewtopic.php?id=48307',
-        'details'     => 'http://plugins.dotaddict.org/dc2/details/sitemaps'
+        'support'     => 'https://github.com/franck-paul/sitemaps',
+        'details'     => 'https://plugins.dotaddict.org/dc2/details/sitemaps'
     ]
 );
