@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 92a4ce58dff5c6850dcd6147f49f8273\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-30 10:05+0200\n"
+"PO-Revision-Date: 2020-04-30 08:25\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Romanian\n"
+"Language: ro_RO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2);\n"
+"X-Crowdin-Project: 92a4ce58dff5c6850dcd6147f49f8273\n"
+"X-Crowdin-Language: ro\n"
+"X-Crowdin-File: /master/locales/_pot/main.pot\n"
+
+#: ../git-plugins/sitemaps/_admin.php:16 ../git-plugins/sitemaps/_admin.php:27
+msgid "Sitemaps"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:16
+msgid "XML Sitemaps"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:19
+msgid "undefined"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:20
+msgid "always"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:21
+msgid "hourly"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:22
+msgid "daily"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:23
+msgid "weekly"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:24
+msgid "monthly"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:25
+msgid "never"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:29
+msgid "Homepage"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:30
+msgid "Feeds"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:107
+msgid "Response does not seem OK"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:109
+msgid "success"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:111
+msgid "Failure"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:114
+msgid "Ping(s) sent"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:118
+msgid "New preferences saved"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:144
+msgid "Configuration"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:150
+msgid "Enable sitemaps"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:154
+msgid "This blog's Sitemap URL:"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:160
+msgid "Elements to integrate"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:172
+msgid "Priority"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:177
+msgid "Periodicity"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:191 ../git-plugins/sitemaps/index.php:221
+msgid "Ping search engines"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:198
+msgid "Search engines notification"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:201
+msgid "Available search engines"
+msgstr ""
+
+#: ../git-plugins/sitemaps/index.php:219
+msgid "Save preferences"
+msgstr ""
+
