@@ -10,14 +10,15 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-
-if (!defined('DC_RC_PATH')) {return;}
+if (!defined('DC_RC_PATH')) {
+    return;
+}
 
 $this->registerModule(
-    "Sitemaps",             // Name
-    "Add XML Sitemaps",     // Description
-    "Pep and contributors", // Author
-    '1.4',                  // Version
+    'Sitemaps',             // Name
+    'Add XML Sitemaps',     // Description
+    'Pep and contributors', // Author
+    '1.5',                  // Version
                             // Properties
     [
         'requires'    => [['core', '2.13']],
