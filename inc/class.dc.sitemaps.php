@@ -10,9 +10,8 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
+
+if (!defined('DC_RC_PATH')) {return;}
 
 class dcSitemaps
 {
@@ -51,7 +50,6 @@ class dcSitemaps
         if ($this->blog->settings->sitemaps->sitemaps_active && empty($this->urls)) {
             $this->collectURLs();
         }
-
         return $this->urls;
     }
 
@@ -61,10 +59,8 @@ class dcSitemaps
             $this->post_types[$type]['base_url']  = $base_url;
             $this->post_types[$type]['frequency'] = $this->getFrequency($freq);
             $this->post_types[$type]['priority']  = $this->getPriority($priority);
-
             return true;
         }
-
         return false;
     }
 
@@ -99,10 +95,11 @@ class dcSitemaps
         $base_url = $this->post_types[$type]['base_url'];
 
         // Let's have fun !
-        $query = 'SELECT p.post_id, p.post_url, p.post_tz, ' .
-        'p.post_upddt, MAX(c.comment_upddt) AS comments_dt ' .
-        'FROM ' . $this->blog->prefix . 'post AS p ' .
-        'LEFT OUTER JOIN ' . $this->blog->prefix . 'comment AS c ON c.post_id = p.post_id ' .
+        $query =
+        "SELECT p.post_id, p.post_url, p.post_tz, " .
+        "p.post_upddt, MAX(c.comment_upddt) AS comments_dt " .
+        "FROM " . $this->blog->prefix . "post AS p " .
+        "LEFT OUTER JOIN " . $this->blog->prefix . "comment AS c ON c.post_id = p.post_id " .
         "WHERE p.blog_id = '" . $this->blog->con->escape($this->blog->id) . "' " .
             "AND p.post_type = '" . $type . "' AND p.post_status = 1 AND p.post_password IS NULL " .
             'GROUP BY p.post_id, p.post_url, p.post_tz, p.post_upddt, p.post_dt ' .
@@ -172,8 +169,7 @@ class dcSitemaps
             $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_tags_pr);
 
             $meta = new dcMeta($this->core);
-            $tags = $meta->getMetadata(['meta_type' => 'tag']);
-            $tags = $meta->computeMetaStats($tags);
+            $tags = $meta->getMeta('tag');
             while ($tags->fetch()) {
                 $this->addEntry(
                     $this->blog->url . $this->core->url->getURLFor('tag', rawurlencode($tags->meta_id)),
