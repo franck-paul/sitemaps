@@ -24,7 +24,9 @@ $this->registerModule(
         'requires'    => [['core', '2.13']],
         'permissions' => 'contentadmin',
         'type'        => 'plugin',
-        'support'     => 'https://github.com/franck-paul/sitemaps',
-        'details'     => 'https://plugins.dotaddict.org/dc2/details/sitemaps'
+
+        'details'    => 'https://plugins.dotaddict.org/dc2/details/sitemaps',       // Details URL
+        'support'    => 'https://github.com/franck-paul/sitemaps',                  // Support URL
+        'repository' => 'https://raw.githubusercontent.com/franck-paul/sitemaps/main/dcstore.xml'
     ]
 );
