@@ -6,7 +6,7 @@
     <desc>Add XML Sitemaps</desc>
     <file>https://github.com/franck-paul/sitemaps/releases/download/1.4/plugin-sitemaps-1.4.zip</file>
     <da:dcmin>2.13</da:dcmin>
-    <da:details>https://open-time.net/?q=sitemaps</da:details>
+    <da:details>https://plugins.dotaddict.org/dc2/details/sitemaps</da:details>
     <da:support>https://github.com/franck-paul/sitemaps</da:support>
   </module>
 </modules>
