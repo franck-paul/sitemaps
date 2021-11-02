@@ -1,8 +1,8 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="sitemaps">
-    <name>Sitemaps</name>
+    <name>Add XML Sitemaps</name>
     <version>1.4</version>
-    <author>Pep and contributors</author>
+    <author>Add XML Sitemaps</author>
     <desc>Add XML Sitemaps</desc>
     <file>https://github.com/franck-paul/sitemaps/releases/download/1.4/plugin-sitemaps-1.4.zip</file>
     <da:dcmin>2.13</da:dcmin>
