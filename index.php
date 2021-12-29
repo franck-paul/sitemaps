@@ -10,8 +10,9 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-
-if (!defined('DC_CONTEXT_ADMIN')) {return;}
+if (!defined('DC_CONTEXT_ADMIN')) {
+    return;
+}
 
 $page_title = __('XML Sitemaps');
 
@@ -22,7 +23,7 @@ $periods = [
     __('daily')     => 3,
     __('weekly')    => 4,
     __('monthly')   => 5,
-    __('never')     => 6
+    __('never')     => 6,
 ];
 
 $map_parts = new ArrayObject([
@@ -31,7 +32,7 @@ $map_parts = new ArrayObject([
     __('Posts')      => 'posts',
     __('Pages')      => 'pages',
     __('Categories') => 'cats',
-    __('Tags')       => 'tags'
+    __('Tags')       => 'tags',
 ]);
 
 # --BEHAVIOR-- sitemapsDefineParts
@@ -52,8 +53,7 @@ $default_pings = explode(',', $core->blog->settings->sitemaps->sitemaps_pings);
 
 // Save new configuration
 if (!empty($_POST['saveconfig'])) {
-    try
-    {
+    try {
         $core->blog->settings->addNameSpace('sitemaps');
 
         $active = (empty($_POST['active'])) ? false : true;
@@ -69,7 +69,7 @@ if (!empty($_POST['saveconfig'])) {
             $core->blog->settings->sitemaps->put('sitemaps_' . $v . '_fq', ${$v . '_fq'}, 'integer');
         }
         $core->blog->triggerBlog();
-        http::redirect('plugin.php?p=' . $p . '&conf=1');
+        http::redirect('plugin.php?p=' . $p . '&conf=1');   // @phpstan-ignore-line
         exit;
     } catch (Exception $e) {
         $core->error->add($e->getMessage());
@@ -85,7 +85,7 @@ elseif (!empty($_POST['saveprefs'])) {
         }
         $core->blog->settings->addNamespace('sitemaps');
         $core->blog->settings->sitemaps->put('sitemaps_pings', $new_prefs, 'string');
-        http::redirect('plugin.php?p=' . $p . '&prefs=1');
+        http::redirect('plugin.php?p=' . $p . '&prefs=1');  // @phpstan-ignore-line
         exit;
     } catch (Exception $e) {
         $default_tab = 'sitemaps_notifications';
@@ -97,6 +97,7 @@ elseif (!empty($_POST['saveprefs'])) {
 elseif (!empty($_POST['ping'])) {
     $pings       = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
     $sitemap_url = $core->blog->url . $core->url->getURLFor('gsitemap');
+    $results     = [];
     foreach ($pings as $service) {
         try {
             if (!array_key_exists($service, $engines)) {
@@ -133,8 +134,9 @@ elseif (!empty($_POST['ping'])) {
 echo dcPage::breadcrumb(
     [
         html::escapeHTML($core->blog->name)                   => '',
-        '<span class="page-title">' . $page_title . '</span>' => ''
-    ]);
+        '<span class="page-title">' . $page_title . '</span>' => '',
+    ]
+);
 
 if (!empty($msg)) {
     dcPage::success($msg);

@@ -27,9 +27,9 @@ class dcSitemaps
         $this->core = $core;
         $this->blog = $core->blog;
 
-        $this->urls  = [];
-        $this->freqs = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];
-        $post_types  = [];
+        $this->urls       = [];
+        $this->freqs      = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];
+        $this->post_types = [];
 
         // Default post types
         $this->addPostType(
@@ -74,7 +74,7 @@ class dcSitemaps
             'loc'       => $loc,
             'priority'  => $priority,
             'frequency' => ($frequency == '') ? null : $frequency,
-            'lastmod'   => ($lastmod == '') ? null : $lastmod
+            'lastmod'   => ($lastmod == '') ? null : $lastmod,
         ];
     }
 
@@ -138,10 +138,14 @@ class dcSitemaps
 
             $this->addEntry(
                 $this->blog->url . $this->core->url->getURLFor('feed', 'rss2'),
-                $prio, $freq);
+                $prio,
+                $freq
+            );
             $this->addEntry(
                 $this->blog->url . $this->core->url->getURLFor('feed', 'atom'),
-                $prio, $freq);
+                $prio,
+                $freq
+            );
         }
 
         // Posts entries URLs
@@ -163,7 +167,9 @@ class dcSitemaps
             while ($cats->fetch()) {
                 $this->addEntry(
                     $this->blog->url . $this->core->url->getURLFor('category', $cats->cat_url),
-                    $prio, $freq);
+                    $prio,
+                    $freq
+                );
             }
         }
 
@@ -177,7 +183,9 @@ class dcSitemaps
             while ($tags->fetch()) {
                 $this->addEntry(
                     $this->blog->url . $this->core->url->getURLFor('tag', rawurlencode($tags->meta_id)),
-                    $prio, $freq);
+                    $prio,
+                    $freq
+                );
             }
         }
 

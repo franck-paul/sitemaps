@@ -10,8 +10,9 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-
-if (!defined('DC_RC_PATH')) {return;}
+if (!defined('DC_RC_PATH')) {
+    return;
+}
 
 $core->tpl->addBlock('SitemapEntries', ['sitemapsTemplates', 'SitemapEntries']);
 $core->tpl->addBlock('SitemapEntryIf', ['sitemapsTemplates', 'SitemapEntryIf']);
@@ -36,41 +37,48 @@ class sitemapsTemplates
         if (isset($attr['has_attr'])) {
             switch ($attr['has_attr']) {
                 case 'frequency':$if = '!is_null($_ctx->sitemap_urls->frequency)';
+
                     break;
                 case 'priority':$if = '!is_null($_ctx->sitemap_urls->priority)';
+
                     break;
                 case 'lastmod':$if = '!is_null($_ctx->sitemap_urls->lastmod)';
+
                     break;
             }
         }
         if (!empty($if)) {
             return '<?php if (' . $if . ') : ?>' . $content . '<?php endif; ?>';
-        } else {
-            return $content;
         }
+
+        return $content;
     }
 
     public static function SitemapEntryLoc($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->sitemap_urls->loc') . '; ?>';
     }
 
     public static function SitemapEntryFrequency($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->sitemap_urls->frequency') . '; ?>';
     }
 
     public static function SitemapEntryPriority($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->sitemap_urls->priority') . '; ?>';
     }
 
     public static function SitemapEntryLastmod($attr)
     {
         $f = $GLOBALS['core']->tpl->getFilters($attr);
+
         return '<?php echo ' . sprintf($f, '$_ctx->sitemap_urls->lastmod') . '; ?>';
     }
 }

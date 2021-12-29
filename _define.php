@@ -18,7 +18,7 @@ $this->registerModule(
     'Sitemaps',             // Name
     'Add XML Sitemaps',     // Description
     'Pep and contributors', // Author
-    '1.4',                  // Version
+    '1.4.1',                // Version
                             // Properties
     [
         'requires'    => [['core', '2.13']],
@@ -27,6 +27,6 @@ $this->registerModule(
 
         'details'    => 'https://plugins.dotaddict.org/dc2/details/sitemaps',       // Details URL
         'support'    => 'https://github.com/franck-paul/sitemaps',                  // Support URL
-        'repository' => 'https://raw.githubusercontent.com/franck-paul/sitemaps/master/dcstore.xml'
+        'repository' => 'https://raw.githubusercontent.com/franck-paul/sitemaps/master/dcstore.xml',
     ]
 );

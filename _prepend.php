@@ -10,8 +10,9 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-
-if (!defined('DC_RC_PATH')) {return;}
+if (!defined('DC_RC_PATH')) {
+    return;
+}
 
 global $core, $__autoload;
 
@@ -24,7 +25,6 @@ class sitemapsBehaviors
     {
         $core->tpl->setPath($core->tpl->getPath(), dirname(__FILE__) . '/default-templates');
     }
-
 }
 
 $core->addBehavior('publicBeforeDocument', ['sitemapsBehaviors', 'addTemplatePath']);
@@ -38,6 +38,7 @@ class sitemapsUrlHandlers extends dcUrlHandlers
 
         if (!$core->blog->settings->sitemaps->sitemaps_active) {
             self::p404();
+
             return;
         }
 
@@ -46,6 +47,7 @@ class sitemapsUrlHandlers extends dcUrlHandlers
         if ($_ctx->sitemap_urls->isEmpty()) {
             self::p404();
         } else {
+            http::$cache_max_age = 60 * 60; // 1 hour cache for feed
             self::serveDocument('sitemap.xml', 'text/xml');
         }
     }

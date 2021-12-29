@@ -10,8 +10,9 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-
-if (!defined('DC_CONTEXT_ADMIN')) {return;}
+if (!defined('DC_CONTEXT_ADMIN')) {
+    return;
+}
 
 $package_version   = $core->plugins->moduleInfo('sitemaps', 'version');
 $installed_version = $core->getVersion('sitemaps');
@@ -54,12 +55,12 @@ try {
     $search_engines = [
         'google' => [
             'name' => 'Google',
-            'url'  => 'http://www.google.com/webmasters/tools/ping'
+            'url'  => 'http://www.google.com/webmasters/tools/ping',
         ],
-        'bing'   => [
+        'bing' => [
             'name' => 'MS Bing',
-            'url'  => 'http://www.bing.com/webmaster/ping.aspx'
-        ]
+            'url'  => 'http://www.bing.com/webmaster/ping.aspx',
+        ],
     ];
     $core->blog->settings->sitemaps->put('sitemaps_engines', @serialize($search_engines), 'string', '', true, true);
 
@@ -83,9 +84,11 @@ try {
 
     $core->setVersion('sitemaps', $package_version);
     unset($package_version, $installed_version);
+
     return true;
 } catch (Exception $e) {
     $core->error->add($e->getMessage());
     unset($package_version, $installed_version);
+
     return false;
 }
