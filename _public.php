@@ -14,20 +14,20 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
-$core->tpl->addBlock('SitemapEntries', ['sitemapsTemplates', 'SitemapEntries']);
-$core->tpl->addBlock('SitemapEntryIf', ['sitemapsTemplates', 'SitemapEntryIf']);
-$core->tpl->addValue('SitemapEntryLoc', ['sitemapsTemplates', 'SitemapEntryLoc']);
-$core->tpl->addValue('SitemapEntryFrequency', ['sitemapsTemplates', 'SitemapEntryFrequency']);
-$core->tpl->addValue('SitemapEntryPriority', ['sitemapsTemplates', 'SitemapEntryPriority']);
-$core->tpl->addValue('SitemapEntryLastmod', ['sitemapsTemplates', 'SitemapEntryLastmod']);
+dcCore::app()->tpl->addBlock('SitemapEntries', ['sitemapsTemplates', 'SitemapEntries']);
+dcCore::app()->tpl->addBlock('SitemapEntryIf', ['sitemapsTemplates', 'SitemapEntryIf']);
+dcCore::app()->tpl->addValue('SitemapEntryLoc', ['sitemapsTemplates', 'SitemapEntryLoc']);
+dcCore::app()->tpl->addValue('SitemapEntryFrequency', ['sitemapsTemplates', 'SitemapEntryFrequency']);
+dcCore::app()->tpl->addValue('SitemapEntryPriority', ['sitemapsTemplates', 'SitemapEntryPriority']);
+dcCore::app()->tpl->addValue('SitemapEntryLastmod', ['sitemapsTemplates', 'SitemapEntryLastmod']);
 
 class sitemapsTemplates
 {
     public static function SitemapEntries($attr, $content)
     {
         return
-            '<?php if ($_ctx->exists("sitemap_urls")) : ?>' . "\n" .
-            '<?php while ($_ctx->sitemap_urls->fetch()) : ?>' . $content . '<?php endwhile; ?>' .
+            '<?php if (dcCore::app()->ctx->exists("sitemap_urls")) : ?>' . "\n" .
+            '<?php while (dcCore::app()->ctx->sitemap_urls->fetch()) : ?>' . $content . '<?php endwhile; ?>' .
             '<?php endif; ?>' . "\n";
     }
 
@@ -36,13 +36,13 @@ class sitemapsTemplates
         $if = '';
         if (isset($attr['has_attr'])) {
             switch ($attr['has_attr']) {
-                case 'frequency':$if = '!is_null($_ctx->sitemap_urls->frequency)';
+                case 'frequency':$if = '!is_null(dcCore::app()->ctx->sitemap_urls->frequency)';
 
                     break;
-                case 'priority':$if = '!is_null($_ctx->sitemap_urls->priority)';
+                case 'priority':$if = '!is_null(dcCore::app()->ctx->sitemap_urls->priority)';
 
                     break;
-                case 'lastmod':$if = '!is_null($_ctx->sitemap_urls->lastmod)';
+                case 'lastmod':$if = '!is_null(dcCore::app()->ctx->sitemap_urls->lastmod)';
 
                     break;
             }
@@ -56,29 +56,29 @@ class sitemapsTemplates
 
     public static function SitemapEntryLoc($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->sitemap_urls->loc') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->loc') . '; ?>';
     }
 
     public static function SitemapEntryFrequency($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->sitemap_urls->frequency') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->frequency') . '; ?>';
     }
 
     public static function SitemapEntryPriority($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->sitemap_urls->priority') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->priority') . '; ?>';
     }
 
     public static function SitemapEntryLastmod($attr)
     {
-        $f = $GLOBALS['core']->tpl->getFilters($attr);
+        $f = dcCore::app()->tpl->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, '$_ctx->sitemap_urls->lastmod') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->lastmod') . '; ?>';
     }
 }

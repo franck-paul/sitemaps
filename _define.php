@@ -18,10 +18,10 @@ $this->registerModule(
     'Sitemaps',             // Name
     'Add XML Sitemaps',     // Description
     'Pep and contributors', // Author
-    '1.4.1',                // Version
+    '1.5',                // Version
                             // Properties
     [
-        'requires'    => [['core', '2.13']],
+        'requires'    => [['core', '2.23']],
         'permissions' => 'contentadmin',
         'type'        => 'plugin',
 

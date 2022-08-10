@@ -17,20 +17,20 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 $_menu['Blog']->addItem(
     __('Sitemaps'),
     'plugin.php?p=sitemaps',
-    urldecode(dcPage::getPF('sitemaps/icon.png')),
+    urldecode(dcPage::getPF('sitemaps/icon.svg')),
     preg_match('/plugin.php\?p=sitemaps(&.*)?$/', $_SERVER['REQUEST_URI']),
-    $core->auth->check('contentadmin', $core->blog->id)
+    dcCore::app()->auth->check('contentadmin', dcCore::app()->blog->id)
 );
 
-$core->addBehavior('adminDashboardFavorites', 'sitemapsDashboardFavorites');
+dcCore::app()->addBehavior('adminDashboardFavorites', 'sitemapsDashboardFavorites');
 
-function sitemapsDashboardFavorites($core, $favs)
+function sitemapsDashboardFavorites($core = null, $favs)
 {
     $favs->register('sitemaps', [
         'title'       => __('Sitemaps'),
         'url'         => 'plugin.php?p=sitemaps',
-        'small-icon'  => urldecode(dcPage::getPF('sitemaps/icon.png')),
-        'large-icon'  => urldecode(dcPage::getPF('sitemaps/icon-big.png')),
+        'small-icon'  => urldecode(dcPage::getPF('sitemaps/icon.svg')),
+        'large-icon'  => urldecode(dcPage::getPF('sitemaps/icon.svg')),
         'permissions' => 'usage,contentadmin',
     ]);
 }

@@ -16,16 +16,14 @@ if (!defined('DC_RC_PATH')) {
 
 class dcSitemaps
 {
-    protected $core;
     protected $blog;
     protected $urls;
     protected $freqs;
     protected $post_types;
 
-    public function __construct($core)
+    public function __construct($core = null)
     {
-        $this->core = $core;
-        $this->blog = $core->blog;
+        $this->blog = dcCore::app()->blog;
 
         $this->urls       = [];
         $this->freqs      = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];
@@ -74,7 +72,7 @@ class dcSitemaps
             'loc'       => $loc,
             'priority'  => $priority,
             'frequency' => ($frequency == '') ? null : $frequency,
-            'lastmod'   => ($lastmod == '') ? null : $lastmod,
+            'lastmod'   => ($lastmod   == '') ? null : $lastmod,
         ];
     }
 
@@ -116,7 +114,7 @@ class dcSitemaps
                 $last_ts = strtotime($rs->post_upddt);
             }
             $last_dt = dt::iso8601($last_ts, $rs->post_tz);
-            $url     = $this->blog->url . $this->core->url->getURLFor($base_url, html::sanitizeURL($rs->post_url));
+            $url     = $this->blog->url . dcCore::app()->url->getURLFor($base_url, html::sanitizeURL($rs->post_url));
             $this->addEntry($url, $prio, $freq, $last_dt);
         }
     }
@@ -132,57 +130,57 @@ class dcSitemaps
         }
 
         // Main syndication feeds URLs
-        if ($this->core->blog->settings->sitemaps->sitemaps_feeds_url) {
+        if (dcCore::app()->blog->settings->sitemaps->sitemaps_feeds_url) {
             $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_feeds_fq);
             $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_feeds_pr);
 
             $this->addEntry(
-                $this->blog->url . $this->core->url->getURLFor('feed', 'rss2'),
+                $this->blog->url . dcCore::app()->url->getURLFor('feed', 'rss2'),
                 $prio,
                 $freq
             );
             $this->addEntry(
-                $this->blog->url . $this->core->url->getURLFor('feed', 'atom'),
+                $this->blog->url . dcCore::app()->url->getURLFor('feed', 'atom'),
                 $prio,
                 $freq
             );
         }
 
         // Posts entries URLs
-        if ($this->core->blog->settings->sitemaps->sitemaps_posts_url) {
+        if (dcCore::app()->blog->settings->sitemaps->sitemaps_posts_url) {
             $this->collectEntriesURLs('post');
         }
 
         // Pages entries URLs
-        if ($this->core->plugins->moduleExists('pages') && $this->core->blog->settings->sitemaps->sitemaps_pages_url) {
+        if (dcCore::app()->plugins->moduleExists('pages') && dcCore::app()->blog->settings->sitemaps->sitemaps_pages_url) {
             $this->collectEntriesURLs('page');
         }
 
         // Categories URLs
-        if ($this->core->blog->settings->sitemaps->sitemaps_cats_url) {
+        if (dcCore::app()->blog->settings->sitemaps->sitemaps_cats_url) {
             $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_cats_fq);
             $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_cats_pr);
 
             $cats = $this->blog->getCategories(['post_type' => 'post']);
             while ($cats->fetch()) {
                 $this->addEntry(
-                    $this->blog->url . $this->core->url->getURLFor('category', $cats->cat_url),
+                    $this->blog->url . dcCore::app()->url->getURLFor('category', $cats->cat_url),
                     $prio,
                     $freq
                 );
             }
         }
 
-        if ($this->core->plugins->moduleExists('tags') && $this->core->blog->settings->sitemaps->sitemaps_tags_url) {
+        if (dcCore::app()->plugins->moduleExists('tags') && dcCore::app()->blog->settings->sitemaps->sitemaps_tags_url) {
             $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_tags_fq);
             $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_tags_pr);
 
-            $meta = new dcMeta($this->core);
+            $meta = new dcMeta(dcCore::app());
             $tags = $meta->getMetadata(['meta_type' => 'tag']);
             $tags = $meta->computeMetaStats($tags);
             while ($tags->fetch()) {
                 $this->addEntry(
-                    $this->blog->url . $this->core->url->getURLFor('tag', rawurlencode($tags->meta_id)),
+                    $this->blog->url . dcCore::app()->url->getURLFor('tag', rawurlencode($tags->meta_id)),
                     $prio,
                     $freq
                 );
@@ -191,6 +189,6 @@ class dcSitemaps
 
         // External parts ?
         # --BEHAVIOR-- sitemapsURLsCollect
-        $this->core->callBehavior('sitemapsURLsCollect', $this);
+        dcCore::app()->callBehavior('sitemapsURLsCollect', $this);
     }
 }

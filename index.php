@@ -36,43 +36,43 @@ $map_parts = new ArrayObject([
 ]);
 
 # --BEHAVIOR-- sitemapsDefineParts
-$core->callBehavior('sitemapsDefineParts', $map_parts);
+dcCore::app()->callBehavior('sitemapsDefineParts', $map_parts);
 
 $msg         = '';
 $default_tab = 'sitemaps_options';
-$active      = $core->blog->settings->sitemaps->sitemaps_active;
+$active      = dcCore::app()->blog->settings->sitemaps->sitemaps_active;
 
 foreach ($map_parts as $k => $v) {
-    ${$v . '_url'} = $core->blog->settings->sitemaps->get('sitemaps_' . $v . '_url');
-    ${$v . '_pr'}  = $core->blog->settings->sitemaps->get('sitemaps_' . $v . '_pr');
-    ${$v . '_fq'}  = $core->blog->settings->sitemaps->get('sitemaps_' . $v . '_fq');
+    ${$v . '_url'} = dcCore::app()->blog->settings->sitemaps->get('sitemaps_' . $v . '_url');
+    ${$v . '_pr'}  = dcCore::app()->blog->settings->sitemaps->get('sitemaps_' . $v . '_pr');
+    ${$v . '_fq'}  = dcCore::app()->blog->settings->sitemaps->get('sitemaps_' . $v . '_fq');
 }
 
-$engines       = @unserialize($core->blog->settings->sitemaps->sitemaps_engines);
-$default_pings = explode(',', $core->blog->settings->sitemaps->sitemaps_pings);
+$engines       = @unserialize(dcCore::app()->blog->settings->sitemaps->sitemaps_engines);
+$default_pings = explode(',', dcCore::app()->blog->settings->sitemaps->sitemaps_pings);
 
 // Save new configuration
 if (!empty($_POST['saveconfig'])) {
     try {
-        $core->blog->settings->addNameSpace('sitemaps');
+        dcCore::app()->blog->settings->addNameSpace('sitemaps');
 
         $active = (empty($_POST['active'])) ? false : true;
-        $core->blog->settings->sitemaps->put('sitemaps_active', $active, 'boolean');
+        dcCore::app()->blog->settings->sitemaps->put('sitemaps_active', $active, 'boolean');
 
         foreach ($map_parts as $k => $v) {
             ${$v . '_url'} = (empty($_POST[$v . '_url'])) ? false : true;
             ${$v . '_pr'}  = min(abs((float) $_POST[$v . '_pr']), 1);
             ${$v . '_fq'}  = min(abs(intval($_POST[$v . '_fq'])), 6);
 
-            $core->blog->settings->sitemaps->put('sitemaps_' . $v . '_url', ${$v . '_url'}, 'boolean');
-            $core->blog->settings->sitemaps->put('sitemaps_' . $v . '_pr', ${$v . '_pr'}, 'double');
-            $core->blog->settings->sitemaps->put('sitemaps_' . $v . '_fq', ${$v . '_fq'}, 'integer');
+            dcCore::app()->blog->settings->sitemaps->put('sitemaps_' . $v . '_url', ${$v . '_url'}, 'boolean');
+            dcCore::app()->blog->settings->sitemaps->put('sitemaps_' . $v . '_pr', ${$v . '_pr'}, 'double');
+            dcCore::app()->blog->settings->sitemaps->put('sitemaps_' . $v . '_fq', ${$v . '_fq'}, 'integer');
         }
-        $core->blog->triggerBlog();
+        dcCore::app()->blog->triggerBlog();
         http::redirect('plugin.php?p=' . $p . '&conf=1');   // @phpstan-ignore-line
         exit;
     } catch (Exception $e) {
-        $core->error->add($e->getMessage());
+        dcCore::app()->error->add($e->getMessage());
     }
 }
 
@@ -83,20 +83,20 @@ elseif (!empty($_POST['saveprefs'])) {
         if (!empty($_POST['pings'])) {
             $new_prefs = implode(',', $_POST['pings']);
         }
-        $core->blog->settings->addNamespace('sitemaps');
-        $core->blog->settings->sitemaps->put('sitemaps_pings', $new_prefs, 'string');
+        dcCore::app()->blog->settings->addNamespace('sitemaps');
+        dcCore::app()->blog->settings->sitemaps->put('sitemaps_pings', $new_prefs, 'string');
         http::redirect('plugin.php?p=' . $p . '&prefs=1');  // @phpstan-ignore-line
         exit;
     } catch (Exception $e) {
         $default_tab = 'sitemaps_notifications';
-        $core->error->add($e->getMessage());
+        dcCore::app()->error->add($e->getMessage());
     }
 }
 
 // Send ping(s)
 elseif (!empty($_POST['ping'])) {
     $pings       = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
-    $sitemap_url = $core->blog->url . $core->url->getURLFor('gsitemap');
+    $sitemap_url = dcCore::app()->blog->url . dcCore::app()->url->getURLFor('gsitemap');
     $results     = [];
     foreach ($pings as $service) {
         try {
@@ -133,7 +133,7 @@ elseif (!empty($_POST['ping'])) {
 <?php
 echo dcPage::breadcrumb(
     [
-        html::escapeHTML($core->blog->name)                   => '',
+        html::escapeHTML(dcCore::app()->blog->name)           => '',
         '<span class="page-title">' . $page_title . '</span>' => '',
     ]
 );
@@ -154,7 +154,7 @@ if (!empty($msg)) {
     </p>
     <p class="info">
     <?php echo __("This blog's Sitemap URL:"); ?>&nbsp;
-    <strong><?php echo $core->blog->url . $core->url->getURLFor('gsitemap'); ?></strong>
+    <strong><?php echo dcCore::app()->blog->url . dcCore::app()->url->getURLFor('gsitemap'); ?></strong>
     </p>
   </div>
 
@@ -187,7 +187,7 @@ if (!empty($msg)) {
   </div>
 
   <p><input type="hidden" name="p" value="sitemaps" />
-  <?php echo $core->formNonce(); ?>
+  <?php echo dcCore::app()->formNonce(); ?>
   <input type="submit" name="saveconfig" value="<?php echo __('Save configuration'); ?>" />
 <?php if ($active): ?>
   &nbsp;<input class="submit" type="submit" name="ping" value="<?php echo __('Ping search engines'); ?>" />
@@ -217,7 +217,7 @@ if (!empty($msg)) {
     </table>
   </div>
   <p><input type="hidden" name="p" value="sitemaps" />
-  <?php echo $core->formNonce(); ?>
+  <?php echo dcCore::app()->formNonce(); ?>
   <input type="submit" name="saveprefs" value="<?php echo __('Save preferences'); ?>" />
 <?php if ($active): ?>
   &nbsp;<input class="submit" type="submit" name="ping" value="<?php echo __('Ping search engines'); ?>" />

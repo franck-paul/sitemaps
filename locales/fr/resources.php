@@ -12,5 +12,5 @@
  */
 
 if (!isset($__resources['help']['sitemaps'])) {
-    $__resources['help']['sitemaps'] = dirname(__FILE__) . '/help/sitemaps.html';
+    $__resources['help']['sitemaps'] = __DIR__ . '/help/sitemaps.html';
 }

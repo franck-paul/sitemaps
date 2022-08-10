@@ -14,37 +14,35 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
-global $core, $__autoload;
+global $__autoload;
 
-$__autoload['dcSitemaps'] = dirname(__FILE__) . '/inc/class.dc.sitemaps.php';
+$__autoload['dcSitemaps'] = __DIR__ . '/inc/class.dc.sitemaps.php';
 
 // Behavior(s)
 class sitemapsBehaviors
 {
-    public static function addTemplatePath($core)
+    public static function addTemplatePath($core = null)
     {
-        $core->tpl->setPath($core->tpl->getPath(), dirname(__FILE__) . '/default-templates');
+        dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/default-templates');
     }
 }
 
-$core->addBehavior('publicBeforeDocument', ['sitemapsBehaviors', 'addTemplatePath']);
+dcCore::app()->addBehavior('publicBeforeDocument', ['sitemapsBehaviors', 'addTemplatePath']);
 
 // URL Handler(s)
 class sitemapsUrlHandlers extends dcUrlHandlers
 {
     public static function sitemap($args)
     {
-        global $core, $_ctx;
-
-        if (!$core->blog->settings->sitemaps->sitemaps_active) {
+        if (!dcCore::app()->blog->settings->sitemaps->sitemaps_active) {
             self::p404();
 
             return;
         }
 
-        $sitemap            = new dcSitemaps($core);
-        $_ctx->sitemap_urls = staticRecord::newFromArray($sitemap->getURLs());
-        if ($_ctx->sitemap_urls->isEmpty()) {
+        $sitemap                         = new dcSitemaps(dcCore::app());
+        dcCore::app()->ctx->sitemap_urls = staticRecord::newFromArray($sitemap->getURLs());
+        if (dcCore::app()->ctx->sitemap_urls->isEmpty()) {
             self::p404();
         } else {
             http::$cache_max_age = 60 * 60; // 1 hour cache for feed
@@ -53,4 +51,4 @@ class sitemapsUrlHandlers extends dcUrlHandlers
     }
 }
 
-$core->url->register('gsitemap', 'sitemap.xml', '^sitemap[_\.]xml$', ['sitemapsUrlHandlers', 'sitemap']);
+dcCore::app()->url->register('gsitemap', 'sitemap.xml', '^sitemap[_\.]xml$', ['sitemapsUrlHandlers', 'sitemap']);
