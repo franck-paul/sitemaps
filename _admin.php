@@ -24,7 +24,7 @@ $_menu['Blog']->addItem(
 
 dcCore::app()->addBehavior('adminDashboardFavorites', 'sitemapsDashboardFavorites');
 
-function sitemapsDashboardFavorites($core = null, $favs)
+function sitemapsDashboardFavorites($core, $favs)
 {
     $favs->register('sitemaps', [
         'title'       => __('Sitemaps'),
