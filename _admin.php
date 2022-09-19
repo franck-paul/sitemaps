@@ -14,7 +14,7 @@ if (!defined('DC_CONTEXT_ADMIN')) {
     return;
 }
 
-$_menu['Blog']->addItem(
+dcCore::app()->menu['Blog']->addItem(
     __('Sitemaps'),
     'plugin.php?p=sitemaps',
     urldecode(dcPage::getPF('sitemaps/icon.svg')),

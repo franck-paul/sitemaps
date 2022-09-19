@@ -21,7 +21,7 @@ class dcSitemaps
     protected $freqs;
     protected $post_types;
 
-    public function __construct($core = null)
+    public function __construct()
     {
         $this->blog = dcCore::app()->blog;
 
@@ -175,7 +175,7 @@ class dcSitemaps
             $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_tags_fq);
             $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_tags_pr);
 
-            $meta = new dcMeta(dcCore::app());
+            $meta = new dcMeta();
             $tags = $meta->getMetadata(['meta_type' => 'tag']);
             $tags = $meta->computeMetaStats($tags);
             while ($tags->fetch()) {

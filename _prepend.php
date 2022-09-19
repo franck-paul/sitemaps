@@ -14,14 +14,12 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
-global $__autoload;
-
 $__autoload['dcSitemaps'] = __DIR__ . '/inc/class.dc.sitemaps.php';
 
 // Behavior(s)
 class sitemapsBehaviors
 {
-    public static function addTemplatePath($core = null)
+    public static function addTemplatePath()
     {
         dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/default-templates');
     }
@@ -32,7 +30,7 @@ dcCore::app()->addBehavior('publicBeforeDocument', ['sitemapsBehaviors', 'addTem
 // URL Handler(s)
 class sitemapsUrlHandlers extends dcUrlHandlers
 {
-    public static function sitemap($args)
+    public static function sitemap()
     {
         if (!dcCore::app()->blog->settings->sitemaps->sitemaps_active) {
             self::p404();
@@ -40,7 +38,7 @@ class sitemapsUrlHandlers extends dcUrlHandlers
             return;
         }
 
-        $sitemap                         = new dcSitemaps(dcCore::app());
+        $sitemap                         = new dcSitemaps();
         dcCore::app()->ctx->sitemap_urls = staticRecord::newFromArray($sitemap->getURLs());
         if (dcCore::app()->ctx->sitemap_urls->isEmpty()) {
             self::p404();

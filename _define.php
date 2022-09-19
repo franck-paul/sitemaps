@@ -20,7 +20,7 @@ $this->registerModule(
     'Pep and contributors', // Author
     '1.5.1',
     [
-        'requires'    => [['core', '2.23']],
+        'requires'    => [['core', '2.24']],
         'permissions' => 'contentadmin',
         'type'        => 'plugin',
 
