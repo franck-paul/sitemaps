@@ -15,17 +15,19 @@ if (!defined('DC_RC_PATH')) {
 }
 
 $this->registerModule(
-    'Sitemaps',             // Name
-    'Add XML Sitemaps',     // Description
-    'Pep and contributors', // Author
-    '1.5.1',
+    'Sitemaps',
+    'Add XML Sitemaps',
+    'Pep and contributors',
+    '2.0',
     [
         'requires'    => [['core', '2.24']],
-        'permissions' => 'contentadmin',
-        'type'        => 'plugin',
+        'permissions' => dcCore::app()->auth->makePermissions([
+            dcAuth::PERMISSION_CONTENT_ADMIN,
+        ]),
+        'type' => 'plugin',
 
-        'details'    => 'https://plugins.dotaddict.org/dc2/details/sitemaps',       // Details URL
-        'support'    => 'https://github.com/franck-paul/sitemaps',                  // Support URL
+        'details'    => 'https://plugins.dotaddict.org/dc2/details/sitemaps',
+        'support'    => 'https://github.com/franck-paul/sitemaps',
         'repository' => 'https://raw.githubusercontent.com/franck-paul/sitemaps/master/dcstore.xml',
     ]
 );

@@ -10,10 +10,6 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
-
 class dcSitemaps
 {
     protected $blog;
@@ -72,7 +68,7 @@ class dcSitemaps
             'loc'       => $loc,
             'priority'  => $priority,
             'frequency' => ($frequency == '') ? null : $frequency,
-            'lastmod'   => ($lastmod   == '') ? null : $lastmod,
+            'lastmod'   => ($lastmod == '') ? null : $lastmod,
         ];
     }
 
@@ -99,14 +95,14 @@ class dcSitemaps
         // Let's have fun !
         $query = 'SELECT p.post_id, p.post_url, p.post_tz, ' .
         'p.post_upddt, MAX(c.comment_upddt) AS comments_dt ' .
-        'FROM ' . $this->blog->prefix . 'post AS p ' .
+        'FROM ' . $this->blog->prefix . dcBlog::POST_TABLE_NAME . ' AS p ' .
         'LEFT OUTER JOIN ' . $this->blog->prefix . 'comment AS c ON c.post_id = p.post_id ' .
         "WHERE p.blog_id = '" . $this->blog->con->escape($this->blog->id) . "' " .
-            "AND p.post_type = '" . $type . "' AND p.post_status = 1 AND p.post_password IS NULL " .
-            'GROUP BY p.post_id, p.post_url, p.post_tz, p.post_upddt, p.post_dt ' .
-            'ORDER BY p.post_dt ASC';
+        "AND p.post_type = '" . $type . "' AND p.post_status = " . dcBlog::POST_PUBLISHED . ' AND p.post_password IS NULL ' .
+        'GROUP BY p.post_id, p.post_url, p.post_tz, p.post_upddt, p.post_dt ' .
+        'ORDER BY p.post_dt ASC';
 
-        $rs = $this->blog->con->select($query);
+        $rs = new dcRecord($this->blog->con->select($query));
         while ($rs->fetch()) {
             if ($rs->comments_dt !== null) {
                 $last_ts = max(strtotime($rs->post_upddt), strtotime($rs->comments_dt));

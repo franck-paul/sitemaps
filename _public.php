@@ -14,13 +14,6 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
-dcCore::app()->tpl->addBlock('SitemapEntries', ['sitemapsTemplates', 'SitemapEntries']);
-dcCore::app()->tpl->addBlock('SitemapEntryIf', ['sitemapsTemplates', 'SitemapEntryIf']);
-dcCore::app()->tpl->addValue('SitemapEntryLoc', ['sitemapsTemplates', 'SitemapEntryLoc']);
-dcCore::app()->tpl->addValue('SitemapEntryFrequency', ['sitemapsTemplates', 'SitemapEntryFrequency']);
-dcCore::app()->tpl->addValue('SitemapEntryPriority', ['sitemapsTemplates', 'SitemapEntryPriority']);
-dcCore::app()->tpl->addValue('SitemapEntryLastmod', ['sitemapsTemplates', 'SitemapEntryLastmod']);
-
 class sitemapsTemplates
 {
     public static function SitemapEntries($attr, $content)
@@ -82,3 +75,10 @@ class sitemapsTemplates
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->lastmod') . '; ?>';
     }
 }
+
+dcCore::app()->tpl->addBlock('SitemapEntries', [sitemapsTemplates::class, 'SitemapEntries']);
+dcCore::app()->tpl->addBlock('SitemapEntryIf', [sitemapsTemplates::class, 'SitemapEntryIf']);
+dcCore::app()->tpl->addValue('SitemapEntryLoc', [sitemapsTemplates::class, 'SitemapEntryLoc']);
+dcCore::app()->tpl->addValue('SitemapEntryFrequency', [sitemapsTemplates::class, 'SitemapEntryFrequency']);
+dcCore::app()->tpl->addValue('SitemapEntryPriority', [sitemapsTemplates::class, 'SitemapEntryPriority']);
+dcCore::app()->tpl->addValue('SitemapEntryLastmod', [sitemapsTemplates::class, 'SitemapEntryLastmod']);

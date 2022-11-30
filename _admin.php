@@ -14,23 +14,28 @@ if (!defined('DC_CONTEXT_ADMIN')) {
     return;
 }
 
-dcCore::app()->menu['Blog']->addItem(
+dcCore::app()->menu[dcAdmin::MENU_BLOG]->addItem(
     __('Sitemaps'),
     'plugin.php?p=sitemaps',
     urldecode(dcPage::getPF('sitemaps/icon.svg')),
     preg_match('/plugin.php\?p=sitemaps(&.*)?$/', $_SERVER['REQUEST_URI']),
-    dcCore::app()->auth->check('contentadmin', dcCore::app()->blog->id)
+    dcCore::app()->auth->check(dcCore::app()->auth->makePermissions([
+        dcAuth::PERMISSION_CONTENT_ADMIN,
+    ]), dcCore::app()->blog->id)
 );
 
-dcCore::app()->addBehavior('adminDashboardFavorites', 'sitemapsDashboardFavorites');
+dcCore::app()->addBehavior('adminDashboardFavoritesV2', 'sitemapsDashboardFavorites');
 
-function sitemapsDashboardFavorites($core, $favs)
+function sitemapsDashboardFavorites($favs)
 {
     $favs->register('sitemaps', [
         'title'       => __('Sitemaps'),
         'url'         => 'plugin.php?p=sitemaps',
         'small-icon'  => urldecode(dcPage::getPF('sitemaps/icon.svg')),
         'large-icon'  => urldecode(dcPage::getPF('sitemaps/icon.svg')),
-        'permissions' => 'usage,contentadmin',
+        'permissions' => dcCore::app()->auth->makePermissions([
+            dcAuth::PERMISSION_USAGE,
+            dcAuth::PERMISSION_CONTENT_ADMIN,
+        ]),
     ]);
 }

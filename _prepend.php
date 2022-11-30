@@ -14,18 +14,18 @@ if (!defined('DC_RC_PATH')) {
     return;
 }
 
-$__autoload['dcSitemaps'] = __DIR__ . '/inc/class.dc.sitemaps.php';
+Clearbricks::lib()->autoload(['dcSitemaps' => __DIR__ . '/inc/class.dc.sitemaps.php']);
 
 // Behavior(s)
 class sitemapsBehaviors
 {
     public static function addTemplatePath()
     {
-        dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/default-templates');
+        dcCore::app()->tpl->setPath(dcCore::app()->tpl->getPath(), __DIR__ . '/' . dcPublic::TPL_ROOT);
     }
 }
 
-dcCore::app()->addBehavior('publicBeforeDocument', ['sitemapsBehaviors', 'addTemplatePath']);
+dcCore::app()->addBehavior('publicBeforeDocumentV2', [sitemapsBehaviors::class, 'addTemplatePath']);
 
 // URL Handler(s)
 class sitemapsUrlHandlers extends dcUrlHandlers
@@ -39,7 +39,7 @@ class sitemapsUrlHandlers extends dcUrlHandlers
         }
 
         $sitemap                         = new dcSitemaps();
-        dcCore::app()->ctx->sitemap_urls = staticRecord::newFromArray($sitemap->getURLs());
+        dcCore::app()->ctx->sitemap_urls = dcRecord::newFromArray($sitemap->getURLs());
         if (dcCore::app()->ctx->sitemap_urls->isEmpty()) {
             self::p404();
         } else {

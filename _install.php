@@ -17,7 +17,7 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 $package_version   = dcCore::app()->plugins->moduleInfo('sitemaps', 'version');
 $installed_version = dcCore::app()->getVersion('sitemaps');
 
-if (version_compare($installed_version, $package_version, '>=')) {
+if (version_compare((string) $installed_version, $package_version, '>=')) {
     return;
 }
 
