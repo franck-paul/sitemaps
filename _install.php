@@ -14,10 +14,7 @@ if (!defined('DC_CONTEXT_ADMIN')) {
     return;
 }
 
-$package_version   = dcCore::app()->plugins->moduleInfo('sitemaps', 'version');
-$installed_version = dcCore::app()->getVersion('sitemaps');
-
-if (version_compare((string) $installed_version, $package_version, '>=')) {
+if (!dcCore::app()->newVersion(basename(__DIR__), dcCore::app()->plugins->moduleInfo(basename(__DIR__), 'version'))) {
     return;
 }
 
@@ -82,13 +79,9 @@ try {
         dcCore::app()->blog->settings->sitemaps->put('sitemaps_pings', implode(',', $pings), 'string', '', true, false);
     }
 
-    dcCore::app()->setVersion('sitemaps', $package_version);
-    unset($package_version, $installed_version);
-
     return true;
 } catch (Exception $e) {
     dcCore::app()->error->add($e->getMessage());
-    unset($package_version, $installed_version);
 
     return false;
 }

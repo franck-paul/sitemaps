@@ -144,7 +144,7 @@ if (!empty($msg)) {
 ?>
 <!-- Configuration panel -->
 <div class="multi-part" id="sitemaps_options" title="<?php echo __('Configuration'); ?>">
-  <form method="post" action="<?php echo $p_url; ?>">
+  <form method="post" action="<?php echo dcCore::app()->admin->getPageURL(); ?>">
   <div class="fieldset">
     <h4><?php echo __('Plugin activation'); ?></h4>
     <p class="field">
@@ -198,7 +198,7 @@ if (!empty($msg)) {
 
 <!-- Notifications panel -->
 <div class="multi-part" id="sitemaps_notifications" title="<?php echo __('Search engines notification'); ?>">
-  <form method="post" action="<?php echo $p_url; ?>">
+  <form method="post" action="<?php echo dcCore::app()->admin->getPageURL(); ?>">
   <div class="fieldset">
     <h4><?php echo __('Available search engines'); ?></h4>
     <table class="maximal">
