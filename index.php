@@ -69,7 +69,7 @@ if (!empty($_POST['saveconfig'])) {
             dcCore::app()->blog->settings->sitemaps->put('sitemaps_' . $v . '_fq', ${$v . '_fq'}, 'integer');
         }
         dcCore::app()->blog->triggerBlog();
-        http::redirect('plugin.php?p=' . $p . '&conf=1');   // @phpstan-ignore-line
+        http::redirect(dcCore::app()->admin->getPageURL() . '&conf=1');   // @phpstan-ignore-line
         exit;
     } catch (Exception $e) {
         dcCore::app()->error->add($e->getMessage());
@@ -85,7 +85,7 @@ elseif (!empty($_POST['saveprefs'])) {
         }
         dcCore::app()->blog->settings->addNamespace('sitemaps');
         dcCore::app()->blog->settings->sitemaps->put('sitemaps_pings', $new_prefs, 'string');
-        http::redirect('plugin.php?p=' . $p . '&prefs=1');  // @phpstan-ignore-line
+        http::redirect(dcCore::app()->admin->getPageURL() . '&prefs=1');  // @phpstan-ignore-line
         exit;
     } catch (Exception $e) {
         $default_tab = 'sitemaps_notifications';
