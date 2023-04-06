@@ -10,6 +10,9 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
+
+use Dotclear\Helper\Html\Html;
+
 class dcSitemaps
 {
     protected $blog;
@@ -51,7 +54,7 @@ class dcSitemaps
 
     public function addPostType($type, $base_url, $freq = 0, $priority = 0.3)
     {
-        if (preg_match('!^([a-z_-]+)$!', $type)) {
+        if (preg_match('!^([a-z_-]+)$!', (string) $type)) {
             $this->post_types[$type]['base_url']  = $base_url;
             $this->post_types[$type]['frequency'] = $this->getFrequency($freq);
             $this->post_types[$type]['priority']  = $this->getPriority($priority);
@@ -110,7 +113,7 @@ class dcSitemaps
                 $last_ts = strtotime($rs->post_upddt);
             }
             $last_dt = dt::iso8601($last_ts, $rs->post_tz);
-            $url     = $this->blog->url . dcCore::app()->url->getURLFor($base_url, html::sanitizeURL($rs->post_url));
+            $url     = $this->blog->url . dcCore::app()->url->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
             $this->addEntry($url, $prio, $freq, $last_dt);
         }
     }

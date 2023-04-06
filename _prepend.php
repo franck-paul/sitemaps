@@ -10,9 +10,9 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_RC_PATH')) {
-    return;
-}
+
+use Dotclear\Helper\Clearbricks;
+use Dotclear\Helper\Network\Http;
 
 Clearbricks::lib()->autoload(['dcSitemaps' => __DIR__ . '/inc/class.dc.sitemaps.php']);
 
@@ -34,8 +34,6 @@ class sitemapsUrlHandlers extends dcUrlHandlers
     {
         if (!dcCore::app()->blog->settings->sitemaps->sitemaps_active) {
             self::p404();
-
-            return;
         }
 
         $sitemap                         = new dcSitemaps();
@@ -43,7 +41,7 @@ class sitemapsUrlHandlers extends dcUrlHandlers
         if (dcCore::app()->ctx->sitemap_urls->isEmpty()) {
             self::p404();
         } else {
-            http::$cache_max_age = 60 * 60; // 1 hour cache for feed
+            Http::$cache_max_age = 60 * 60; // 1 hour cache for feed
             self::serveDocument('sitemap.xml', 'text/xml');
         }
     }

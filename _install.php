@@ -20,7 +20,6 @@ if (!dcCore::app()->newVersion(basename(__DIR__), dcCore::app()->plugins->module
 
 try {
     // Default settings
-    dcCore::app()->blog->settings->addNameSpace('sitemaps');
     dcCore::app()->blog->settings->sitemaps->put('sitemaps_active', false, 'boolean', 'Sitemaps activation', false, true);
 
     dcCore::app()->blog->settings->sitemaps->put('sitemaps_home_url', true, 'boolean', '', false, true);
@@ -54,7 +53,7 @@ try {
             'name' => 'Google',
             'url'  => 'http://www.google.com/webmasters/tools/ping',
         ],
-        'bing' => [
+        'bing'   => [
             'name' => 'MS Bing',
             'url'  => 'http://www.bing.com/webmaster/ping.aspx',
         ],

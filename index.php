@@ -10,6 +10,10 @@
  * @copyright Pep
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
+
+use Dotclear\Helper\Html\Html;
+use Dotclear\Helper\Network\Http;
+
 if (!defined('DC_CONTEXT_ADMIN')) {
     return;
 }
@@ -54,8 +58,6 @@ $default_pings = explode(',', dcCore::app()->blog->settings->sitemaps->sitemaps_
 // Save new configuration
 if (!empty($_POST['saveconfig'])) {
     try {
-        dcCore::app()->blog->settings->addNameSpace('sitemaps');
-
         $active = (empty($_POST['active'])) ? false : true;
         dcCore::app()->blog->settings->sitemaps->put('sitemaps_active', $active, 'boolean');
 
@@ -69,7 +71,7 @@ if (!empty($_POST['saveconfig'])) {
             dcCore::app()->blog->settings->sitemaps->put('sitemaps_' . $v . '_fq', ${$v . '_fq'}, 'integer');
         }
         dcCore::app()->blog->triggerBlog();
-        http::redirect(dcCore::app()->admin->getPageURL() . '&conf=1');   // @phpstan-ignore-line
+        Http::redirect(dcCore::app()->admin->getPageURL() . '&conf=1');   // @phpstan-ignore-line
         exit;
     } catch (Exception $e) {
         dcCore::app()->error->add($e->getMessage());
@@ -83,9 +85,8 @@ elseif (!empty($_POST['saveprefs'])) {
         if (!empty($_POST['pings'])) {
             $new_prefs = implode(',', $_POST['pings']);
         }
-        dcCore::app()->blog->settings->addNamespace('sitemaps');
         dcCore::app()->blog->settings->sitemaps->put('sitemaps_pings', $new_prefs, 'string');
-        http::redirect(dcCore::app()->admin->getPageURL() . '&prefs=1');  // @phpstan-ignore-line
+        Http::redirect(dcCore::app()->admin->getPageURL() . '&prefs=1');  // @phpstan-ignore-line
         exit;
     } catch (Exception $e) {
         $default_tab = 'sitemaps_notifications';
@@ -133,7 +134,7 @@ elseif (!empty($_POST['ping'])) {
 <?php
 echo dcPage::breadcrumb(
     [
-        html::escapeHTML(dcCore::app()->blog->name)           => '',
+        Html::escapeHTML(dcCore::app()->blog->name)           => '',
         '<span class="page-title">' . $page_title . '</span>' => '',
     ]
 );
