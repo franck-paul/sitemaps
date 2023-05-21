@@ -107,11 +107,12 @@ class Manage extends dcNsProcess
             }
         } elseif (!empty($_POST['ping'])) {
             // Send ping(s)
-            $settings    = dcCore::app()->blog->settings->get(My::id());
-            $pings       = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
-            $engines     = @unserialize($settings->engines);
-            $sitemap_url = dcCore::app()->blog->url . dcCore::app()->url->getURLFor('gsitemap');
-            $results     = [];
+            $settings      = dcCore::app()->blog->settings->get(My::id());
+            $default_pings = explode(',', $settings->pings);
+            $pings         = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
+            $engines       = @unserialize($settings->engines);
+            $sitemap_url   = dcCore::app()->blog->url . dcCore::app()->url->getURLFor('gsitemap');
+            $results       = [];
             foreach ($pings as $service) {
                 try {
                     if (!array_key_exists($service, $engines)) {
