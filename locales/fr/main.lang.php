@@ -11,12 +11,12 @@
 
 use Dotclear\Helper\L10n;
 
-L10n::$locales['sitemaps'] = 'Sitemaps';
+L10n::$locales['sitemaps'] = 'sitemaps';
 L10n::$locales['Sitemaps'] = 'Sitemaps';
 L10n::$locales['Homepage'] = 'Page d\'accueil';
 L10n::$locales['Feeds'] = 'Fils de syndication';
-L10n::$locales['Posts'] = '';
-L10n::$locales['Pages'] = '';
+L10n::$locales['Posts'] = 'Billets';
+L10n::$locales['Pages'] = 'Pages';
 L10n::$locales['New preferences saved'] = 'Les nouvelles préférences ont été enregistrées';
 L10n::$locales['Response does not seem OK'] = 'La réponse ne semble pas être OK';
 L10n::$locales['success'] = 'Succès';
@@ -32,7 +32,7 @@ L10n::$locales['never'] = 'jamais';
 L10n::$locales['XML Sitemaps'] = 'Sitemaps XML';
 L10n::$locales['Priority'] = 'Priorité';
 L10n::$locales['Configuration'] = 'Configuration';
-L10n::$locales['Options'] = '';
+L10n::$locales['Options'] = 'Options';
 L10n::$locales['Enable sitemaps'] = 'Permettre les sitemaps';
 L10n::$locales['This blog\'s Sitemap URL:'] = 'URL du Sitemap de ce blog :';
 L10n::$locales['Elements to integrate'] = 'Éléments à intégrer';
