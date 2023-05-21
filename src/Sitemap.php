@@ -1,28 +1,40 @@
 <?php
 /**
- * @brief socialMeta, a plugin for Dotclear 2
+ * @brief sitemaps, a plugin for Dotclear 2
  *
  * @package Dotclear
  * @subpackage Plugins
  *
- * @author Pep
+ * @author Franck Paul and contributors
  *
- * @copyright Pep
+ * @copyright Franck Paul carnet.franck.paul@gmail.com
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
+declare(strict_types=1);
 
+namespace Dotclear\Plugin\sitemaps;
+
+use dcBlog;
+use dcCore;
+use dcMeta;
+use Dotclear\Database\Statement\JoinStatement;
+use Dotclear\Database\Statement\SelectStatement;
+use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
 
-class dcSitemaps
+class Sitemap
 {
     protected $blog;
     protected $urls;
     protected $freqs;
     protected $post_types;
+    protected $settings;
 
     public function __construct()
     {
         $this->blog = dcCore::app()->blog;
+
+        $this->settings = dcCore::app()->blog->settings->get(My::id());
 
         $this->urls       = [];
         $this->freqs      = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];
@@ -32,20 +44,20 @@ class dcSitemaps
         $this->addPostType(
             'post',
             'post',
-            $this->blog->settings->sitemaps->sitemaps_posts_fq,
-            $this->blog->settings->sitemaps->sitemaps_posts_pr
+            $this->settings->posts_fq,
+            $this->settings->posts_pr
         );
         $this->addPostType(
             'page',
             'pages',
-            $this->blog->settings->sitemaps->sitemaps_pages_fq,
-            $this->blog->settings->sitemaps->sitemaps_pages_pr
+            $this->settings->pages_fq,
+            $this->settings->pages_pr
         );
     }
 
     public function getURLs()
     {
-        if ($this->blog->settings->sitemaps->sitemaps_active && empty($this->urls)) {
+        if ($this->settings->active && empty($this->urls)) {
             $this->collectURLs();
         }
 
@@ -96,23 +108,46 @@ class dcSitemaps
         $base_url = $this->post_types[$type]['base_url'];
 
         // Let's have fun !
-        $query = 'SELECT p.post_id, p.post_url, p.post_tz, ' .
-        'p.post_upddt, MAX(c.comment_upddt) AS comments_dt ' .
-        'FROM ' . $this->blog->prefix . dcBlog::POST_TABLE_NAME . ' AS p ' .
-        'LEFT OUTER JOIN ' . $this->blog->prefix . 'comment AS c ON c.post_id = p.post_id ' .
-        "WHERE p.blog_id = '" . $this->blog->con->escape($this->blog->id) . "' " .
-        "AND p.post_type = '" . $type . "' AND p.post_status = " . dcBlog::POST_PUBLISHED . ' AND p.post_password IS NULL ' .
-        'GROUP BY p.post_id, p.post_url, p.post_tz, p.post_upddt, p.post_dt ' .
-        'ORDER BY p.post_dt ASC';
 
-        $rs = new dcRecord($this->blog->con->select($query));
+        $sql = new SelectStatement();
+        $sql
+            ->columns([
+                'p.post_id',
+                'p.post_url',
+                'p.post_tz',
+                'p.post_upddt',
+                $sql->as($sql->max('c.comment_upddt'), 'comments_dt'),
+            ])
+            ->from($sql->as($this->blog->prefix . dcBlog::POST_TABLE_NAME, 'p'))
+            ->join(
+                (new JoinStatement())
+                    ->left()
+                    ->from($sql->as($this->blog->prefix . dcBlog::COMMENT_TABLE_NAME, 'c'))
+                    ->on('c.post_id = p.post_id')
+                    ->statement()
+            )
+            ->where('p.blog_id = ' . $sql->quote($this->blog->id))
+            ->and('p.post_type = ' . $sql->quote($type))
+            ->and('p.post_status = ' . dcBlog::POST_PUBLISHED)
+            ->and($sql->isNull('p.post_password'))
+            ->group([
+                'p.post_id',
+                'p.post_url',
+                'p.post_tz',
+                'p.post_upddt',
+                'p.post_dt',
+            ])
+            ->order('p.post_dt ASC')
+        ;
+        $rs = $sql->select();
+
         while ($rs->fetch()) {
             if ($rs->comments_dt !== null) {
                 $last_ts = max(strtotime($rs->post_upddt), strtotime($rs->comments_dt));
             } else {
                 $last_ts = strtotime($rs->post_upddt);
             }
-            $last_dt = dt::iso8601($last_ts, $rs->post_tz);
+            $last_dt = Date::iso8601($last_ts, $rs->post_tz);
             $url     = $this->blog->url . dcCore::app()->url->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
             $this->addEntry($url, $prio, $freq, $last_dt);
         }
@@ -121,17 +156,17 @@ class dcSitemaps
     protected function collectURLs()
     {
         // Homepage URL
-        if ($this->blog->settings->sitemaps->sitemaps_home_url) {
-            $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_home_fq);
-            $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_home_pr);
+        if ($this->settings->home_url) {
+            $freq = $this->getFrequency($this->settings->home_fq);
+            $prio = $this->getPriority($this->settings->home_pr);
 
             $this->addEntry($this->blog->url, $prio, $freq);
         }
 
         // Main syndication feeds URLs
-        if (dcCore::app()->blog->settings->sitemaps->sitemaps_feeds_url) {
-            $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_feeds_fq);
-            $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_feeds_pr);
+        if ($this->settings->feeds_url) {
+            $freq = $this->getFrequency($this->settings->feeds_fq);
+            $prio = $this->getPriority($this->settings->feeds_pr);
 
             $this->addEntry(
                 $this->blog->url . dcCore::app()->url->getURLFor('feed', 'rss2'),
@@ -146,19 +181,19 @@ class dcSitemaps
         }
 
         // Posts entries URLs
-        if (dcCore::app()->blog->settings->sitemaps->sitemaps_posts_url) {
+        if ($this->settings->posts_url) {
             $this->collectEntriesURLs('post');
         }
 
         // Pages entries URLs
-        if (dcCore::app()->plugins->moduleExists('pages') && dcCore::app()->blog->settings->sitemaps->sitemaps_pages_url) {
+        if (dcCore::app()->plugins->moduleExists('pages') && $this->settings->pages_url) {
             $this->collectEntriesURLs('page');
         }
 
         // Categories URLs
-        if (dcCore::app()->blog->settings->sitemaps->sitemaps_cats_url) {
-            $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_cats_fq);
-            $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_cats_pr);
+        if ($this->settings->cats_url) {
+            $freq = $this->getFrequency($this->settings->cats_fq);
+            $prio = $this->getPriority($this->settings->cats_pr);
 
             $cats = $this->blog->getCategories(['post_type' => 'post']);
             while ($cats->fetch()) {
@@ -170,9 +205,9 @@ class dcSitemaps
             }
         }
 
-        if (dcCore::app()->plugins->moduleExists('tags') && dcCore::app()->blog->settings->sitemaps->sitemaps_tags_url) {
-            $freq = $this->getFrequency($this->blog->settings->sitemaps->sitemaps_tags_fq);
-            $prio = $this->getPriority($this->blog->settings->sitemaps->sitemaps_tags_pr);
+        if (dcCore::app()->plugins->moduleExists('tags') && $this->settings->tags_url) {
+            $freq = $this->getFrequency($this->settings->tags_fq);
+            $prio = $this->getPriority($this->settings->tags_pr);
 
             $meta = new dcMeta();
             $tags = $meta->getMetadata(['meta_type' => 'tag']);

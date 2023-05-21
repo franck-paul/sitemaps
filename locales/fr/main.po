@@ -1,26 +1,54 @@
-# 
+#
 # Translators:
 # Franck <carnet.franck.paul@gmail.com>, 2020
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 sitemaps module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-30 12:31+0200\n"
+"POT-Creation-Date: 2023-05-21 12:48+0200\n"
 "PO-Revision-Date: 2020-04-30 10:32+0000\n"
 "Last-Translator: Franck <carnet.franck.paul@gmail.com>, 2020\n"
 "Language-Team: French (https://www.transifex.com/open-time/teams/109573/fr/)\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#, fuzzy
+msgid "sitemaps"
+msgstr "Sitemaps"
 
 msgid "Sitemaps"
 msgstr "Sitemaps"
 
-msgid "XML Sitemaps"
-msgstr "Sitemaps XML"
+msgid "Homepage"
+msgstr "Page d'accueil"
+
+msgid "Feeds"
+msgstr "Fils de syndication"
+
+msgid "Posts"
+msgstr ""
+
+msgid "Pages"
+msgstr ""
+
+msgid "New preferences saved"
+msgstr "Les nouvelles préférences ont été enregistrées"
+
+msgid "Response does not seem OK"
+msgstr "La réponse ne semble pas être OK"
+
+msgid "success"
+msgstr "Succès"
+
+msgid "Failure"
+msgstr "Échec"
+
+msgid "Ping(s) sent"
+msgstr "Ping(s) envoyé(s)"
 
 msgid "undefined"
 msgstr "non définie"
@@ -43,29 +71,17 @@ msgstr "mensuelle"
 msgid "never"
 msgstr "jamais"
 
-msgid "Homepage"
-msgstr "Page d'accueil"
+msgid "XML Sitemaps"
+msgstr "Sitemaps XML"
 
-msgid "Feeds"
-msgstr "Fils de syndication"
-
-msgid "Response does not seem OK"
-msgstr "La réponse ne semble pas être OK"
-
-msgid "success"
-msgstr "Succès"
-
-msgid "Failure"
-msgstr "Échec"
-
-msgid "Ping(s) sent"
-msgstr "Ping(s) envoyé(s)"
-
-msgid "New preferences saved"
-msgstr "Les nouvelles préférences ont été enregistrées"
+msgid "Priority"
+msgstr "Priorité"
 
 msgid "Configuration"
 msgstr "Configuration"
+
+msgid "Options"
+msgstr ""
 
 msgid "Enable sitemaps"
 msgstr "Permettre les sitemaps"
@@ -76,11 +92,8 @@ msgstr "URL du Sitemap de ce blog :"
 msgid "Elements to integrate"
 msgstr "Éléments à intégrer"
 
-msgid "Priority"
-msgstr "Priorité"
-
-msgid "Periodicity"
-msgstr "Fréquence"
+msgid "Save preferences"
+msgstr "Enregistrer les préférences"
 
 msgid "Ping search engines"
 msgstr "Notifier les moteurs de recherche"
@@ -91,5 +104,5 @@ msgstr "Notification des moteurs de recherche"
 msgid "Available search engines"
 msgstr "Moteurs de recherche disponibles"
 
-msgid "Save preferences"
-msgstr "Enregistrer les préférences"
+#~ msgid "Periodicity"
+#~ msgstr "Fréquence"

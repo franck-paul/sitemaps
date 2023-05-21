@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 sitemaps module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-30 12:31+0200\n"
+"POT-Creation-Date: 2023-05-21 12:48+0200\n"
 "PO-Revision-Date: 2020-04-30 08:34\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French\n"
@@ -12,10 +12,37 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
+msgid "sitemaps"
+msgstr ""
+
 msgid "Sitemaps"
 msgstr ""
 
-msgid "XML Sitemaps"
+msgid "Homepage"
+msgstr ""
+
+msgid "Feeds"
+msgstr ""
+
+msgid "Posts"
+msgstr ""
+
+msgid "Pages"
+msgstr ""
+
+msgid "New preferences saved"
+msgstr ""
+
+msgid "Response does not seem OK"
+msgstr ""
+
+msgid "success"
+msgstr ""
+
+msgid "Failure"
+msgstr ""
+
+msgid "Ping(s) sent"
 msgstr ""
 
 msgid "undefined"
@@ -39,28 +66,16 @@ msgstr ""
 msgid "never"
 msgstr ""
 
-msgid "Homepage"
+msgid "XML Sitemaps"
 msgstr ""
 
-msgid "Feeds"
-msgstr ""
-
-msgid "Response does not seem OK"
-msgstr ""
-
-msgid "success"
-msgstr ""
-
-msgid "Failure"
-msgstr ""
-
-msgid "Ping(s) sent"
-msgstr ""
-
-msgid "New preferences saved"
+msgid "Priority"
 msgstr ""
 
 msgid "Configuration"
+msgstr ""
+
+msgid "Options"
 msgstr ""
 
 msgid "Enable sitemaps"
@@ -72,10 +87,7 @@ msgstr ""
 msgid "Elements to integrate"
 msgstr ""
 
-msgid "Priority"
-msgstr ""
-
-msgid "Periodicity"
+msgid "Save preferences"
 msgstr ""
 
 msgid "Ping search engines"
@@ -85,7 +97,4 @@ msgid "Search engines notification"
 msgstr ""
 
 msgid "Available search engines"
-msgstr ""
-
-msgid "Save preferences"
 msgstr ""

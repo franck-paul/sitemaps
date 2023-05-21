@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 sitemaps module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-30 12:31+0200\n"
+"POT-Creation-Date: 2023-05-21 12:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,106 +16,125 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../git-plugins/sitemaps/_admin.php:16 ../git-plugins/sitemaps/_admin.php:27
+#: ../git-plugins/sitemaps/src/Backend.php:29
+msgid "sitemaps"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Backend.php:41
+#: ../git-plugins/sitemaps/src/Backend.php:50
 msgid "Sitemaps"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:16
-msgid "XML Sitemaps"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:19
-msgid "undefined"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:20
-msgid "always"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:21
-msgid "hourly"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:22
-msgid "daily"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:23
-msgid "weekly"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:24
-msgid "monthly"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:25
-msgid "never"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:29
+#: ../git-plugins/sitemaps/src/Manage.php:63
+#: ../git-plugins/sitemaps/src/Manage.php:164
 msgid "Homepage"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:30
+#: ../git-plugins/sitemaps/src/Manage.php:64
+#: ../git-plugins/sitemaps/src/Manage.php:165
 msgid "Feeds"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:107
-msgid "Response does not seem OK"
+#: ../git-plugins/sitemaps/src/Manage.php:65
+#: ../git-plugins/sitemaps/src/Manage.php:166
+msgid "Posts"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:109
-msgid "success"
+#: ../git-plugins/sitemaps/src/Manage.php:66
+#: ../git-plugins/sitemaps/src/Manage.php:167
+msgid "Pages"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:111
-msgid "Failure"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:114
-msgid "Ping(s) sent"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:118
+#: ../git-plugins/sitemaps/src/Manage.php:103
 msgid "New preferences saved"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:144
-msgid "Configuration"
+#: ../git-plugins/sitemaps/src/Manage.php:122
+msgid "Response does not seem OK"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:150
-msgid "Enable sitemaps"
+#: ../git-plugins/sitemaps/src/Manage.php:124
+msgid "success"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:154
-msgid "This blog's Sitemap URL:"
+#: ../git-plugins/sitemaps/src/Manage.php:126
+msgid "Failure"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:160
-msgid "Elements to integrate"
+#: ../git-plugins/sitemaps/src/Manage.php:129
+msgid "Ping(s) sent"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:172
+#: ../git-plugins/sitemaps/src/Manage.php:154
+msgid "undefined"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:155
+msgid "always"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:156
+msgid "hourly"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:157
+msgid "daily"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:158
+msgid "weekly"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:159
+msgid "monthly"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:160
+msgid "never"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:181
+#: ../git-plugins/sitemaps/src/Manage.php:186
+msgid "XML Sitemaps"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:219
+#: ../git-plugins/sitemaps/src/Manage.php:225
 msgid "Priority"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:177
-msgid "Periodicity"
+#: ../git-plugins/sitemaps/src/Manage.php:232
+msgid "Configuration"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:191 ../git-plugins/sitemaps/index.php:221
+#: ../git-plugins/sitemaps/src/Manage.php:234
+msgid "Options"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:243
+msgid "Enable sitemaps"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:246
+msgid "This blog's Sitemap URL:"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:248
+msgid "Elements to integrate"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:264
+msgid "Save preferences"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:268
 msgid "Ping search engines"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:198
+#: ../git-plugins/sitemaps/src/Manage.php:285
 msgid "Search engines notification"
 msgstr ""
 
-#: ../git-plugins/sitemaps/index.php:201
+#: ../git-plugins/sitemaps/src/Manage.php:287
 msgid "Available search engines"
-msgstr ""
-
-#: ../git-plugins/sitemaps/index.php:219
-msgid "Save preferences"
 msgstr ""

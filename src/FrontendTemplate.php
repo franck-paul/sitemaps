@@ -1,16 +1,22 @@
 <?php
 /**
- * @brief socialMeta, a plugin for Dotclear 2
+ * @brief sitemaps, a plugin for Dotclear 2
  *
  * @package Dotclear
  * @subpackage Plugins
  *
- * @author Pep
+ * @author Franck Paul and contributors
  *
- * @copyright Pep
+ * @copyright Franck Paul carnet.franck.paul@gmail.com
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-class sitemapsTemplates
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\sitemaps;
+
+use dcCore;
+
+class FrontendTemplate
 {
     public static function SitemapEntries($attr, $content)
     {
@@ -71,10 +77,3 @@ class sitemapsTemplates
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->lastmod') . '; ?>';
     }
 }
-
-dcCore::app()->tpl->addBlock('SitemapEntries', [sitemapsTemplates::class, 'SitemapEntries']);
-dcCore::app()->tpl->addBlock('SitemapEntryIf', [sitemapsTemplates::class, 'SitemapEntryIf']);
-dcCore::app()->tpl->addValue('SitemapEntryLoc', [sitemapsTemplates::class, 'SitemapEntryLoc']);
-dcCore::app()->tpl->addValue('SitemapEntryFrequency', [sitemapsTemplates::class, 'SitemapEntryFrequency']);
-dcCore::app()->tpl->addValue('SitemapEntryPriority', [sitemapsTemplates::class, 'SitemapEntryPriority']);
-dcCore::app()->tpl->addValue('SitemapEntryLastmod', [sitemapsTemplates::class, 'SitemapEntryLastmod']);
