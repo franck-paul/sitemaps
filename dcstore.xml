@@ -1,10 +1,10 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="sitemaps">
     <name>Sitemaps</name>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
     <author>Pep and contributors</author>
     <desc>Add XML Sitemaps</desc>
-    <file>https://github.com/franck-paul/sitemaps/releases/download/3.0.2/plugin-sitemaps-3.0.2.zip</file>
+    <file>https://github.com/franck-paul/sitemaps/releases/download/3.0.3/plugin-sitemaps-3.0.3.zip</file>
     <da:dcmin>2.26</da:dcmin>
     <da:details>https://plugins.dotaddict.org/dc2/details/sitemaps</da:details>
     <da:support>https://github.com/franck-paul/sitemaps</da:support>
