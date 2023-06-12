@@ -32,6 +32,12 @@ class Frontend extends dcNsProcess
             return false;
         }
 
+        // Don't do things in frontend if plugin disabled
+        $settings = dcCore::app()->blog->settings->get(My::id());
+        if (!(bool) $settings->active) {
+            return false;
+        }
+
         dcCore::app()->addBehavior('publicBeforeDocumentV2', [FrontendBehaviors::class, 'addTemplatePath']);
 
         dcCore::app()->tpl->addBlock('SitemapEntries', [FrontendTemplate::class, 'SitemapEntries']);
