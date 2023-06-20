@@ -29,7 +29,6 @@ use Dotclear\Helper\Html\Form\Select;
 use Dotclear\Helper\Html\Form\Submit;
 use Dotclear\Helper\Html\Form\Text;
 use Dotclear\Helper\Html\Html;
-use Dotclear\Helper\Network\Http;
 use Dotclear\Helper\Network\HttpClient;
 use Exception;
 
@@ -86,7 +85,7 @@ class Manage extends dcNsProcess
                 }
                 dcCore::app()->blog->triggerBlog();
                 dcPage::addSuccessNotice(__('Configuration successfully updated.'));
-                Http::redirect(dcCore::app()->admin->getPageURL());
+                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id());
             } catch (Exception $e) {
                 dcCore::app()->error->add($e->getMessage());
             }
@@ -101,7 +100,9 @@ class Manage extends dcNsProcess
                 $settings->put('pings', $new_prefs, 'string');
 
                 dcPage::addSuccessNotice(__('New preferences saved'));
-                Http::redirect(dcCore::app()->admin->getPageURL() . '&notifications=1');
+                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id([
+                    'notifications' => 1,
+                ]));
             } catch (Exception $e) {
                 dcCore::app()->error->add($e->getMessage());
             }
@@ -130,7 +131,9 @@ class Manage extends dcNsProcess
             $msg = __('Ping(s) sent');
             $msg .= '<br />' . implode("<br />\n", $results);
             dcPage::addSuccessNotice($msg);
-            Http::redirect(dcCore::app()->admin->getPageURL() . '&notifications=1');
+            dcCore::app()->adminurl->redirect('admin.plugin.' . My::id(), [
+                'notifications' => 1,
+            ]);
         }
 
         if (!empty($msg)) {
