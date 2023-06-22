@@ -100,9 +100,9 @@ class Manage extends dcNsProcess
                 $settings->put('pings', $new_prefs, 'string');
 
                 dcPage::addSuccessNotice(__('New preferences saved'));
-                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id([
+                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id(), [
                     'notifications' => 1,
-                ]));
+                ]);
             } catch (Exception $e) {
                 dcCore::app()->error->add($e->getMessage());
             }
