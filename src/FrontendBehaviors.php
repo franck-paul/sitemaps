@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\sitemaps;
 
 use dcCore;
-use dcPublic;
+use Dotclear\Core\Frontend\Utility;
 
 // Behavior(s)
 class FrontendBehaviors
@@ -24,7 +24,7 @@ class FrontendBehaviors
     {
         dcCore::app()->tpl->setPath(
             dcCore::app()->tpl->getPath(),
-            implode(DIRECTORY_SEPARATOR, [My::path(), dcPublic::TPL_ROOT])
+            implode(DIRECTORY_SEPARATOR, [My::path(), Utility::TPL_ROOT])
         );
     }
 }

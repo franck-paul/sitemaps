@@ -15,21 +15,18 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\sitemaps;
 
 use dcCore;
-use dcNsProcess;
+use Dotclear\Core\Process;
 
-class Frontend extends dcNsProcess
+class Frontend extends Process
 {
-    protected static $init = false; /** @deprecated since 2.27 */
     public static function init(): bool
     {
-        static::$init = My::checkContext(My::FRONTEND);
-
-        return static::$init;
+        return self::status(My::checkContext(My::FRONTEND));
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
@@ -39,14 +36,14 @@ class Frontend extends dcNsProcess
             return false;
         }
 
-        dcCore::app()->addBehavior('publicBeforeDocumentV2', [FrontendBehaviors::class, 'addTemplatePath']);
+        dcCore::app()->addBehavior('publicBeforeDocumentV2', FrontendBehaviors::addTemplatePath(...));
 
-        dcCore::app()->tpl->addBlock('SitemapEntries', [FrontendTemplate::class, 'SitemapEntries']);
-        dcCore::app()->tpl->addBlock('SitemapEntryIf', [FrontendTemplate::class, 'SitemapEntryIf']);
-        dcCore::app()->tpl->addValue('SitemapEntryLoc', [FrontendTemplate::class, 'SitemapEntryLoc']);
-        dcCore::app()->tpl->addValue('SitemapEntryFrequency', [FrontendTemplate::class, 'SitemapEntryFrequency']);
-        dcCore::app()->tpl->addValue('SitemapEntryPriority', [FrontendTemplate::class, 'SitemapEntryPriority']);
-        dcCore::app()->tpl->addValue('SitemapEntryLastmod', [FrontendTemplate::class, 'SitemapEntryLastmod']);
+        dcCore::app()->tpl->addBlock('SitemapEntries', FrontendTemplate::SitemapEntries(...));
+        dcCore::app()->tpl->addBlock('SitemapEntryIf', FrontendTemplate::SitemapEntryIf(...));
+        dcCore::app()->tpl->addValue('SitemapEntryLoc', FrontendTemplate::SitemapEntryLoc(...));
+        dcCore::app()->tpl->addValue('SitemapEntryFrequency', FrontendTemplate::SitemapEntryFrequency(...));
+        dcCore::app()->tpl->addValue('SitemapEntryPriority', FrontendTemplate::SitemapEntryPriority(...));
+        dcCore::app()->tpl->addValue('SitemapEntryLastmod', FrontendTemplate::SitemapEntryLastmod(...));
 
         return true;
     }

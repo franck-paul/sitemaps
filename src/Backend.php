@@ -14,42 +14,39 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\sitemaps;
 
-use dcAdmin;
 use dcCore;
-use dcFavorites;
-use dcNsProcess;
+use Dotclear\Core\Backend\Favorites;
+use Dotclear\Core\Backend\Menus;
+use Dotclear\Core\Process;
 
-class Backend extends dcNsProcess
+class Backend extends Process
 {
-    protected static $init = false; /** @deprecated since 2.27 */
     public static function init(): bool
     {
-        static::$init = My::checkContext(My::BACKEND);
-
         // dead but useful code, in order to have translations
         __('sitemaps') . __('sitemaps');
 
-        return static::$init;
+        return self::status(My::checkContext(My::BACKEND));
     }
 
     public static function process(): bool
     {
-        if (!static::$init) {
+        if (!self::status()) {
             return false;
         }
 
-        dcCore::app()->menu[dcAdmin::MENU_BLOG]->addItem(
+        dcCore::app()->admin->menus[Menus::MENU_BLOG]->addItem(
             __('Sitemaps'),
-            My::makeUrl(),
+            My::manageUrl(),
             My::icons(),
             preg_match(My::urlScheme(), $_SERVER['REQUEST_URI']),
             My::checkContext(My::MENU)
         );
 
-        dcCore::app()->addBehavior('adminDashboardFavoritesV2', function (dcFavorites $favs) {
+        dcCore::app()->addBehavior('adminDashboardFavoritesV2', function (Favorites $favs) {
             $favs->register('sitemaps', [
                 'title'      => __('Sitemaps'),
-                'url'        => My::makeUrl(),
+                'url'        => My::manageUrl(),
                 'small-icon' => My::icons(),
                 'large-icon' => My::icons(),
                 My::checkContext(My::MENU),
