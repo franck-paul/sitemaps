@@ -35,13 +35,7 @@ class Backend extends Process
             return false;
         }
 
-        dcCore::app()->admin->menus[Menus::MENU_BLOG]->addItem(
-            __('Sitemaps'),
-            My::manageUrl(),
-            My::icons(),
-            preg_match(My::urlScheme(), $_SERVER['REQUEST_URI']),
-            My::checkContext(My::MENU)
-        );
+        My::addBackendMenuItem(Menus::MENU_BLOG);
 
         dcCore::app()->addBehavior('adminDashboardFavoritesV2', function (Favorites $favs) {
             $favs->register('sitemaps', [

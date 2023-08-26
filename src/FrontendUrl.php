@@ -24,7 +24,7 @@ class FrontendUrl extends dcUrlHandlers
 {
     public static function sitemap()
     {
-        $settings = dcCore::app()->blog->settings->get(My::id());
+        $settings = My::settings();
         if (!$settings->active) {
             self::p404();
         }

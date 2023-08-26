@@ -34,7 +34,7 @@ class Sitemap
     {
         $this->blog = dcCore::app()->blog;
 
-        $this->settings = dcCore::app()->blog->settings->get(My::id());
+        $this->settings = My::settings();
 
         $this->urls       = [];
         $this->freqs      = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];

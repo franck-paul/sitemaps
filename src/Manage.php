@@ -55,7 +55,7 @@ class Manage extends Process
         if (!empty($_POST['saveconfig'])) {
             // Save new configuration
             try {
-                $settings = dcCore::app()->blog->settings->get(My::id());
+                $settings = My::settings();
 
                 $map_parts = new ArrayObject([
                     __('Homepage')   => 'home',
@@ -91,7 +91,7 @@ class Manage extends Process
         } elseif (!empty($_POST['saveprefs'])) {
             // Save ping preferences
             try {
-                $settings  = dcCore::app()->blog->settings->get(My::id());
+                $settings  = My::settings();
                 $new_prefs = '';
                 if (!empty($_POST['pings'])) {
                     $new_prefs = implode(',', $_POST['pings']);
@@ -107,7 +107,7 @@ class Manage extends Process
             }
         } elseif (!empty($_POST['ping'])) {
             // Send ping(s)
-            $settings      = dcCore::app()->blog->settings->get(My::id());
+            $settings      = My::settings();
             $default_pings = explode(',', $settings->pings);
             $pings         = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
             $engines       = @unserialize($settings->engines);
@@ -151,7 +151,7 @@ class Manage extends Process
             return;
         }
 
-        $settings = dcCore::app()->blog->settings->get(My::id());
+        $settings = My::settings();
 
         $periods = [
             __('undefined') => 0,
@@ -181,7 +181,7 @@ class Manage extends Process
         }
         $head = Page::jsPageTabs($default_tab);
 
-        Page::openModule(__('XML Sitemaps'), $head);
+        Page::openModule(My::name(), $head);
 
         echo Page::breadcrumb(
             [
@@ -254,7 +254,7 @@ class Manage extends Process
                     ]),
                     (new Para())->items([
                         (new Submit(['saveconfig'], __('Save configuration')))->accesskey('s'),
-                        dcCore::app()->formNonce(false),
+                        ... My::hiddenFields(),
                     ]),
                 ]),
             ])
@@ -299,7 +299,7 @@ class Manage extends Process
 
                     (new Para())->items([
                         ...$actions,
-                        dcCore::app()->formNonce(false),
+                        ... My::hiddenFields(),
                     ]),
                 ]),
             ])

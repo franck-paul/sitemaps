@@ -43,7 +43,7 @@ class Install extends Process
                         $settings->rename('sitemaps_' . $name, $name);
                     }
                 };
-                $settings = dcCore::app()->blog->settings->get(My::id());
+                $settings = My::settings();
                 foreach ([
                     'active',
                     'home_url', 'home_pr', 'home_fq',
@@ -58,7 +58,7 @@ class Install extends Process
             }
 
             // Init
-            $settings = dcCore::app()->blog->settings->get(My::id());
+            $settings = My::settings();
 
             // Default settings
             $settings->put('active', false, dcNamespace::NS_BOOL, 'Sitemaps activation', false, true);
