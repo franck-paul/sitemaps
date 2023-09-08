@@ -31,13 +31,16 @@ class FrontendTemplate
         $if = '';
         if (isset($attr['has_attr'])) {
             switch ($attr['has_attr']) {
-                case 'frequency':$if = '!is_null(dcCore::app()->ctx->sitemap_urls->frequency)';
+                case 'frequency':
+                    $if = '!is_null(dcCore::app()->ctx->sitemap_urls->frequency)';
 
                     break;
-                case 'priority':$if = '!is_null(dcCore::app()->ctx->sitemap_urls->priority)';
+                case 'priority':
+                    $if = '!is_null(dcCore::app()->ctx->sitemap_urls->priority)';
 
                     break;
-                case 'lastmod':$if = '!is_null(dcCore::app()->ctx->sitemap_urls->lastmod)';
+                case 'lastmod':
+                    $if = '!is_null(dcCore::app()->ctx->sitemap_urls->lastmod)';
 
                     break;
             }
