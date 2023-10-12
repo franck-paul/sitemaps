@@ -22,7 +22,7 @@ use Dotclear\Helper\Network\Http;
 // URL Handler(s)
 class FrontendUrl extends dcUrlHandlers
 {
-    public static function sitemap()
+    public static function sitemap(): void
     {
         $settings = My::settings();
         if (!$settings->active) {

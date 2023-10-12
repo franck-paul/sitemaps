@@ -14,11 +14,18 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\sitemaps;
 
+use ArrayObject;
 use dcCore;
 
 class FrontendTemplate
 {
-    public static function SitemapEntries($attr, $content)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     * @param      string                                            $content   The content
+     *
+     * @return     string
+     */
+    public static function SitemapEntries(array|ArrayObject $attr, string $content): string
     {
         return
             '<?php if (dcCore::app()->ctx->exists("sitemap_urls")) : ?>' . "\n" .
@@ -26,7 +33,13 @@ class FrontendTemplate
             '<?php endif; ?>' . "\n";
     }
 
-    public static function SitemapEntryIf($attr, $content)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     * @param      string                                            $content   The content
+     *
+     * @return     string
+     */
+    public static function SitemapEntryIf(array|ArrayObject $attr, string $content): string
     {
         $if = '';
         if (isset($attr['has_attr'])) {
@@ -52,28 +65,48 @@ class FrontendTemplate
         return $content;
     }
 
-    public static function SitemapEntryLoc($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function SitemapEntryLoc(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->loc') . '; ?>';
     }
 
-    public static function SitemapEntryFrequency($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function SitemapEntryFrequency(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->frequency') . '; ?>';
     }
 
-    public static function SitemapEntryPriority($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function SitemapEntryPriority(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 
         return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->priority') . '; ?>';
     }
 
-    public static function SitemapEntryLastmod($attr)
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     *
+     * @return     string
+     */
+    public static function SitemapEntryLastmod(array|ArrayObject $attr): string
     {
         $f = dcCore::app()->tpl->getFilters($attr);
 

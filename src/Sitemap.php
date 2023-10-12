@@ -24,10 +24,26 @@ use Dotclear\Helper\Html\Html;
 
 class Sitemap
 {
-    protected $blog;
-    protected $urls;
-    protected $freqs;
-    protected $post_types;
+    protected dcBlog $blog;
+
+    /**
+     * @var array<int, array<string, mixed>>
+     */
+    protected array $urls;
+
+    /**
+     * @var array<string>
+     */
+    protected array $freqs;
+
+    /**
+     * @var array<string, array<string, mixed>>
+     */
+    protected array $post_types;
+
+    /**
+     * @var \Dotclear\Interface\Core\BlogWorkspaceInterface
+     */
     protected $settings;
 
     public function __construct()
@@ -55,7 +71,12 @@ class Sitemap
         );
     }
 
-    public function getURLs()
+    /**
+     * Gets the urls.
+     *
+     * @return     array<int, array<string, mixed>>  The urls.
+     */
+    public function getURLs(): array
     {
         if ($this->settings->active && empty($this->urls)) {
             $this->collectURLs();
@@ -64,7 +85,7 @@ class Sitemap
         return $this->urls;
     }
 
-    public function addPostType($type, $base_url, $freq = 0, $priority = 0.3)
+    public function addPostType(string $type, string $base_url, int $freq = 0, float $priority = 0.3): bool
     {
         if (preg_match('!^([a-z_-]+)$!', (string) $type)) {
             $this->post_types[$type]['base_url']  = $base_url;
@@ -77,7 +98,7 @@ class Sitemap
         return false;
     }
 
-    public function addEntry($loc, $priority, $frequency, $lastmod = '')
+    public function addEntry(string $loc, string $priority, string $frequency, string $lastmod = ''): void
     {
         $this->urls[] = [
             'loc'       => $loc,
@@ -87,17 +108,17 @@ class Sitemap
         ];
     }
 
-    public function getPriority($value)
+    public function getPriority(float $value): string
     {
-        return (sprintf('%.1f', min(abs((float) $value), 1)));
+        return sprintf('%.1f', min(abs((float) $value), 1));
     }
 
-    public function getFrequency($value)
+    public function getFrequency(int $value): string
     {
         return $this->freqs[min(abs(intval($value)), 6)];
     }
 
-    public function collectEntriesURLs($type = 'post')
+    public function collectEntriesURLs(string $type = 'post'): void
     {
         if (!array_key_exists($type, $this->post_types)) {
             return;
@@ -153,11 +174,11 @@ class Sitemap
         }
     }
 
-    protected function collectURLs()
+    protected function collectURLs(): void
     {
         // Homepage URL
         if ($this->settings->home_url) {
-            $freq = $this->getFrequency($this->settings->home_fq);
+            $freq = $this->getFrequency((int) $this->settings->home_fq);
             $prio = $this->getPriority($this->settings->home_pr);
 
             $this->addEntry($this->blog->url, $prio, $freq);
@@ -165,7 +186,7 @@ class Sitemap
 
         // Main syndication feeds URLs
         if ($this->settings->feeds_url) {
-            $freq = $this->getFrequency($this->settings->feeds_fq);
+            $freq = $this->getFrequency((int) $this->settings->feeds_fq);
             $prio = $this->getPriority($this->settings->feeds_pr);
 
             $this->addEntry(

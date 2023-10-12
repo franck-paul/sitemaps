@@ -20,11 +20,13 @@ use Dotclear\Core\Frontend\Utility;
 // Behavior(s)
 class FrontendBehaviors
 {
-    public static function addTemplatePath()
+    public static function addTemplatePath(): string
     {
         dcCore::app()->tpl->setPath(
             dcCore::app()->tpl->getPath(),
             implode(DIRECTORY_SEPARATOR, [My::path(), Utility::TPL_ROOT])
         );
+
+        return '';
     }
 }
