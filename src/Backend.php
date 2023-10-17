@@ -39,11 +39,11 @@ class Backend extends Process
 
         dcCore::app()->addBehavior('adminDashboardFavoritesV2', function (Favorites $favs) {
             $favs->register('sitemaps', [
-                'title'      => __('Sitemaps'),
-                'url'        => My::manageUrl(),
-                'small-icon' => My::icons(),
-                'large-icon' => My::icons(),
-                My::checkContext(My::MENU),
+                'title'       => __('Sitemaps'),
+                'url'         => My::manageUrl(),
+                'small-icon'  => My::icons(),
+                'large-icon'  => My::icons(),
+                'permissions' => My::checkContext(My::MENU),
             ]);
         });
 
