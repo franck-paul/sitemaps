@@ -17,6 +17,7 @@ namespace Dotclear\Plugin\sitemaps;
 use ArrayObject;
 use dcCore;
 use dcNamespace;
+use Dotclear\App;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Core\Process;
@@ -73,7 +74,7 @@ class Manage extends Process
 
                 $settings->put('active', $active, 'boolean');
 
-                foreach ($map_parts as $k => $v) {
+                foreach ($map_parts as $v) {
                     ${$v . '_url'} = (empty($_POST[$v . '_url'])) ? false : true;
                     ${$v . '_pr'}  = min(abs((float) $_POST[$v . '_pr']), 1);
                     ${$v . '_fq'}  = min(abs(intval($_POST[$v . '_fq'])), 6);
@@ -82,9 +83,9 @@ class Manage extends Process
                     $settings->put($v . '_pr', ${$v . '_pr'}, dcNamespace::NS_DOUBLE);
                     $settings->put($v . '_fq', ${$v . '_fq'}, dcNamespace::NS_INT);
                 }
-                dcCore::app()->blog->triggerBlog();
+                App::blog()->triggerBlog();
                 Notices::addSuccessNotice(__('Configuration successfully updated.'));
-                dcCore::app()->admin->url->redirect('admin.plugin.' . My::id());
+                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id());
             } catch (Exception $e) {
                 dcCore::app()->error->add($e->getMessage());
             }
@@ -99,7 +100,7 @@ class Manage extends Process
                 $settings->put('pings', $new_prefs, 'string');
 
                 Notices::addSuccessNotice(__('New preferences saved'));
-                dcCore::app()->admin->url->redirect('admin.plugin.' . My::id(), [
+                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id(), [
                     'notifications' => 1,
                 ]);
             } catch (Exception $e) {
@@ -111,7 +112,7 @@ class Manage extends Process
             $default_pings = explode(',', $settings->pings);
             $pings         = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
             $engines       = @unserialize($settings->engines);
-            $sitemap_url   = dcCore::app()->blog->url . dcCore::app()->url->getURLFor('gsitemap');
+            $sitemap_url   = App::blog()->url() . dcCore::app()->url->getURLFor('gsitemap');
             $results       = [];
             foreach ($pings as $service) {
                 try {
@@ -130,7 +131,7 @@ class Manage extends Process
             $msg = __('Ping(s) sent');
             $msg .= '<br />' . implode("<br />\n", $results);
             Notices::addSuccessNotice($msg);
-            dcCore::app()->admin->url->redirect('admin.plugin.' . My::id(), [
+            dcCore::app()->adminurl->redirect('admin.plugin.' . My::id(), [
                 'notifications' => 1,
             ]);
         }
@@ -185,8 +186,8 @@ class Manage extends Process
 
         echo Page::breadcrumb(
             [
-                Html::escapeHTML(dcCore::app()->blog->name) => '',
-                __('XML Sitemaps')                          => '',
+                Html::escapeHTML(App::blog()->name()) => '',
+                __('XML Sitemaps')                    => '',
             ]
         );
         echo Notices::getNotices();
@@ -201,7 +202,7 @@ class Manage extends Process
 
         $engines       = @unserialize($settings->engines);
         $default_pings = explode(',', $settings->pings);
-        $sitemap_url   = dcCore::app()->blog->url . dcCore::app()->url->getURLFor('gsitemap');
+        $sitemap_url   = App::blog()->url() . dcCore::app()->url->getURLFor('gsitemap');
 
         // First tab (options)
 

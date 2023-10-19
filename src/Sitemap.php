@@ -17,14 +17,16 @@ namespace Dotclear\Plugin\sitemaps;
 use dcBlog;
 use dcCore;
 use dcMeta;
+use Dotclear\App;
 use Dotclear\Database\Statement\JoinStatement;
 use Dotclear\Database\Statement\SelectStatement;
 use Dotclear\Helper\Date;
 use Dotclear\Helper\Html\Html;
+use Dotclear\Interface\Core\BlogInterface;
 
 class Sitemap
 {
-    protected dcBlog $blog;
+    protected BlogInterface $blog;
 
     /**
      * @var array<int, array<string, mixed>>
@@ -48,7 +50,7 @@ class Sitemap
 
     public function __construct()
     {
-        $this->blog = dcCore::app()->blog;
+        $this->blog = App::blog();
 
         $this->settings = My::settings();
 
@@ -162,15 +164,17 @@ class Sitemap
         ;
         $rs = $sql->select();
 
-        while ($rs->fetch()) {
-            if ($rs->comments_dt !== null) {
-                $last_ts = max(strtotime($rs->post_upddt), strtotime($rs->comments_dt));
-            } else {
-                $last_ts = strtotime($rs->post_upddt);
+        if ($rs) {
+            while ($rs->fetch()) {
+                if ($rs->comments_dt !== null) {
+                    $last_ts = max(strtotime($rs->post_upddt), strtotime($rs->comments_dt));
+                } else {
+                    $last_ts = strtotime($rs->post_upddt);
+                }
+                $last_dt = Date::iso8601($last_ts, $rs->post_tz);
+                $url     = $this->blog->url . dcCore::app()->url->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
+                $this->addEntry($url, $prio, $freq, $last_dt);
             }
-            $last_dt = Date::iso8601($last_ts, $rs->post_tz);
-            $url     = $this->blog->url . dcCore::app()->url->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
-            $this->addEntry($url, $prio, $freq, $last_dt);
         }
     }
 
