@@ -15,8 +15,6 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\sitemaps;
 
 use ArrayObject;
-use dcCore;
-use dcNamespace;
 use Dotclear\App;
 use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
@@ -68,7 +66,7 @@ class Manage extends Process
                 ]);
 
                 # --BEHAVIOR-- sitemapsDefineParts
-                dcCore::app()->callBehavior('sitemapsDefineParts', $map_parts);
+                App::behavior()->callBehavior('sitemapsDefineParts', $map_parts);
 
                 $active = (empty($_POST['active'])) ? false : true;
 
@@ -79,15 +77,15 @@ class Manage extends Process
                     ${$v . '_pr'}  = min(abs((float) $_POST[$v . '_pr']), 1);
                     ${$v . '_fq'}  = min(abs(intval($_POST[$v . '_fq'])), 6);
 
-                    $settings->put($v . '_url', ${$v . '_url'}, dcNamespace::NS_BOOL);
-                    $settings->put($v . '_pr', ${$v . '_pr'}, dcNamespace::NS_DOUBLE);
-                    $settings->put($v . '_fq', ${$v . '_fq'}, dcNamespace::NS_INT);
+                    $settings->put($v . '_url', ${$v . '_url'}, App::blogWorkspace()::NS_BOOL);
+                    $settings->put($v . '_pr', ${$v . '_pr'}, App::blogWorkspace()::NS_DOUBLE);
+                    $settings->put($v . '_fq', ${$v . '_fq'}, App::blogWorkspace()::NS_INT);
                 }
                 App::blog()->triggerBlog();
                 Notices::addSuccessNotice(__('Configuration successfully updated.'));
-                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id());
+                My::redirect();
             } catch (Exception $e) {
-                dcCore::app()->error->add($e->getMessage());
+                App::error()->add($e->getMessage());
             }
         } elseif (!empty($_POST['saveprefs'])) {
             // Save ping preferences
@@ -100,11 +98,11 @@ class Manage extends Process
                 $settings->put('pings', $new_prefs, 'string');
 
                 Notices::addSuccessNotice(__('New preferences saved'));
-                dcCore::app()->adminurl->redirect('admin.plugin.' . My::id(), [
+                My::redirect([
                     'notifications' => 1,
                 ]);
             } catch (Exception $e) {
-                dcCore::app()->error->add($e->getMessage());
+                App::error()->add($e->getMessage());
             }
         } elseif (!empty($_POST['ping'])) {
             // Send ping(s)
@@ -112,7 +110,7 @@ class Manage extends Process
             $default_pings = explode(',', $settings->pings);
             $pings         = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
             $engines       = @unserialize($settings->engines);
-            $sitemap_url   = App::blog()->url() . dcCore::app()->url->getURLFor('gsitemap');
+            $sitemap_url   = App::blog()->url() . App::url()->getURLFor('gsitemap');
             $results       = [];
             foreach ($pings as $service) {
                 try {
@@ -131,7 +129,7 @@ class Manage extends Process
             $msg = __('Ping(s) sent');
             $msg .= '<br />' . implode("<br />\n", $results);
             Notices::addSuccessNotice($msg);
-            dcCore::app()->adminurl->redirect('admin.plugin.' . My::id(), [
+            My::redirect([
                 'notifications' => 1,
             ]);
         }
@@ -174,7 +172,7 @@ class Manage extends Process
         ]);
 
         # --BEHAVIOR-- sitemapsDefineParts
-        dcCore::app()->callBehavior('sitemapsDefineParts', $map_parts);
+        App::behavior()->callBehavior('sitemapsDefineParts', $map_parts);
 
         $default_tab = 'options';
         if (isset($_GET['notifications'])) {
@@ -202,7 +200,7 @@ class Manage extends Process
 
         $engines       = @unserialize($settings->engines);
         $default_pings = explode(',', $settings->pings);
-        $sitemap_url   = App::blog()->url() . dcCore::app()->url->getURLFor('gsitemap');
+        $sitemap_url   = App::blog()->url() . App::url()->getURLFor('gsitemap');
 
         // First tab (options)
 
@@ -238,7 +236,7 @@ class Manage extends Process
                 (new Text('h3', __('Options')))
                 ->class('out-of-screen-if-js'),
                 (new Form('options-form'))
-                ->action(dcCore::app()->admin->getPageURL())
+                ->action(App::backend()->getPageURL())
                 ->method('post')
                 ->fields([
                     (new Para())->items([
@@ -291,7 +289,7 @@ class Manage extends Process
                 (new Text('h3', __('Available search engines')))
                 ->class('out-of-screen-if-js'),
                 (new Form('prefs-form'))
-                ->action(dcCore::app()->admin->getPageURL())
+                ->action(App::backend()->getPageURL())
                 ->method('post')
                 ->fields([
                     (new Para(null, 'table'))->class('maximal')->items([

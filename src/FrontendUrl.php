@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\sitemaps;
 
-use dcCore;
-use dcUrlHandlers;
+use Dotclear\App;
+use Dotclear\Core\Frontend\Url;
 use Dotclear\Database\MetaRecord;
 use Dotclear\Helper\Network\Http;
 
 // URL Handler(s)
-class FrontendUrl extends dcUrlHandlers
+class FrontendUrl extends Url
 {
     public static function sitemap(): void
     {
@@ -31,8 +31,8 @@ class FrontendUrl extends dcUrlHandlers
 
         $sitemap = new Sitemap();
 
-        dcCore::app()->ctx->sitemap_urls = MetaRecord::newFromArray($sitemap->getURLs());
-        if (dcCore::app()->ctx->sitemap_urls->isEmpty()) {
+        App::frontend()->context()->sitemap_urls = MetaRecord::newFromArray($sitemap->getURLs());
+        if (App::frontend()->context()->sitemap_urls->isEmpty()) {
             self::p404();
         } else {
             Http::$cache_max_age = 60 * 60; // 1 hour cache for feed

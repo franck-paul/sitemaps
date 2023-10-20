@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\sitemaps;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Process;
 
 class Frontend extends Process
@@ -36,14 +36,14 @@ class Frontend extends Process
             return false;
         }
 
-        dcCore::app()->addBehavior('publicBeforeDocumentV2', FrontendBehaviors::addTemplatePath(...));
+        App::behavior()->addBehavior('publicBeforeDocumentV2', FrontendBehaviors::addTemplatePath(...));
 
-        dcCore::app()->tpl->addBlock('SitemapEntries', FrontendTemplate::SitemapEntries(...));
-        dcCore::app()->tpl->addBlock('SitemapEntryIf', FrontendTemplate::SitemapEntryIf(...));
-        dcCore::app()->tpl->addValue('SitemapEntryLoc', FrontendTemplate::SitemapEntryLoc(...));
-        dcCore::app()->tpl->addValue('SitemapEntryFrequency', FrontendTemplate::SitemapEntryFrequency(...));
-        dcCore::app()->tpl->addValue('SitemapEntryPriority', FrontendTemplate::SitemapEntryPriority(...));
-        dcCore::app()->tpl->addValue('SitemapEntryLastmod', FrontendTemplate::SitemapEntryLastmod(...));
+        App::frontend()->template()->addBlock('SitemapEntries', FrontendTemplate::SitemapEntries(...));
+        App::frontend()->template()->addBlock('SitemapEntryIf', FrontendTemplate::SitemapEntryIf(...));
+        App::frontend()->template()->addValue('SitemapEntryLoc', FrontendTemplate::SitemapEntryLoc(...));
+        App::frontend()->template()->addValue('SitemapEntryFrequency', FrontendTemplate::SitemapEntryFrequency(...));
+        App::frontend()->template()->addValue('SitemapEntryPriority', FrontendTemplate::SitemapEntryPriority(...));
+        App::frontend()->template()->addValue('SitemapEntryLastmod', FrontendTemplate::SitemapEntryLastmod(...));
 
         return true;
     }

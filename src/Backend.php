@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\sitemaps;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Backend\Favorites;
 use Dotclear\Core\Backend\Menus;
 use Dotclear\Core\Process;
@@ -37,7 +37,7 @@ class Backend extends Process
 
         My::addBackendMenuItem(Menus::MENU_BLOG);
 
-        dcCore::app()->addBehavior('adminDashboardFavoritesV2', function (Favorites $favs) {
+        App::behavior()->addBehavior('adminDashboardFavoritesV2', function (Favorites $favs) {
             $favs->register('sitemaps', [
                 'title'       => __('Sitemaps'),
                 'url'         => My::manageUrl(),

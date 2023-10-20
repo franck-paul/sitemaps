@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\sitemaps;
 
-use dcCore;
+use Dotclear\App;
 use Dotclear\Core\Frontend\Utility;
 
 // Behavior(s)
@@ -22,8 +22,8 @@ class FrontendBehaviors
 {
     public static function addTemplatePath(): string
     {
-        dcCore::app()->tpl->setPath(
-            dcCore::app()->tpl->getPath(),
+        App::frontend()->template()->setPath(
+            App::frontend()->template()->getPath(),
             implode(DIRECTORY_SEPARATOR, [My::path(), Utility::TPL_ROOT])
         );
 

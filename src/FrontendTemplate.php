@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\sitemaps;
 
 use ArrayObject;
-use dcCore;
+use Dotclear\App;
 
 class FrontendTemplate
 {
@@ -28,8 +28,8 @@ class FrontendTemplate
     public static function SitemapEntries(array|ArrayObject $attr, string $content): string
     {
         return
-            '<?php if (dcCore::app()->ctx->exists("sitemap_urls")) : ?>' . "\n" .
-            '<?php while (dcCore::app()->ctx->sitemap_urls->fetch()) : ?>' . $content . '<?php endwhile; ?>' .
+            '<?php if (App::frontend()->context()->exists("sitemap_urls")) : ?>' . "\n" .
+            '<?php while (App::frontend()->context()->sitemap_urls->fetch()) : ?>' . $content . '<?php endwhile; ?>' .
             '<?php endif; ?>' . "\n";
     }
 
@@ -45,15 +45,15 @@ class FrontendTemplate
         if (isset($attr['has_attr'])) {
             switch ($attr['has_attr']) {
                 case 'frequency':
-                    $if = '!is_null(dcCore::app()->ctx->sitemap_urls->frequency)';
+                    $if = '!is_null(App::frontend()->context()->sitemap_urls->frequency)';
 
                     break;
                 case 'priority':
-                    $if = '!is_null(dcCore::app()->ctx->sitemap_urls->priority)';
+                    $if = '!is_null(App::frontend()->context()->sitemap_urls->priority)';
 
                     break;
                 case 'lastmod':
-                    $if = '!is_null(dcCore::app()->ctx->sitemap_urls->lastmod)';
+                    $if = '!is_null(App::frontend()->context()->sitemap_urls->lastmod)';
 
                     break;
             }
@@ -72,9 +72,9 @@ class FrontendTemplate
      */
     public static function SitemapEntryLoc(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->loc') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->loc') . '; ?>';
     }
 
     /**
@@ -84,9 +84,9 @@ class FrontendTemplate
      */
     public static function SitemapEntryFrequency(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->frequency') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->frequency') . '; ?>';
     }
 
     /**
@@ -96,9 +96,9 @@ class FrontendTemplate
      */
     public static function SitemapEntryPriority(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->priority') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->priority') . '; ?>';
     }
 
     /**
@@ -108,8 +108,8 @@ class FrontendTemplate
      */
     public static function SitemapEntryLastmod(array|ArrayObject $attr): string
     {
-        $f = dcCore::app()->tpl->getFilters($attr);
+        $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'dcCore::app()->ctx->sitemap_urls->lastmod') . '; ?>';
+        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->lastmod') . '; ?>';
     }
 }

@@ -14,9 +14,6 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\sitemaps;
 
-use dcBlog;
-use dcCore;
-use dcMeta;
 use Dotclear\App;
 use Dotclear\Database\Statement\JoinStatement;
 use Dotclear\Database\Statement\SelectStatement;
@@ -141,17 +138,17 @@ class Sitemap
                 'p.post_upddt',
                 $sql->as($sql->max('c.comment_upddt'), 'comments_dt'),
             ])
-            ->from($sql->as($this->blog->prefix . dcBlog::POST_TABLE_NAME, 'p'))
+            ->from($sql->as($this->blog->prefix . BlogInterface::POST_TABLE_NAME, 'p'))
             ->join(
                 (new JoinStatement())
                     ->left()
-                    ->from($sql->as($this->blog->prefix . dcBlog::COMMENT_TABLE_NAME, 'c'))
+                    ->from($sql->as($this->blog->prefix . BlogInterface::COMMENT_TABLE_NAME, 'c'))
                     ->on('c.post_id = p.post_id')
                     ->statement()
             )
             ->where('p.blog_id = ' . $sql->quote($this->blog->id))
             ->and('p.post_type = ' . $sql->quote($type))
-            ->and('p.post_status = ' . dcBlog::POST_PUBLISHED)
+            ->and('p.post_status = ' . BlogInterface::POST_PUBLISHED)
             ->and($sql->isNull('p.post_password'))
             ->group([
                 'p.post_id',
@@ -172,7 +169,7 @@ class Sitemap
                     $last_ts = strtotime($rs->post_upddt);
                 }
                 $last_dt = Date::iso8601($last_ts, $rs->post_tz);
-                $url     = $this->blog->url . dcCore::app()->url->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
+                $url     = $this->blog->url . App::url()->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
                 $this->addEntry($url, $prio, $freq, $last_dt);
             }
         }
@@ -194,12 +191,12 @@ class Sitemap
             $prio = $this->getPriority($this->settings->feeds_pr);
 
             $this->addEntry(
-                $this->blog->url . dcCore::app()->url->getURLFor('feed', 'rss2'),
+                $this->blog->url . App::url()->getURLFor('feed', 'rss2'),
                 $prio,
                 $freq
             );
             $this->addEntry(
-                $this->blog->url . dcCore::app()->url->getURLFor('feed', 'atom'),
+                $this->blog->url . App::url()->getURLFor('feed', 'atom'),
                 $prio,
                 $freq
             );
@@ -211,7 +208,7 @@ class Sitemap
         }
 
         // Pages entries URLs
-        if (dcCore::app()->plugins->moduleExists('pages') && $this->settings->pages_url) {
+        if (App::plugins()->moduleExists('pages') && $this->settings->pages_url) {
             $this->collectEntriesURLs('page');
         }
 
@@ -223,23 +220,23 @@ class Sitemap
             $cats = $this->blog->getCategories(['post_type' => 'post']);
             while ($cats->fetch()) {
                 $this->addEntry(
-                    $this->blog->url . dcCore::app()->url->getURLFor('category', $cats->cat_url),
+                    $this->blog->url . App::url()->getURLFor('category', $cats->cat_url),
                     $prio,
                     $freq
                 );
             }
         }
 
-        if (dcCore::app()->plugins->moduleExists('tags') && $this->settings->tags_url) {
+        if (App::plugins()->moduleExists('tags') && $this->settings->tags_url) {
             $freq = $this->getFrequency($this->settings->tags_fq);
             $prio = $this->getPriority($this->settings->tags_pr);
 
-            $meta = new dcMeta();
+            $meta = App::meta();
             $tags = $meta->getMetadata(['meta_type' => 'tag']);
             $tags = $meta->computeMetaStats($tags);
             while ($tags->fetch()) {
                 $this->addEntry(
-                    $this->blog->url . dcCore::app()->url->getURLFor('tag', rawurlencode($tags->meta_id)),
+                    $this->blog->url . App::url()->getURLFor('tag', rawurlencode($tags->meta_id)),
                     $prio,
                     $freq
                 );
@@ -248,6 +245,6 @@ class Sitemap
 
         // External parts ?
         # --BEHAVIOR-- sitemapsURLsCollect
-        dcCore::app()->callBehavior('sitemapsURLsCollect', $this);
+        App::behavior()->callBehavior('sitemapsURLsCollect', $this);
     }
 }
