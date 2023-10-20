@@ -168,7 +168,7 @@ class Sitemap
                 } else {
                     $last_ts = strtotime($rs->post_upddt);
                 }
-                $last_dt = Date::iso8601($last_ts, $rs->post_tz);
+                $last_dt = Date::iso8601((int) $last_ts, $rs->post_tz);
                 $url     = $this->blog->url . App::url()->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
                 $this->addEntry($url, $prio, $freq, $last_dt);
             }
