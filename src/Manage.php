@@ -20,9 +20,9 @@ use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Core\Process;
 use Dotclear\Helper\Html\Form\Checkbox;
+use Dotclear\Helper\Html\Form\Decimal;
 use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
-use Dotclear\Helper\Html\Form\Input;
 use Dotclear\Helper\Html\Form\Label;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Select;
@@ -213,7 +213,7 @@ class Manage extends Process
                         ->label((new Label($key, Label::INSIDE_TEXT_AFTER))),
                 ]),
                 (new Para(null, 'td'))->items([
-                    (new Input($value . '_pr', 'number'))
+                    (new Decimal($value . '_pr'))
                         ->value((float) ${$value . '_pr'})
                         ->size(4)
                         ->maxlength(4)
