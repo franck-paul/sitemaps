@@ -138,17 +138,17 @@ class Sitemap
                 'p.post_upddt',
                 $sql->as($sql->max('c.comment_upddt'), 'comments_dt'),
             ])
-            ->from($sql->as($this->blog->prefix . BlogInterface::POST_TABLE_NAME, 'p'))
+            ->from($sql->as($this->blog->prefix . App::blog()::POST_TABLE_NAME, 'p'))
             ->join(
                 (new JoinStatement())
                     ->left()
-                    ->from($sql->as($this->blog->prefix . BlogInterface::COMMENT_TABLE_NAME, 'c'))
+                    ->from($sql->as($this->blog->prefix . App::blog()::COMMENT_TABLE_NAME, 'c'))
                     ->on('c.post_id = p.post_id')
                     ->statement()
             )
             ->where('p.blog_id = ' . $sql->quote($this->blog->id))
             ->and('p.post_type = ' . $sql->quote($type))
-            ->and('p.post_status = ' . BlogInterface::POST_PUBLISHED)
+            ->and('p.post_status = ' . App::blog()::POST_PUBLISHED)
             ->and($sql->isNull('p.post_password'))
             ->group([
                 'p.post_id',
