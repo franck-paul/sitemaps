@@ -22,10 +22,7 @@ class FrontendBehaviors
 {
     public static function addTemplatePath(): string
     {
-        App::frontend()->template()->setPath(
-            App::frontend()->template()->getPath(),
-            implode(DIRECTORY_SEPARATOR, [My::path(), Utility::TPL_ROOT])
-        );
+        App::frontend()->template()->appendPath(implode(DIRECTORY_SEPARATOR, [My::path(), Utility::TPL_ROOT]));
 
         return '';
     }
