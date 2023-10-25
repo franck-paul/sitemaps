@@ -15,14 +15,13 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\sitemaps;
 
 use Dotclear\App;
-use Dotclear\Core\Frontend\Utility;
 
 // Behavior(s)
 class FrontendBehaviors
 {
     public static function addTemplatePath(): string
     {
-        App::frontend()->template()->appendPath(implode(DIRECTORY_SEPARATOR, [My::path(), Utility::TPL_ROOT]));
+        App::frontend()->template()->appendPath(My::tplPath());
 
         return '';
     }
