@@ -58,7 +58,8 @@ class FrontendTemplate
                     break;
             }
         }
-        if (!empty($if)) {
+
+        if ($if !== '') {
             return '<?php if (' . $if . ') : ?>' . $content . '<?php endif; ?>';
         }
 

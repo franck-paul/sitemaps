@@ -38,7 +38,7 @@ class Install extends Process
             if (version_compare((string) $old_version, '3.0', '<')) {
                 // Rename old settings
                 // Change settings names (remove sitemaps_ prefix in them)
-                $rename = function (string $name, BlogWorkspaceInterface $settings): void {
+                $rename = static function (string $name, BlogWorkspaceInterface $settings) : void {
                     if ($settings->settingExists('sitemaps_' . $name, true)) {
                         $settings->rename('sitemaps_' . $name, $name);
                     }
@@ -107,19 +107,21 @@ class Install extends Process
             // Remove yahoo and mslive search engines from current blog settings
             $pings   = explode(',', (string) $settings->pings);
             $removed = false;
-            if ($k = array_search('yahoo', $pings)) {
+            if ($k = array_search('yahoo', $pings, true)) {
                 unset($pings[$k]);
                 $removed = true;
             }
-            if ($k = array_search('mslive', $pings)) {
+
+            if ($k = array_search('mslive', $pings, true)) {
                 unset($pings[$k]);
                 $removed = true;
             }
+
             if ($removed) {
                 $settings->put('pings', implode(',', $pings), App::blogWorkspace()::NS_STRING, '', true, false);
             }
-        } catch (Exception $e) {
-            App::error()->add($e->getMessage());
+        } catch (Exception $exception) {
+            App::error()->add($exception->getMessage());
         }
 
         return true;

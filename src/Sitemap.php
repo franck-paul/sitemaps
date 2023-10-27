@@ -28,17 +28,17 @@ class Sitemap
     /**
      * @var array<int, array<string, mixed>>
      */
-    protected array $urls;
+    protected array $urls = [];
 
     /**
      * @var array<string>
      */
-    protected array $freqs;
+    protected array $freqs = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];
 
     /**
      * @var array<string, array<string, mixed>>
      */
-    protected array $post_types;
+    protected array $post_types = [];
 
     /**
      * @var \Dotclear\Interface\Core\BlogWorkspaceInterface
@@ -50,10 +50,6 @@ class Sitemap
         $this->blog = App::blog();
 
         $this->settings = My::settings();
-
-        $this->urls       = [];
-        $this->freqs      = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];
-        $this->post_types = [];
 
         // Default post types
         $this->addPostType(
@@ -77,7 +73,7 @@ class Sitemap
      */
     public function getURLs(): array
     {
-        if ($this->settings->active && empty($this->urls)) {
+        if ($this->settings->active && $this->urls === []) {
             $this->collectURLs();
         }
 
@@ -114,7 +110,7 @@ class Sitemap
 
     public function getFrequency(int $value): string
     {
-        return $this->freqs[min(abs(intval($value)), 6)];
+        return $this->freqs[min(abs((int) $value), 6)];
     }
 
     public function collectEntriesURLs(string $type = 'post'): void
@@ -168,6 +164,7 @@ class Sitemap
                 } else {
                     $last_ts = strtotime($rs->post_upddt);
                 }
+
                 $last_dt = Date::iso8601((int) $last_ts, $rs->post_tz);
                 $url     = $this->blog->url . App::url()->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
                 $this->addEntry($url, $prio, $freq, $last_dt);

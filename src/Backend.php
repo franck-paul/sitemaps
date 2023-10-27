@@ -36,7 +36,7 @@ class Backend extends Process
 
         My::addBackendMenuItem(App::backend()->menus()::MENU_BLOG);
 
-        App::behavior()->addBehavior('adminDashboardFavoritesV2', function (Favorites $favs) {
+        App::behavior()->addBehavior('adminDashboardFavoritesV2', static function (Favorites $favs) {
             $favs->register('sitemaps', [
                 'title'       => __('Sitemaps'),
                 'url'         => My::manageUrl(),

@@ -51,6 +51,8 @@ class Manage extends Process
             return false;
         }
 
+        $msg = '';
+
         if (!empty($_POST['saveconfig'])) {
             // Save new configuration
             try {
@@ -68,19 +70,20 @@ class Manage extends Process
                 # --BEHAVIOR-- sitemapsDefineParts
                 App::behavior()->callBehavior('sitemapsDefineParts', $map_parts);
 
-                $active = (empty($_POST['active'])) ? false : true;
+                $active = !empty($_POST['active']);
 
                 $settings->put('active', $active, 'boolean');
 
                 foreach ($map_parts as $v) {
-                    ${$v . '_url'} = (empty($_POST[$v . '_url'])) ? false : true;
+                    ${$v . '_url'} = !empty($_POST[$v . '_url']);
                     ${$v . '_pr'}  = min(abs((float) $_POST[$v . '_pr']), 1);
-                    ${$v . '_fq'}  = min(abs(intval($_POST[$v . '_fq'])), 6);
+                    ${$v . '_fq'}  = min(abs((int) $_POST[$v . '_fq']), 6);
 
                     $settings->put($v . '_url', ${$v . '_url'}, App::blogWorkspace()::NS_BOOL);
                     $settings->put($v . '_pr', ${$v . '_pr'}, App::blogWorkspace()::NS_DOUBLE);
                     $settings->put($v . '_fq', ${$v . '_fq'}, App::blogWorkspace()::NS_INT);
                 }
+
                 App::blog()->triggerBlog();
                 Notices::addSuccessNotice(__('Configuration successfully updated.'));
                 My::redirect();
@@ -95,6 +98,7 @@ class Manage extends Process
                 if (!empty($_POST['pings'])) {
                     $new_prefs = implode(',', $_POST['pings']);
                 }
+
                 $settings->put('pings', $new_prefs, 'string');
 
                 Notices::addSuccessNotice(__('New preferences saved'));
@@ -121,11 +125,13 @@ class Manage extends Process
                     if (false === HttpClient::quickGet($engines[$service]['url'] . '?sitemap=' . urlencode($sitemap_url))) {
                         throw new Exception(__('Response does not seem OK'));
                     }
+
                     $results[] = sprintf('%s : %s', __('success'), $engines[$service]['name']);
                 } catch (Exception $e) {
                     $results[] = sprintf('%s : %s : %s', __('Failure'), $engines[$service]['name'], $e->getMessage());
                 }
             }
+
             $msg = __('Ping(s) sent');
             $msg .= '<br />' . implode("<br />\n", $results);
             Notices::addSuccessNotice($msg);
@@ -134,7 +140,7 @@ class Manage extends Process
             ]);
         }
 
-        if (!empty($msg)) {
+        if ($msg !== '') {
             Notices::success($msg);
         }
 
@@ -178,6 +184,7 @@ class Manage extends Process
         if (isset($_GET['notifications'])) {
             $default_tab = 'notifications';
         }
+
         $head = Page::jsPageTabs($default_tab);
 
         Page::openModule(My::name(), $head);
