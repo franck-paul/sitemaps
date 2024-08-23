@@ -133,7 +133,7 @@ class Manage extends Process
             }
 
             $msg = __('Ping(s) sent');
-            $msg .= '<br />' . implode("<br />\n", $results);
+            $msg .= '<br>' . implode("<br>\n", $results);
             Notices::addSuccessNotice($msg);
             My::redirect([
                 'notifications' => 1,
@@ -260,7 +260,7 @@ class Manage extends Process
                     ]),
                     (new Para())->items([
                         (new Submit(['saveconfig'], __('Save configuration')))->accesskey('s'),
-                        ... My::hiddenFields(),
+                        ...My::hiddenFields(),
                     ]),
                 ]),
             ])
@@ -305,7 +305,7 @@ class Manage extends Process
 
                     (new Para())->items([
                         ...$actions,
-                        ... My::hiddenFields(),
+                        ...My::hiddenFields(),
                     ]),
                 ]),
             ])

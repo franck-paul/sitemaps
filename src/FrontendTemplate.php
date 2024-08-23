@@ -75,7 +75,7 @@ class FrontendTemplate
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->loc') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->loc') . ' ?>';
     }
 
     /**
@@ -87,7 +87,7 @@ class FrontendTemplate
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->frequency') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->frequency') . ' ?>';
     }
 
     /**
@@ -99,7 +99,7 @@ class FrontendTemplate
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->priority') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->priority') . ' ?>';
     }
 
     /**
@@ -111,6 +111,6 @@ class FrontendTemplate
     {
         $f = App::frontend()->template()->getFilters($attr);
 
-        return '<?php echo ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->lastmod') . '; ?>';
+        return '<?= ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->lastmod') . ' ?>';
     }
 }
