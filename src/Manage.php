@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief sitemaps, a plugin for Dotclear 2
  *
@@ -229,7 +230,7 @@ class Manage extends Process
                 ]),
                 (new Para(null, 'td'))->items([
                     (new Select($value . '_fq'))
-                        ->items($periods)
+                        ->items($periods)   // @phpstan-ignore-line
                         ->default((string) ${$value . '_fq'})
                         ->label((new Label(__('Priority'), Label::INSIDE_TEXT_BEFORE))),
                 ]),
