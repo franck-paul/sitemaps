@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief sitemaps, a plugin for Dotclear 2
  *
@@ -22,8 +23,6 @@ class FrontendTemplate
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
      * @param      string                                            $content   The content
-     *
-     * @return     string
      */
     public static function SitemapEntries(array|ArrayObject $attr, string $content): string
     {
@@ -36,8 +35,6 @@ class FrontendTemplate
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
      * @param      string                                            $content   The content
-     *
-     * @return     string
      */
     public static function SitemapEntryIf(array|ArrayObject $attr, string $content): string
     {
@@ -68,8 +65,6 @@ class FrontendTemplate
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function SitemapEntryLoc(array|ArrayObject $attr): string
     {
@@ -80,8 +75,6 @@ class FrontendTemplate
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function SitemapEntryFrequency(array|ArrayObject $attr): string
     {
@@ -92,8 +85,6 @@ class FrontendTemplate
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function SitemapEntryPriority(array|ArrayObject $attr): string
     {
@@ -104,8 +95,6 @@ class FrontendTemplate
 
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
-     *
-     * @return     string
      */
     public static function SitemapEntryLastmod(array|ArrayObject $attr): string
     {

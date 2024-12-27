@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief sitemaps, a plugin for Dotclear 2
  *
@@ -82,7 +83,7 @@ class Sitemap
 
     public function addPostType(string $type, string $base_url, int $freq = 0, float $priority = 0.3): bool
     {
-        if (preg_match('!^([a-z_-]+)$!', (string) $type)) {
+        if (preg_match('!^([a-z_-]+)$!', $type)) {
             $this->post_types[$type]['base_url']  = $base_url;
             $this->post_types[$type]['frequency'] = $this->getFrequency($freq);
             $this->post_types[$type]['priority']  = $this->getPriority($priority);
@@ -98,19 +99,19 @@ class Sitemap
         $this->urls[] = [
             'loc'       => $loc,
             'priority'  => $priority,
-            'frequency' => ($frequency == '') ? null : $frequency,
-            'lastmod'   => ($lastmod == '') ? null : $lastmod,
+            'frequency' => ($frequency === '') ? null : $frequency,
+            'lastmod'   => ($lastmod === '') ? null : $lastmod,
         ];
     }
 
     public function getPriority(float $value): string
     {
-        return sprintf('%.1f', min(abs((float) $value), 1));
+        return sprintf('%.1f', min(abs($value), 1));
     }
 
     public function getFrequency(int $value): string
     {
-        return $this->freqs[min(abs((int) $value), 6)];
+        return $this->freqs[min(abs($value), 6)];
     }
 
     public function collectEntriesURLs(string $type = 'post'): void
