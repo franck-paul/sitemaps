@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief socialMeta, a plugin for Dotclear 2
  *
@@ -16,7 +17,7 @@ $this->registerModule(
     'Pep and contributors',
     '5.5',
     [
-        'requires'    => [['core', '2.28']],
+        'requires'    => [['core', '2.33']],
         'permissions' => 'My',
         'type'        => 'plugin',
 
