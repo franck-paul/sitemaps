@@ -15,7 +15,7 @@ $this->registerModule(
     'Sitemaps',
     'Add XML Sitemaps',
     'Pep and contributors',
-    '5.5',
+    '6.0',
     [
         'requires'    => [['core', '2.33']],
         'permissions' => 'My',
