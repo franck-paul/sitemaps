@@ -145,7 +145,7 @@ class Sitemap
             )
             ->where('p.blog_id = ' . $sql->quote($this->blog->id))
             ->and('p.post_type = ' . $sql->quote($type))
-            ->and('p.post_status > ' . App::status()->post()->threshold())
+            ->and('p.post_status = ' . App::status()->post()::PUBLISHED)
             ->and($sql->isNull('p.post_password'))
             ->group([
                 'p.post_id',
