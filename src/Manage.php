@@ -112,7 +112,7 @@ class Manage extends Process
         } elseif (!empty($_POST['ping'])) {
             // Send ping(s)
             $settings      = My::settings();
-            $default_pings = explode(',', $settings->pings);
+            $default_pings = explode(',', (string) $settings->pings);
             $pings         = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
             $engines       = @unserialize($settings->engines);
             $sitemap_url   = App::blog()->url() . App::url()->getURLFor('gsitemap');
@@ -207,7 +207,7 @@ class Manage extends Process
         }
 
         $engines       = @unserialize($settings->engines);
-        $default_pings = explode(',', $settings->pings);
+        $default_pings = explode(',', (string) $settings->pings);
         $sitemap_url   = App::blog()->url() . App::url()->getURLFor('gsitemap');
 
         // First tab (options)
