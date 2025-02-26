@@ -161,9 +161,9 @@ class Sitemap
         if ($rs) {
             while ($rs->fetch()) {
                 if ($rs->comments_dt !== null) {
-                    $last_ts = max(strtotime($rs->post_upddt), strtotime($rs->comments_dt));
+                    $last_ts = max(strtotime((string) $rs->post_upddt), strtotime($rs->comments_dt));
                 } else {
-                    $last_ts = strtotime($rs->post_upddt);
+                    $last_ts = strtotime((string) $rs->post_upddt);
                 }
 
                 $last_dt = Date::iso8601((int) $last_ts, $rs->post_tz);
@@ -234,7 +234,7 @@ class Sitemap
             $tags = $meta->computeMetaStats($tags);
             while ($tags->fetch()) {
                 $this->addEntry(
-                    $this->blog->url . App::url()->getURLFor('tag', rawurlencode($tags->meta_id)),
+                    $this->blog->url . App::url()->getURLFor('tag', rawurlencode((string) $tags->meta_id)),
                     $prio,
                     $freq
                 );
