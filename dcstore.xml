@@ -1,11 +1,11 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="sitemaps">
     <name>Sitemaps</name>
-    <version>6.2</version>
+    <version>7.0</version>
     <author>Pep and contributors</author>
     <desc>Add XML Sitemaps</desc>
-    <date>2025-02-26T16:06:56+0100</date>
-    <file>https://github.com/franck-paul/sitemaps/releases/download/6.2/plugin-sitemaps-6.2.zip</file>
+    <date>2025-03-24T17:11:01+0100</date>
+    <file>https://github.com/franck-paul/sitemaps/releases/download/7.0/plugin-sitemaps-7.0.zip</file>
     <da:dcmin>2.33</da:dcmin>
     <da:details>https://plugins.dotaddict.org/dc2/details/sitemaps</da:details>
     <da:support>https://github.com/franck-paul/sitemaps</da:support>
