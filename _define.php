@@ -17,13 +17,17 @@ $this->registerModule(
     'Pep and contributors',
     '6.2',
     [
-        'date'        => '2025-02-26T16:06:56+0100',
-        'requires'    => [['core', '2.33']],
+        'date'     => '2025-02-26T16:06:56+0100',
+        'requires' => [
+            ['core', '2.33'],
+            ['TemplateHelper'],
+        ],
         'permissions' => 'My',
         'type'        => 'plugin',
 
         'details'    => 'https://plugins.dotaddict.org/dc2/details/sitemaps',
         'support'    => 'https://github.com/franck-paul/sitemaps',
         'repository' => 'https://raw.githubusercontent.com/franck-paul/sitemaps/main/dcstore.xml',
+        'license'    => 'gpl2',
     ]
 );

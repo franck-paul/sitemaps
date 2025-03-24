@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\sitemaps;
 
 use ArrayObject;
-use Dotclear\App;
+use Dotclear\Plugin\TemplateHelper\Code;
 
 class FrontendTemplate
 {
@@ -26,10 +26,11 @@ class FrontendTemplate
      */
     public static function SitemapEntries(array|ArrayObject $attr, string $content): string
     {
-        return
-            '<?php if (App::frontend()->context()->exists("sitemap_urls")) : ?>' . "\n" .
-            '<?php while (App::frontend()->context()->sitemap_urls->fetch()) : ?>' . $content . '<?php endwhile; ?>' .
-            '<?php endif; ?>' . "\n";
+        return Code::getPHPTemplateBlockCode(
+            FrontendTemplateCode::SitemapEntries(...),
+            content: $content,
+            attr: $attr,
+        );
     }
 
     /**
@@ -38,26 +39,15 @@ class FrontendTemplate
      */
     public static function SitemapEntryIf(array|ArrayObject $attr, string $content): string
     {
-        $if = '';
-        if (isset($attr['has_attr'])) {
-            switch ($attr['has_attr']) {
-                case 'frequency':
-                    $if = '!is_null(App::frontend()->context()->sitemap_urls->frequency)';
-
-                    break;
-                case 'priority':
-                    $if = '!is_null(App::frontend()->context()->sitemap_urls->priority)';
-
-                    break;
-                case 'lastmod':
-                    $if = '!is_null(App::frontend()->context()->sitemap_urls->lastmod)';
-
-                    break;
-            }
-        }
-
-        if ($if !== '') {
-            return '<?php if (' . $if . ') : ?>' . $content . '<?php endif; ?>';
+        if (isset($attr['has_attr']) && in_array($attr['has_attr'], ['frequency', 'priority', 'lastmod'])) {
+            return Code::getPHPTemplateBlockCode(
+                FrontendTemplateCode::SitemapEntryIf(...),
+                [
+                    $attr['has_attr'],
+                ],
+                content: $content,
+                attr: $attr,
+            );
         }
 
         return $content;
@@ -68,9 +58,10 @@ class FrontendTemplate
      */
     public static function SitemapEntryLoc(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
-
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->loc') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::SitemapEntryLoc(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -78,9 +69,10 @@ class FrontendTemplate
      */
     public static function SitemapEntryFrequency(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
-
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->frequency') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::SitemapEntryFrequency(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -88,9 +80,10 @@ class FrontendTemplate
      */
     public static function SitemapEntryPriority(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
-
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->priority') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::SitemapEntryPriority(...),
+            attr: $attr,
+        );
     }
 
     /**
@@ -98,8 +91,9 @@ class FrontendTemplate
      */
     public static function SitemapEntryLastmod(array|ArrayObject $attr): string
     {
-        $f = App::frontend()->template()->getFilters($attr);
-
-        return '<?= ' . sprintf($f, 'App::frontend()->context()->sitemap_urls->lastmod') . ' ?>';
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::SitemapEntryLastmod(...),
+            attr: $attr,
+        );
     }
 }
