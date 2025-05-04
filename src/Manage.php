@@ -225,7 +225,7 @@ class Manage extends Process
                         ->value((float) ${$value . '_pr'})
                         ->size(4)
                         ->maxlength(4)
-                        ->extra('step="0.1"')
+                        ->step('0.1')
                         ->label((new Label(__('Priority'), Label::INSIDE_TEXT_BEFORE))),
                 ]),
                 (new Para(null, 'td'))->items([
