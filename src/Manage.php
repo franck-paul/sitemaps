@@ -25,10 +25,17 @@ use Dotclear\Helper\Html\Form\Decimal;
 use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
 use Dotclear\Helper\Html\Form\Label;
+use Dotclear\Helper\Html\Form\Note;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Select;
 use Dotclear\Helper\Html\Form\Submit;
+use Dotclear\Helper\Html\Form\Table;
+use Dotclear\Helper\Html\Form\Tbody;
+use Dotclear\Helper\Html\Form\Td;
 use Dotclear\Helper\Html\Form\Text;
+use Dotclear\Helper\Html\Form\Th;
+use Dotclear\Helper\Html\Form\Thead;
+use Dotclear\Helper\Html\Form\Tr;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\HttpClient;
 use Exception;
@@ -214,27 +221,29 @@ class Manage extends Process
 
         $lines = [];
         foreach ($map_parts as $key => $value) {
-            $lines[] = (new Para(null, 'tr'))->items([
-                (new Para(null, 'td'))->items([
-                    (new Checkbox($value . '_url', ${$value . '_url'}))
-                        ->value(1)
-                        ->label((new Label($key, Label::INSIDE_TEXT_AFTER))),
-                ]),
-                (new Para(null, 'td'))->items([
-                    (new Decimal($value . '_pr'))
-                        ->value((float) ${$value . '_pr'})
-                        ->size(4)
-                        ->maxlength(4)
-                        ->step('0.1')
-                        ->label((new Label(__('Priority'), Label::INSIDE_TEXT_BEFORE))),
-                ]),
-                (new Para(null, 'td'))->items([
-                    (new Select($value . '_fq'))
-                        ->items($periods)   // @phpstan-ignore-line
-                        ->default((string) ${$value . '_fq'})
-                        ->label((new Label(__('Priority'), Label::INSIDE_TEXT_BEFORE))),
-                ]),
-            ]);
+            $lines[] = (new Tr())
+                ->items([
+                    (new Td())
+                        ->items([
+                            (new Checkbox($value . '_url', ${$value . '_url'}))
+                                ->value(1)
+                                ->label((new Label($key, Label::INSIDE_TEXT_AFTER))),
+                        ]),
+                    (new Td())
+                        ->items([
+                            (new Decimal($value . '_pr'))
+                                ->value((float) ${$value . '_pr'})
+                                ->size(4)
+                                ->maxlength(4)
+                                ->step('0.1'),
+                        ]),
+                    (new Td())
+                        ->items([
+                            (new Select($value . '_fq'))
+                                ->items($periods)   // @phpstan-ignore-line
+                                ->default((string) ${$value . '_fq'}),
+                        ]),
+                ]);
         }
 
         echo (new Div('options'))
@@ -242,52 +251,74 @@ class Manage extends Process
             ->title(__('Configuration'))
             ->items([
                 (new Text('h3', __('Options')))
-                ->class('out-of-screen-if-js'),
+                    ->class('out-of-screen-if-js'),
                 (new Form('options-form'))
-                ->action(App::backend()->getPageURL())
-                ->method('post')
-                ->fields([
-                    (new Para())->items([
-                        (new Checkbox('active', $active))
-                            ->value(1)
-                            ->label((new Label(__('Enable sitemaps'), Label::INSIDE_TEXT_AFTER))),
+                    ->action(App::backend()->getPageURL())
+                    ->method('post')
+                    ->fields([
+                        (new Para())
+                            ->items([
+                                (new Checkbox('active', $active))
+                                    ->value(1)
+                                    ->label((new Label(__('Enable sitemaps'), Label::INSIDE_TEXT_AFTER))),
+                            ]),
+                        (new Note())
+                            ->class('info')
+                            ->text(__("This blog's Sitemap URL:") . ' <strong>' . $sitemap_url . '</strong>'),
+                        (new Text('h4', __('Elements to integrate'))),
+                        (new Table())
+                            ->class('maximal')
+                            ->thead((new Thead())
+                                ->items([
+                                    (new Tr())
+                                        ->items([
+                                            (new Th())
+                                                ->scope('col')
+                                                ->text(__('URL')),
+                                            (new Th())
+                                                ->scope('col')
+                                                ->text(__('Priority')),
+                                            (new Th())
+                                                ->scope('col')
+                                                ->text(__('Periodicity')),
+                                        ]),
+                                ]))
+                            ->tbody((new Tbody())
+                                ->items($lines)),
+                        (new Para())->items([
+                            (new Submit(['saveconfig'], __('Save configuration')))
+                                ->accesskey('s'),
+                            ...My::hiddenFields(),
+                        ]),
                     ]),
-                    (new Para())->class('info')->items([
-                        (new Text(null, __("This blog's Sitemap URL:") . ' <strong>' . $sitemap_url . '</strong>')),
-                    ]),
-                    (new Text('h4', __('Elements to integrate'))),
-                    (new Para(null, 'table'))->class('maximal')->items([
-                        (new Para(null, 'tbody'))->items($lines),
-                    ]),
-                    (new Para())->items([
-                        (new Submit(['saveconfig'], __('Save configuration')))->accesskey('s'),
-                        ...My::hiddenFields(),
-                    ]),
-                ]),
             ])
             ->render();
 
         // Second tab (notifications)
 
         $actions   = [];
-        $actions[] = (new Para())->items([
-            (new Submit(['saveprefs'], __('Save preferences')))->accesskey('s'),
-        ]);
-        if ($active) {
-            $actions[] = (new Para())->items([
-                (new Submit(['ping'], __('Ping search engines'))),
+        $actions[] = (new Para())
+            ->items([
+                (new Submit(['saveprefs'], __('Save preferences')))->accesskey('s'),
             ]);
+        if ($active) {
+            $actions[] = (new Para())
+                ->items([
+                    (new Submit(['ping'], __('Ping search engines'))),
+                ]);
         }
 
         $elements = [];
         foreach ($engines as $key => $value) {
-            $elements[] = (new Para(null, 'tr'))->items([
-                (new Para(null, 'td'))->items([
-                    (new Checkbox('pings[]', in_array($key, $default_pings)))
-                        ->value($key)
-                        ->label((new Label($value['name'], Label::INSIDE_TEXT_AFTER))),
-                ]),
-            ]);
+            $elements[] = (new Tr())
+                ->items([
+                    (new Td())
+                        ->items([
+                            (new Checkbox('pings[]', in_array($key, $default_pings)))
+                                ->value($key)
+                                ->label((new Label($value['name'], Label::INSIDE_TEXT_AFTER))),
+                        ]),
+                ]);
         }
 
         echo (new Div('notifications'))
@@ -295,20 +326,29 @@ class Manage extends Process
             ->title(__('Search engines notification'))
             ->items([
                 (new Text('h3', __('Available search engines')))
-                ->class('out-of-screen-if-js'),
+                    ->class('out-of-screen-if-js'),
                 (new Form('prefs-form'))
-                ->action(App::backend()->getPageURL())
-                ->method('post')
-                ->fields([
-                    (new Para(null, 'table'))->class('maximal')->items([
-                        (new Para(null, 'tbody'))->items($elements),
+                    ->action(App::backend()->getPageURL())
+                    ->method('post')
+                    ->fields([
+                        (new Table())
+                            ->class('maximal')
+                             ->thead((new Thead())
+                                ->items([
+                                    (new Tr())
+                                        ->items([
+                                            (new Th())
+                                                ->scope('col')
+                                                ->text(__('Search engine')),
+                                        ]),
+                                ]))
+                           ->tbody((new Tbody())
+                                ->items($elements)),
+                        (new Para())->items([
+                            ...$actions,
+                            ...My::hiddenFields(),
+                        ]),
                     ]),
-
-                    (new Para())->items([
-                        ...$actions,
-                        ...My::hiddenFields(),
-                    ]),
-                ]),
             ])
             ->render();
 

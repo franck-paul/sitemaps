@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 sitemaps module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-21 12:48+0200\n"
+"POT-Creation-Date: 2025-05-05 14:26+0200\n"
 "PO-Revision-Date: 2020-04-30 08:34\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French\n"
@@ -69,9 +69,6 @@ msgstr ""
 msgid "XML Sitemaps"
 msgstr ""
 
-msgid "Priority"
-msgstr ""
-
 msgid "Configuration"
 msgstr ""
 
@@ -85,6 +82,15 @@ msgid "This blog's Sitemap URL:"
 msgstr ""
 
 msgid "Elements to integrate"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Priority"
+msgstr ""
+
+msgid "Periodicity"
 msgstr ""
 
 msgid "Save preferences"
