@@ -97,8 +97,8 @@ msgstr "Baidu"
 #, php-format
 msgid "Go to <a href=\"%1$s\">%2$s console</a> to register your blog's Sitemap"
 msgstr ""
-"Allez sur <a href=\"%1$s\">la console %2$s</a> pour enregistrer le Sitemap de ce"
-" blog"
+"Allez sur <a href=\"%1$s\">la console %2$s</a> pour enregistrer le Sitemap "
+"de ce blog"
 
 msgid "Search engines notification"
 msgstr "Notification des moteurs de recherche"
