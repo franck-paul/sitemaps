@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 sitemaps module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-05 14:26+0200\n"
+"POT-Creation-Date: 2025-06-22 07:26+0200\n"
 "PO-Revision-Date: 2020-04-30 08:34\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French\n"
@@ -28,21 +28,6 @@ msgid "Posts"
 msgstr ""
 
 msgid "Pages"
-msgstr ""
-
-msgid "New preferences saved"
-msgstr ""
-
-msgid "Response does not seem OK"
-msgstr ""
-
-msgid "success"
-msgstr ""
-
-msgid "Failure"
-msgstr ""
-
-msgid "Ping(s) sent"
 msgstr ""
 
 msgid "undefined"
@@ -93,14 +78,27 @@ msgstr ""
 msgid "Periodicity"
 msgstr ""
 
-msgid "Save preferences"
+msgid "Google"
 msgstr ""
 
-msgid "Ping search engines"
+msgid "MS Bing"
+msgstr ""
+
+msgid "Yandex"
+msgstr ""
+
+msgid "Baidu"
+msgstr ""
+
+#, php-format
+msgid "Go to <a href=\"%1$s\">%2$s console</a> to register your blog's Sitemap"
 msgstr ""
 
 msgid "Search engines notification"
 msgstr ""
 
-msgid "Available search engines"
+msgid "Search engine APIs are no longer available for free, so you must register your blog's sitemap on each of them in their management console. Below are the URLs for the consoles of some search engines."
+msgstr ""
+
+msgid "Console URL"
 msgstr ""

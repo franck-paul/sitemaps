@@ -37,7 +37,6 @@ use Dotclear\Helper\Html\Form\Th;
 use Dotclear\Helper\Html\Form\Thead;
 use Dotclear\Helper\Html\Form\Tr;
 use Dotclear\Helper\Html\Html;
-use Dotclear\Helper\Network\HttpClient;
 use Exception;
 
 class Manage extends Process
@@ -58,8 +57,6 @@ class Manage extends Process
         if (!self::status()) {
             return false;
         }
-
-        $msg = '';
 
         if (!empty($_POST['saveconfig'])) {
             // Save new configuration
@@ -98,58 +95,6 @@ class Manage extends Process
             } catch (Exception $e) {
                 App::error()->add($e->getMessage());
             }
-        } elseif (!empty($_POST['saveprefs'])) {
-            // Save ping preferences
-            try {
-                $settings  = My::settings();
-                $new_prefs = '';
-                if (!empty($_POST['pings'])) {
-                    $new_prefs = implode(',', $_POST['pings']);
-                }
-
-                $settings->put('pings', $new_prefs, 'string');
-
-                Notices::addSuccessNotice(__('New preferences saved'));
-                My::redirect([
-                    'notifications' => 1,
-                ]);
-            } catch (Exception $e) {
-                App::error()->add($e->getMessage());
-            }
-        } elseif (!empty($_POST['ping'])) {
-            // Send ping(s)
-            $settings      = My::settings();
-            $default_pings = explode(',', (string) $settings->pings);
-            $pings         = empty($_POST['pings']) ? $default_pings : $_POST['pings'];
-            $engines       = @unserialize($settings->engines);
-            $sitemap_url   = App::blog()->url() . App::url()->getURLFor('gsitemap');
-            $results       = [];
-            foreach ($pings as $service) {
-                try {
-                    if (!array_key_exists($service, $engines)) {
-                        continue;
-                    }
-
-                    if (false === HttpClient::quickGet($engines[$service]['url'] . '?sitemap=' . urlencode($sitemap_url))) {
-                        throw new Exception(__('Response does not seem OK'));
-                    }
-
-                    $results[] = sprintf('%s : %s', __('success'), $engines[$service]['name']);
-                } catch (Exception $e) {
-                    $results[] = sprintf('%s : %s : %s', __('Failure'), $engines[$service]['name'], $e->getMessage());
-                }
-            }
-
-            $msg = __('Ping(s) sent');
-            $msg .= '<br>' . implode("<br>\n", $results);
-            Notices::addSuccessNotice($msg);
-            My::redirect([
-                'notifications' => 1,
-            ]);
-        }
-
-        if ($msg !== '') {
-            Notices::success($msg);
         }
 
         return true;
@@ -213,9 +158,7 @@ class Manage extends Process
             ${$v . '_fq'}  = $settings->get($v . '_fq');
         }
 
-        $engines       = @unserialize($settings->engines);
-        $default_pings = explode(',', (string) $settings->pings);
-        $sitemap_url   = App::blog()->url() . App::url()->getURLFor('gsitemap');
+        $sitemap_url = App::blog()->url() . App::url()->getURLFor('gsitemap');
 
         // First tab (options)
 
@@ -294,61 +237,59 @@ class Manage extends Process
             ])
             ->render();
 
-        // Second tab (notifications)
+        // Second tab (help on search engines console)
 
-        $actions   = [];
-        $actions[] = (new Para())
-            ->items([
-                (new Submit(['saveprefs'], __('Save preferences')))->accesskey('s'),
-            ]);
-        if ($active) {
-            $actions[] = (new Para())
-                ->items([
-                    (new Submit(['ping'], __('Ping search engines'))),
-                ]);
-        }
+        $elements = function () {
+            $engines = [
+                __('Google')  => 'https://search.google.com/search-console',
+                __('MS Bing') => 'https://www.bing.com/webmasters/sitemaps',
+                __('Yandex')  => 'https://webmaster.yandex.com/site/indexing/sitemap/',
+                __('Baidu')   => 'https://ziyuan.baidu.com/linksubmit/index',
+            ];
+            App::lexical()->lexicalKeySort($engines, App::lexical()::ADMIN_LOCALE);
 
-        $elements = [];
-        foreach ($engines as $key => $value) {
-            $elements[] = (new Tr())
-                ->items([
-                    (new Td())
-                        ->items([
-                            (new Checkbox('pings[]', in_array($key, $default_pings)))
-                                ->value($key)
-                                ->label((new Label($value['name'], Label::INSIDE_TEXT_AFTER))),
-                        ]),
-                ]);
-        }
+            foreach ($engines as $name => $url) {
+                yield (new Tr())
+                    ->items([
+                        (new Td())
+                            ->text($name),
+                        (new Td())
+                            ->text(sprintf(
+                                __('Go to <a href="%1$s">%2$s console</a> to register your blog\'s Sitemap'),
+                                $url,
+                                $name,
+                            )),
+                    ]);
+            }
+        };
 
         echo (new Div('notifications'))
             ->class('multi-part')
             ->title(__('Search engines notification'))
             ->items([
-                (new Text('h3', __('Available search engines')))
-                    ->class('out-of-screen-if-js'),
-                (new Form('prefs-form'))
-                    ->action(App::backend()->getPageURL())
-                    ->method('post')
-                    ->fields([
-                        (new Table())
-                            ->class('maximal')
-                             ->thead((new Thead())
+                (new Note())
+                    ->text(__('Search engine APIs are no longer available for free, so you must register your blog\'s sitemap on each of them in their management console. Below are the URLs for the consoles of some search engines.')),
+                (new Note())
+                    ->class('info')
+                    ->text(__("This blog's Sitemap URL:") . ' <strong>' . $sitemap_url . '</strong>'),
+                (new Table())
+                    ->class('maximal')
+                     ->thead((new Thead())
+                        ->items([
+                            (new Tr())
                                 ->items([
-                                    (new Tr())
-                                        ->items([
-                                            (new Th())
-                                                ->scope('col')
-                                                ->text(__('Search engine')),
-                                        ]),
-                                ]))
-                           ->tbody((new Tbody())
-                                ->items($elements)),
-                        (new Para())->items([
-                            ...$actions,
-                            ...My::hiddenFields(),
-                        ]),
-                    ]),
+                                    (new Th())
+                                        ->scope('col')
+                                        ->text(__('Search engine')),
+                                    (new Th())
+                                        ->scope('col')
+                                        ->text(__('Console URL')),
+                                ]),
+                        ]))
+                   ->tbody((new Tbody())
+                        ->items([
+                            ...$elements(),
+                        ])),
             ])
             ->render();
 

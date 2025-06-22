@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief sitemaps, a plugin for Dotclear 2
  *
@@ -38,7 +39,7 @@ class Install extends Process
             if (version_compare((string) $old_version, '3.0', '<')) {
                 // Rename old settings
                 // Change settings names (remove sitemaps_ prefix in them)
-                $rename = static function (string $name, BlogWorkspaceInterface $settings) : void {
+                $rename = static function (string $name, BlogWorkspaceInterface $settings): void {
                     if ($settings->settingExists('sitemaps_' . $name, true)) {
                         $settings->rename('sitemaps_' . $name, $name);
                     }
@@ -55,6 +56,14 @@ class Install extends Process
                 ] as $name) {
                     $rename($name, $settings);
                 }
+            }
+            if (version_compare((string) $old_version, '8.0', '<')) {
+                $settings = My::settings();
+                // Remove engine settings (global only);
+                $settings->dropEvery('engines', true);
+                // Remove pings settings
+                $settings->dropEvery('pings');
+                $settings->dropEvery('pings', true);
             }
 
             // Init
@@ -86,40 +95,6 @@ class Install extends Process
             $settings->put('tags_url', true, App::blogWorkspace()::NS_BOOL, '', false, true);
             $settings->put('tags_pr', 0.6, App::blogWorkspace()::NS_DOUBLE, '', false, true);
             $settings->put('tags_fq', 4, App::blogWorkspace()::NS_INT, '', false, true);
-
-            // Search engines notification
-            // Services endpoints
-            $search_engines = [
-                'google' => [
-                    'name' => 'Google',
-                    'url'  => 'https://www.google.com/webmasters/tools/ping',
-                ],
-                'bing' => [
-                    'name' => 'MS Bing',
-                    'url'  => 'https://www.bing.com/webmaster/ping.aspx',
-                ],
-            ];
-            $settings->put('engines', @serialize($search_engines), App::blogWorkspace()::NS_STRING, '', false, true);  // Force update
-
-            // Preferences
-            $settings->put('pings', 'google', App::blogWorkspace()::NS_STRING, '', false, true);
-
-            // Remove yahoo and mslive search engines from current blog settings
-            $pings   = explode(',', (string) $settings->pings);
-            $removed = false;
-            if ($k = array_search('yahoo', $pings, true)) {
-                unset($pings[$k]);
-                $removed = true;
-            }
-
-            if ($k = array_search('mslive', $pings, true)) {
-                unset($pings[$k]);
-                $removed = true;
-            }
-
-            if ($removed) {
-                $settings->put('pings', implode(',', $pings), App::blogWorkspace()::NS_STRING, '', true, false);
-            }
         } catch (Exception $exception) {
             App::error()->add($exception->getMessage());
         }
