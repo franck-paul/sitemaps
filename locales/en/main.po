@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 sitemaps module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-22 07:26+0200\n"
+"POT-Creation-Date: 2025-06-24 10:09+0200\n"
 "PO-Revision-Date: 2020-04-30 08:34\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: French\n"
@@ -81,6 +81,9 @@ msgstr ""
 msgid "Google"
 msgstr ""
 
+msgid "Will also use the robots.txt file from your server"
+msgstr ""
+
 msgid "MS Bing"
 msgstr ""
 
@@ -90,15 +93,52 @@ msgstr ""
 msgid "Baidu"
 msgstr ""
 
+msgid "DuckDuckGo"
+msgstr ""
+
+msgid "Use the robots.txt file from your server"
+msgstr ""
+
+msgid "Qwant"
+msgstr ""
+
+msgid "No console nor using robots.txt file"
+msgstr ""
+
+msgid "Yahoo Search"
+msgstr ""
+
+msgid "Relies on MS Bing’s search results"
+msgstr ""
+
+msgid "Ecosia"
+msgstr ""
+
+msgid "Relies on Google and MS Bing’s search results"
+msgstr ""
+
+msgid "Startpage"
+msgstr ""
+
+msgid "Relies on Google’s search results"
+msgstr ""
+
 #, php-format
-msgid "Go to <a href=\"%1$s\">%2$s console</a> to register your blog's Sitemap"
+msgid "<a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">%s console</a>"
 msgstr ""
 
 msgid "Search engines notification"
 msgstr ""
 
-msgid "Search engine APIs are no longer available for free, so you must register your blog's sitemap on each of them in their management console. Below are the URLs for the consoles of some search engines."
+msgid "Search engine APIs are no longer available for free, so you must register your blog’s sitemap on each of them in their management console. Below are the URLs for the consoles of some search engines."
 msgstr ""
 
-msgid "Console URL"
+msgid "Console URL to register your sitemap"
+msgstr ""
+
+msgid "Note"
+msgstr ""
+
+#, php-format
+msgid "If possible, you can also add a new line to your server’s robots.txt file with <code>Sitemap: %s</code>.<br> Note that you may have multiple lines, one for each blog you have. Some of search engines will use this file for their indexing process."
 msgstr ""

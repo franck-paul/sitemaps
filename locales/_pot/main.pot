@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 sitemaps module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-22 07:26+0200\n"
+"POT-Creation-Date: 2025-06-24 10:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../git-plugins/sitemaps/src/Backend.php:27
@@ -90,7 +90,7 @@ msgid "Enable sitemaps"
 msgstr ""
 
 #: ../git-plugins/sitemaps/src/Manage.php:210
-#: ../git-plugins/sitemaps/src/Manage.php:274
+#: ../git-plugins/sitemaps/src/Manage.php:311
 msgid "This blog's Sitemap URL:"
 msgstr ""
 
@@ -114,31 +114,84 @@ msgstr ""
 msgid "Google"
 msgstr ""
 
-#: ../git-plugins/sitemaps/src/Manage.php:245
+#: ../git-plugins/sitemaps/src/Manage.php:247
+msgid "Will also use the robots.txt file from your server"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:249
 msgid "MS Bing"
 msgstr ""
 
-#: ../git-plugins/sitemaps/src/Manage.php:246
+#: ../git-plugins/sitemaps/src/Manage.php:253
 msgid "Yandex"
 msgstr ""
 
-#: ../git-plugins/sitemaps/src/Manage.php:247
+#: ../git-plugins/sitemaps/src/Manage.php:257
 msgid "Baidu"
 msgstr ""
 
-#: ../git-plugins/sitemaps/src/Manage.php:258
-#, php-format
-msgid "Go to <a href=\"%1$s\">%2$s console</a> to register your blog's Sitemap"
+#: ../git-plugins/sitemaps/src/Manage.php:261
+msgid "DuckDuckGo"
 msgstr ""
 
-#: ../git-plugins/sitemaps/src/Manage.php:268
-msgid "Search engines notification"
+#: ../git-plugins/sitemaps/src/Manage.php:263
+msgid "Use the robots.txt file from your server"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:265
+msgid "Qwant"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:267
+msgid "No console nor using robots.txt file"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:269
+msgid "Yahoo Search"
 msgstr ""
 
 #: ../git-plugins/sitemaps/src/Manage.php:271
-msgid "Search engine APIs are no longer available for free, so you must register your blog's sitemap on each of them in their management console. Below are the URLs for the consoles of some search engines."
+msgid "Relies on MS Bing’s search results"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:273
+msgid "Ecosia"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:275
+msgid "Relies on Google and MS Bing’s search results"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:277
+msgid "Startpage"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:279
+msgid "Relies on Google’s search results"
 msgstr ""
 
 #: ../git-plugins/sitemaps/src/Manage.php:286
-msgid "Console URL"
+#, php-format
+msgid "<a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">%s console</a>"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:305
+msgid "Search engines notification"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:308
+msgid "Search engine APIs are no longer available for free, so you must register your blog’s sitemap on each of them in their management console. Below are the URLs for the consoles of some search engines."
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:323
+msgid "Console URL to register your sitemap"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:326
+msgid "Note"
+msgstr ""
+
+#: ../git-plugins/sitemaps/src/Manage.php:335
+#, php-format
+msgid "If possible, you can also add a new line to your server’s robots.txt file with <code>Sitemap: %s</code>.<br> Note that you may have multiple lines, one for each blog you have. Some of search engines will use this file for their indexing process."
 msgstr ""

@@ -241,24 +241,61 @@ class Manage extends Process
 
         $elements = function () {
             $engines = [
-                __('Google')  => 'https://search.google.com/search-console',
-                __('MS Bing') => 'https://www.bing.com/webmasters/sitemaps',
-                __('Yandex')  => 'https://webmaster.yandex.com/site/indexing/sitemap/',
-                __('Baidu')   => 'https://ziyuan.baidu.com/linksubmit/index',
+                __('Google') => [
+                    'console' => true,
+                    'url'     => 'https://search.google.com/search-console',
+                    'note'    => __('Will also use the robots.txt file from your server'),
+                ],
+                __('MS Bing') => [
+                    'console' => true,
+                    'url'     => 'https://www.bing.com/webmasters/sitemaps',
+                ],
+                __('Yandex') => [
+                    'console' => true,
+                    'url'     => 'https://webmaster.yandex.com/site/indexing/sitemap/',
+                ],
+                __('Baidu') => [
+                    'console' => true,
+                    'url'     => 'https://ziyuan.baidu.com/linksubmit/index',
+                ],
+                __('DuckDuckGo') => [
+                    'console' => false,
+                    'note'    => __('Use the robots.txt file from your server'),
+                ],
+                __('Qwant') => [
+                    'console' => false,
+                    'note'    => __('No console nor using robots.txt file'),
+                ],
+                __('Yahoo Search') => [
+                    'console' => false,
+                    'note'    => __('Relies on MS Bing’s search results'),
+                ],
+                __('Ecosia') => [
+                    'console' => false,
+                    'note'    => __('Relies on Google and MS Bing’s search results'),
+                ],
+                __('Startpage') => [
+                    'console' => false,
+                    'note'    => __('Relies on Google’s search results'),
+                ],
             ];
             App::lexical()->lexicalKeySort($engines, App::lexical()::ADMIN_LOCALE);
 
             foreach ($engines as $name => $url) {
+                $info = $url['console'] ? sprintf(
+                    __('<a href="%s" target="_blank" rel="noopener noreferrer">%s console</a>'),
+                    $url['url'],
+                    $name,
+                ) : '';
+                $note = isset($url['note']) ? '<em>' . $url['note'] . '</em>' : '';
                 yield (new Tr())
                     ->items([
                         (new Td())
                             ->text($name),
                         (new Td())
-                            ->text(sprintf(
-                                __('Go to <a href="%1$s">%2$s console</a> to register your blog\'s Sitemap'),
-                                $url,
-                                $name,
-                            )),
+                            ->text($info),
+                        (new Td())
+                            ->text($note),
                     ]);
             }
         };
@@ -268,7 +305,7 @@ class Manage extends Process
             ->title(__('Search engines notification'))
             ->items([
                 (new Note())
-                    ->text(__('Search engine APIs are no longer available for free, so you must register your blog\'s sitemap on each of them in their management console. Below are the URLs for the consoles of some search engines.')),
+                    ->text(__('Search engine APIs are no longer available for free, so you must register your blog’s sitemap on each of them in their management console. Below are the URLs for the consoles of some search engines.')),
                 (new Note())
                     ->class('info')
                     ->text(__("This blog's Sitemap URL:") . ' <strong>' . $sitemap_url . '</strong>'),
@@ -283,13 +320,19 @@ class Manage extends Process
                                         ->text(__('Search engine')),
                                     (new Th())
                                         ->scope('col')
-                                        ->text(__('Console URL')),
+                                        ->text(__('Console URL to register your sitemap')),
+                                    (new Th())
+                                        ->scope('col')
+                                        ->text(__('Note')),
                                 ]),
                         ]))
                    ->tbody((new Tbody())
                         ->items([
                             ...$elements(),
                         ])),
+                (new Note())
+                    ->class('info')
+                    ->text(sprintf(__('If possible, you can also add a new line to your server’s robots.txt file with <code>Sitemap: %s</code>.<br> Note that you may have multiple lines, one for each blog you have. Some of search engines will use this file for their indexing process.'), $sitemap_url)),
             ])
             ->render();
 
