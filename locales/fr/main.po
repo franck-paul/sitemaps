@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 sitemaps module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-22 07:26+0200\n"
+"POT-Creation-Date: 2025-06-24 10:09+0200\n"
 "PO-Revision-Date: 2023-05-21 10:55+0000\n"
 "Last-Translator: Franck Paul <carnet.franck.paul@gmail.com>, 2025\n"
 "Language-Team: French (https://app.transifex.com/open-time/teams/109573/fr/)\n"
@@ -85,6 +85,9 @@ msgstr "Périodicité"
 msgid "Google"
 msgstr "Google"
 
+msgid "Will also use the robots.txt file from your server"
+msgstr "Il utilisera également le fichier robots.txt de votre serveur."
+
 msgid "MS Bing"
 msgstr "MS Bing"
 
@@ -94,18 +97,46 @@ msgstr "Yandex"
 msgid "Baidu"
 msgstr "Baidu"
 
+msgid "DuckDuckGo"
+msgstr "DuckDuckGo"
+
+msgid "Use the robots.txt file from your server"
+msgstr "Utilisez le fichier robots.txt de votre serveur"
+
+msgid "Qwant"
+msgstr "Qwant"
+
+msgid "No console nor using robots.txt file"
+msgstr "Pas de console ni de fichier robots.txt"
+
+msgid "Yahoo Search"
+msgstr "Yahoo Search"
+
+msgid "Relies on MS Bing’s search results"
+msgstr "S'appuie sur les résultats de recherche de MS Bing"
+
+msgid "Ecosia"
+msgstr "Ecosia"
+
+msgid "Relies on Google and MS Bing’s search results"
+msgstr "S'appuie sur les résultats de recherche de Google et de MS Bing"
+
+msgid "Startpage"
+msgstr "Startpage"
+
+msgid "Relies on Google’s search results"
+msgstr "S'appuie sur les résultats de recherche de Google"
+
 #, php-format
-msgid "Go to <a href=\"%1$s\">%2$s console</a> to register your blog's Sitemap"
-msgstr ""
-"Allez sur <a href=\"%1$s\">la console %2$s</a> pour enregistrer le Sitemap "
-"de ce blog"
+msgid "<a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">%s console</a>"
+msgstr "<a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">Console %s</a>"
 
 msgid "Search engines notification"
 msgstr "Notification des moteurs de recherche"
 
 msgid ""
 "Search engine APIs are no longer available for free, so you must register "
-"your blog's sitemap on each of them in their management console. Below are "
+"your blog’s sitemap on each of them in their management console. Below are "
 "the URLs for the consoles of some search engines."
 msgstr ""
 "Les API des moteurs de recherche ne sont plus disponibles gratuitement, vous"
@@ -113,5 +144,21 @@ msgstr ""
 " leur console de gestion. Vous trouverez ci-dessous les URL des consoles de "
 "certains moteurs de recherche."
 
-msgid "Console URL"
-msgstr "URL de la console"
+msgid "Console URL to register your sitemap"
+msgstr "URL de la console pour enregistrer votre sitemap"
+
+msgid "Note"
+msgstr "Note"
+
+#, php-format
+msgid ""
+"If possible, you can also add a new line to your server’s robots.txt file "
+"with <code>Sitemap: %s</code>.<br> Note that you may have multiple lines, "
+"one for each blog you have. Some of search engines will use this file for "
+"their indexing process."
+msgstr ""
+"Si possible, vous pouvez également ajouter une nouvelle ligne au fichier "
+"robots.txt de votre serveur avec <code>Sitemap:</code> <code>%s</code>.<br> "
+"Notez que vous pouvez avoir plusieurs lignes, une pour chaque blog que vous "
+"avez. Certains moteurs de recherche utiliseront ce fichier pour leur "
+"processus d'indexation."
