@@ -183,7 +183,7 @@ class Manage extends Process
                     (new Td())
                         ->items([
                             (new Select($value . '_fq'))
-                                ->items($periods)   // @phpstan-ignore-line
+                                ->items($periods)
                                 ->default((string) ${$value . '_fq'}),
                         ]),
                 ]);
