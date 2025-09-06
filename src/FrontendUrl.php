@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @brief sitemaps, a plugin for Dotclear 2
  *
@@ -15,7 +16,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\sitemaps;
 
 use Dotclear\App;
-use Dotclear\Core\Frontend\Url;
+use Dotclear\Core\Url;
 use Dotclear\Database\MetaRecord;
 use Dotclear\Helper\Network\Http;
 
