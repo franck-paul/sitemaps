@@ -25,6 +25,7 @@ use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
 use Dotclear\Helper\Html\Form\Label;
 use Dotclear\Helper\Html\Form\Note;
+use Dotclear\Helper\Html\Form\Option;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Select;
 use Dotclear\Helper\Html\Form\Submit;
@@ -114,13 +115,13 @@ class Manage
         $settings = My::settings();
 
         $periods = [
-            __('undefined') => 0,
-            __('always')    => 1,
-            __('hourly')    => 2,
-            __('daily')     => 3,
-            __('weekly')    => 4,
-            __('monthly')   => 5,
-            __('never')     => 6,
+            new Option(__('undefined'), '0'),
+            new Option(__('always'), '1'),
+            new Option(__('hourly'), '2'),
+            new Option(__('daily'), '3'),
+            new Option(__('weekly'), '4'),
+            new Option(__('monthly'), '5'),
+            new Option(__('never'), '6'),
         ];
 
         $map_parts = new ArrayObject([
