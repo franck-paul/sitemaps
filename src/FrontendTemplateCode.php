@@ -53,7 +53,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->sitemap_urls->loc,
             $_params_,
             $_tag_
@@ -69,7 +69,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->sitemap_urls->frequency,
             $_params_,
             $_tag_
@@ -85,7 +85,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->sitemap_urls->priority,
             $_params_,
             $_tag_
@@ -101,7 +101,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             App::frontend()->context()->sitemap_urls->lastmod,
             $_params_,
             $_tag_
