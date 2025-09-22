@@ -17,8 +17,6 @@ namespace Dotclear\Plugin\sitemaps;
 
 use ArrayObject;
 use Dotclear\App;
-use Dotclear\Core\Backend\Notices;
-use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Form\Checkbox;
 use Dotclear\Helper\Html\Form\Decimal;
 use Dotclear\Helper\Html\Form\Div;
@@ -93,7 +91,7 @@ class Manage
                 }
 
                 App::blog()->triggerBlog();
-                Notices::addSuccessNotice(__('Configuration successfully updated.'));
+                App::backend()->notices()->addSuccessNotice(__('Configuration successfully updated.'));
                 My::redirect();
             } catch (Exception $e) {
                 App::error()->add($e->getMessage());
@@ -141,17 +139,17 @@ class Manage
             $default_tab = 'notifications';
         }
 
-        $head = Page::jsPageTabs($default_tab);
+        $head = App::backend()->page()->jsPageTabs($default_tab);
 
-        Page::openModule(My::name(), $head);
+        App::backend()->page()->openModule(My::name(), $head);
 
-        echo Page::breadcrumb(
+        echo App::backend()->page()->breadcrumb(
             [
                 Html::escapeHTML(App::blog()->name()) => '',
                 __('XML Sitemaps')                    => '',
             ]
         );
-        echo Notices::getNotices();
+        echo App::backend()->notices()->getNotices();
 
         $active = $settings->active;
 
@@ -339,7 +337,7 @@ class Manage
             ])
             ->render();
 
-        Page::helpBlock('sitemaps');
-        Page::closeModule();
+        App::backend()->page()->helpBlock('sitemaps');
+        App::backend()->page()->closeModule();
     }
 }
