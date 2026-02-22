@@ -25,7 +25,7 @@ $this->registerModule(
         'permissions' => 'My',
         'type'        => 'plugin',
 
-        'details'    => 'https://plugins.dotaddict.org/dc2/details/sitemaps',
+        'details'    => 'https://dotclear.org/plugin/detail/sitemaps',
         'support'    => 'https://github.com/franck-paul/sitemaps',
         'repository' => 'https://raw.githubusercontent.com/franck-paul/sitemaps/main/dcstore.xml',
         'license'    => 'gpl2',
