@@ -80,14 +80,14 @@ class Manage
 
                 $settings->put('active', $active, 'boolean');
 
-                foreach ($map_parts as $v) {
-                    ${$v . '_url'} = !empty($_POST[$v . '_url']);
-                    ${$v . '_pr'}  = min(abs((float) $_POST[$v . '_pr']), 1);
-                    ${$v . '_fq'}  = min(abs((int) $_POST[$v . '_fq']), 6);
+                foreach ($map_parts as $map_part) {
+                    ${$map_part . '_url'} = !empty($_POST[$map_part . '_url']);
+                    ${$map_part . '_pr'}  = min(abs((float) $_POST[$map_part . '_pr']), 1);
+                    ${$map_part . '_fq'}  = min(abs((int) $_POST[$map_part . '_fq']), 6);
 
-                    $settings->put($v . '_url', ${$v . '_url'}, App::blogWorkspace()::NS_BOOL);
-                    $settings->put($v . '_pr', ${$v . '_pr'}, App::blogWorkspace()::NS_DOUBLE);
-                    $settings->put($v . '_fq', ${$v . '_fq'}, App::blogWorkspace()::NS_INT);
+                    $settings->put($map_part . '_url', ${$map_part . '_url'}, App::blogWorkspace()::NS_BOOL);
+                    $settings->put($map_part . '_pr', ${$map_part . '_pr'}, App::blogWorkspace()::NS_DOUBLE);
+                    $settings->put($map_part . '_fq', ${$map_part . '_fq'}, App::blogWorkspace()::NS_INT);
                 }
 
                 App::blog()->triggerBlog();
