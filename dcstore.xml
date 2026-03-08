@@ -1,11 +1,11 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="sitemaps">
     <name>Sitemaps</name>
-    <version>9.4</version>
+    <version>9.5</version>
     <author>Pep and contributors</author>
     <desc>Add XML Sitemaps</desc>
-    <date>2025-09-22T10:25:56+0200</date>
-    <file>https://github.com/franck-paul/sitemaps/releases/download/9.4/plugin-sitemaps-9.4.zip</file>
+    <date>2026-03-08T12:14:50+0100</date>
+    <file>https://github.com/franck-paul/sitemaps/releases/download/9.5/plugin-sitemaps-9.5.zip</file>
     <da:dcmin>2.36</da:dcmin>
     <da:details>https://dotclear.org/plugin/detail/sitemaps</da:details>
     <da:support>https://github.com/franck-paul/sitemaps</da:support>
