@@ -17,6 +17,7 @@ namespace Dotclear\Plugin\sitemaps;
 
 use Dotclear\App;
 use Dotclear\Core\Backend\Favorites;
+use Dotclear\Core\Backend\Menus;
 use Dotclear\Helper\Process\TraitProcess;
 
 class Backend
@@ -38,7 +39,7 @@ class Backend
             return false;
         }
 
-        My::addBackendMenuItem(App::backend()->menus()::MENU_BLOG);
+        My::addBackendMenuItem(Menus::MENU_BLOG);
 
         App::behavior()->addBehavior('adminDashboardFavoritesV2', static function (Favorites $favs): string {
             $favs->register('sitemaps', [

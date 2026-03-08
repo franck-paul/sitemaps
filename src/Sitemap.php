@@ -27,7 +27,7 @@ class Sitemap
     protected BlogInterface $blog;
 
     /**
-     * @var array<int, array<string, mixed>>
+     * @var array<int, array{loc: string, priority: string, frequency: ?string, lastmod: ?string}>
      */
     protected array $urls = [];
 
@@ -37,7 +37,7 @@ class Sitemap
     protected array $freqs = ['', 'always', 'hourly', 'daily', 'weekly', 'monthly', 'never'];
 
     /**
-     * @var array<string, array<string, mixed>>
+     * @var array<string, array{base_url: string, frequency: string, priority: string}>
      */
     protected array $post_types = [];
 
@@ -48,22 +48,25 @@ class Sitemap
 
     public function __construct()
     {
-        $this->blog = App::blog();
-
         $this->settings = My::settings();
 
         // Default post types
+        $posts_fq = is_numeric($posts_fq = $this->settings->posts_fq) ? (int) $posts_fq : 0;
+        $posts_pr = is_numeric($posts_pr = $this->settings->posts_pr) ? (float) $posts_pr : 0.3;
         $this->addPostType(
             'post',
             'post',
-            $this->settings->posts_fq,
-            $this->settings->posts_pr
+            $posts_fq,
+            $posts_pr
         );
+
+        $pages_fq = is_numeric($pages_fq = $this->settings->pages_fq) ? (int) $pages_fq : 0;
+        $pages_pr = is_numeric($pages_pr = $this->settings->pages_pr) ? (float) $pages_pr : 0.3;
         $this->addPostType(
             'page',
             'pages',
-            $this->settings->pages_fq,
-            $this->settings->pages_pr
+            $pages_fq,
+            $pages_pr
         );
     }
 
@@ -84,9 +87,11 @@ class Sitemap
     public function addPostType(string $type, string $base_url, int $freq = 0, float $priority = 0.3): bool
     {
         if (preg_match('!^([a-z_-]+)$!', $type)) {
-            $this->post_types[$type]['base_url']  = $base_url;
-            $this->post_types[$type]['frequency'] = $this->getFrequency($freq);
-            $this->post_types[$type]['priority']  = $this->getPriority($priority);
+            $this->post_types[$type] = [
+                'base_url'  => $base_url,
+                'frequency' => $this->getFrequency($freq),
+                'priority'  => $this->getPriority($priority),
+            ];
 
             return true;
         }
@@ -135,15 +140,15 @@ class Sitemap
                 'p.post_upddt',
                 $sql->as($sql->max('c.comment_upddt'), 'comments_dt'),
             ])
-            ->from($sql->as($this->blog->prefix . App::blog()::POST_TABLE_NAME, 'p'))
+            ->from($sql->as(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME, 'p'))
             ->join(
                 (new JoinStatement())
                     ->left()
-                    ->from($sql->as($this->blog->prefix . App::blog()::COMMENT_TABLE_NAME, 'c'))
+                    ->from($sql->as(App::db()->con()->prefix() . App::blog()::COMMENT_TABLE_NAME, 'c'))
                     ->on('c.post_id = p.post_id')
                     ->statement()
             )
-            ->where('p.blog_id = ' . $sql->quote($this->blog->id))
+            ->where('p.blog_id = ' . $sql->quote(App::blog()->id()))
             ->and('p.post_type = ' . $sql->quote($type))
             ->and('p.post_status = ' . App::status()->post()::PUBLISHED)
             ->and($sql->isNull('p.post_password'))
@@ -160,15 +165,16 @@ class Sitemap
 
         if ($rs) {
             while ($rs->fetch()) {
-                if ($rs->comments_dt !== null) {
-                    $last_ts = max(strtotime((string) $rs->post_upddt), strtotime($rs->comments_dt));
-                } else {
-                    $last_ts = strtotime((string) $rs->post_upddt);
+                $post_upddt  = is_string($post_upddt = $rs->post_upddt) ? $post_upddt : 'now';
+                $comments_dt = is_string($comments_dt = $rs->comments_dt) ? $comments_dt : null;
+                $last_ts     = $comments_dt !== null ? max(strtotime($post_upddt), strtotime($comments_dt)) : strtotime($post_upddt);
+                $post_url    = is_string($post_url = $rs->post_url) ? $post_url : '';
+                if ($last_ts !== false && $post_upddt !== '') {
+                    $post_tz = is_string($post_tz = $rs->post_tz) ? $post_tz : 'UTC';
+                    $last_dt = Date::iso8601($last_ts, $post_tz);
+                    $url     = App::blog()->url() . App::url()->getURLFor($base_url, Html::sanitizeURL($post_url));
+                    $this->addEntry($url, $prio, $freq, $last_dt);
                 }
-
-                $last_dt = Date::iso8601((int) $last_ts, $rs->post_tz);
-                $url     = $this->blog->url . App::url()->getURLFor($base_url, Html::sanitizeURL($rs->post_url));
-                $this->addEntry($url, $prio, $freq, $last_dt);
             }
         }
     }
@@ -177,24 +183,28 @@ class Sitemap
     {
         // Homepage URL
         if ($this->settings->home_url) {
-            $freq = $this->getFrequency((int) $this->settings->home_fq);
-            $prio = $this->getPriority($this->settings->home_pr);
+            $fq   = is_numeric($fq = $this->settings->home_fq) ? (int) $fq : 0;
+            $pr   = is_numeric($pr = $this->settings->home_pr) ? (float) $pr : 0;
+            $freq = $this->getFrequency($fq);
+            $prio = $this->getPriority($pr);
 
-            $this->addEntry($this->blog->url, $prio, $freq);
+            $this->addEntry(App::blog()->url(), $prio, $freq);
         }
 
         // Main syndication feeds URLs
         if ($this->settings->feeds_url) {
-            $freq = $this->getFrequency((int) $this->settings->feeds_fq);
-            $prio = $this->getPriority($this->settings->feeds_pr);
+            $fq   = is_numeric($fq = $this->settings->feeds_fq) ? (int) $fq : 0;
+            $pr   = is_numeric($pr = $this->settings->feeds_pr) ? (float) $pr : 0;
+            $freq = $this->getFrequency($fq);
+            $prio = $this->getPriority($pr);
 
             $this->addEntry(
-                $this->blog->url . App::url()->getURLFor('feed', 'rss2'),
+                App::blog()->url() . App::url()->getURLFor('feed', 'rss2'),
                 $prio,
                 $freq
             );
             $this->addEntry(
-                $this->blog->url . App::url()->getURLFor('feed', 'atom'),
+                App::blog()->url() . App::url()->getURLFor('feed', 'atom'),
                 $prio,
                 $freq
             );
@@ -212,13 +222,16 @@ class Sitemap
 
         // Categories URLs
         if ($this->settings->cats_url) {
-            $freq = $this->getFrequency($this->settings->cats_fq);
-            $prio = $this->getPriority($this->settings->cats_pr);
+            $fq   = is_numeric($fq = $this->settings->cats_fq) ? (int) $fq : 0;
+            $pr   = is_numeric($pr = $this->settings->cats_pr) ? (float) $pr : 0;
+            $freq = $this->getFrequency($fq);
+            $prio = $this->getPriority($pr);
 
-            $cats = $this->blog->getCategories(['post_type' => 'post']);
+            $cats = App::blog()->getCategories(['post_type' => 'post']);
             while ($cats->fetch()) {
+                $cat_url = is_string($cat_url = $cats->cat_url) ? $cat_url : '';
                 $this->addEntry(
-                    $this->blog->url . App::url()->getURLFor('category', $cats->cat_url),
+                    App::blog()->url() . App::url()->getURLFor('category', $cat_url),
                     $prio,
                     $freq
                 );
@@ -226,15 +239,18 @@ class Sitemap
         }
 
         if (App::plugins()->moduleExists('tags') && $this->settings->tags_url) {
-            $freq = $this->getFrequency($this->settings->tags_fq);
-            $prio = $this->getPriority($this->settings->tags_pr);
+            $fq   = is_numeric($fq = $this->settings->tags_fq) ? (int) $fq : 0;
+            $pr   = is_numeric($pr = $this->settings->tags_pr) ? (float) $pr : 0;
+            $freq = $this->getFrequency($fq);
+            $prio = $this->getPriority($pr);
 
             $meta = App::meta();
             $tags = $meta->getMetadata(['meta_type' => 'tag']);
             $tags = $meta->computeMetaStats($tags);
             while ($tags->fetch()) {
+                $meta_id = is_string($meta_id = $tags->meta_id) ? $meta_id : '';
                 $this->addEntry(
-                    $this->blog->url . App::url()->getURLFor('tag', rawurlencode((string) $tags->meta_id)),
+                    App::blog()->url() . App::url()->getURLFor('tag', rawurlencode($meta_id)),
                     $prio,
                     $freq
                 );

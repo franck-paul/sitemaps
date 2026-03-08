@@ -81,9 +81,12 @@ class Manage
                 $settings->put('active', $active, 'boolean');
 
                 foreach ($map_parts as $map_part) {
+                    $pr = is_numeric($pr = $_POST[$map_part . '_pr'] ?? 0) ? (float) $pr : 0;
+                    $fq = is_numeric($fq = $_POST[$map_part . '_fq'] ?? 0) ? (int) $fq : 0;
+
                     ${$map_part . '_url'} = !empty($_POST[$map_part . '_url']);
-                    ${$map_part . '_pr'}  = min(abs((float) $_POST[$map_part . '_pr']), 1);
-                    ${$map_part . '_fq'}  = min(abs((int) $_POST[$map_part . '_fq']), 6);
+                    ${$map_part . '_pr'}  = min(abs($pr), 1);
+                    ${$map_part . '_fq'}  = min(abs($fq), 6);
 
                     $settings->put($map_part . '_url', ${$map_part . '_url'}, App::blogWorkspace()::NS_BOOL);
                     $settings->put($map_part . '_pr', ${$map_part . '_pr'}, App::blogWorkspace()::NS_DOUBLE);
@@ -151,13 +154,7 @@ class Manage
         );
         echo App::backend()->notices()->getNotices();
 
-        $active = $settings->active;
-
-        foreach ($map_parts as $v) {
-            ${$v . '_url'} = $settings->get($v . '_url');
-            ${$v . '_pr'}  = $settings->get($v . '_pr');
-            ${$v . '_fq'}  = $settings->get($v . '_fq');
-        }
+        $active = is_bool($active = $settings->active) && $active;
 
         $sitemap_url = App::blog()->url() . App::url()->getURLFor('gsitemap');
 
@@ -165,18 +162,22 @@ class Manage
 
         $lines = [];
         foreach ($map_parts as $key => $value) {
+            $url = is_bool($url = $settings->get($value . '_url')) && $url;
+            $pr  = is_numeric($pr = $settings->get($value . '_pr')) ? (float) $pr : 0;
+            $fq  = is_numeric($fq = $settings->get($value . '_fq')) ? (int) $fq : 0;
+
             $lines[] = (new Tr())
                 ->items([
                     (new Td())
                         ->items([
-                            (new Checkbox($value . '_url', ${$value . '_url'}))
+                            (new Checkbox($value . '_url', $url))
                                 ->value(1)
                                 ->label((new Label($key, Label::INSIDE_TEXT_AFTER))),
                         ]),
                     (new Td())
                         ->items([
                             (new Decimal($value . '_pr'))
-                                ->value((float) ${$value . '_pr'})
+                                ->value((float) $pr)
                                 ->size(4)
                                 ->maxlength(4)
                                 ->step('0.1'),
@@ -185,7 +186,7 @@ class Manage
                         ->items([
                             (new Select($value . '_fq'))
                                 ->items($periods)
-                                ->default((string) ${$value . '_fq'}),
+                                ->default((string) $fq),
                         ]),
                 ]);
         }
@@ -241,6 +242,9 @@ class Manage
         // Second tab (help on search engines console)
 
         $elements = function () {
+            /**
+             * @var array<string, array{console: bool, url?: string, note?: string}> $engines
+             */
             $engines = [
                 __('Google') => [
                     'console' => true,
@@ -283,12 +287,16 @@ class Manage
             App::lexical()->lexicalKeySort($engines, App::lexical()::ADMIN_LOCALE);
 
             foreach ($engines as $name => $url) {
-                $info = $url['console'] ? sprintf(
+                /**
+                 * @var array{console: bool, url?: string, note?: string} $data
+                 */
+                $data = $url;
+                $info = $data['console'] && isset($data['url']) ? sprintf(
                     __('<a href="%s" target="_blank" rel="noopener noreferrer">%s console</a>'),
-                    $url['url'],
+                    $data['url'],
                     $name,
                 ) : '';
-                $note = isset($url['note']) ? '<em>' . $url['note'] . '</em>' : '';
+                $note = isset($data['note']) ? '<em>' . $data['note'] . '</em>' : '';
                 yield (new Tr())
                     ->items([
                         (new Td())

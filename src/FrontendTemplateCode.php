@@ -25,7 +25,7 @@ class FrontendTemplateCode
     public static function SitemapEntries(
         string $_content_HTML,
     ): void {
-        if (App::frontend()->context()->exists('sitemap_urls')) :
+        if (App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord) :
             while (App::frontend()->context()->sitemap_urls->fetch()) : ?>
                 $_content_HTML
             <?php endwhile;
@@ -53,11 +53,13 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
+        $sitemaps_loc = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord && is_string($sitemaps_loc = App::frontend()->context()->sitemap_urls->loc) ? $sitemaps_loc : '';
         echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->sitemap_urls->loc,
+            $sitemaps_loc,
             $_params_,
             $_tag_
         );
+        unset($sitemaps_loc);
     }
 
     /**
@@ -69,11 +71,13 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
+        $sitemaps_fq = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord && is_string($sitemaps_fq = App::frontend()->context()->sitemap_urls->frequency) ? $sitemaps_fq : '';
         echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->sitemap_urls->frequency,
+            $sitemaps_fq,
             $_params_,
             $_tag_
         );
+        unset($sitemaps_fq);
     }
 
     /**
@@ -85,11 +89,13 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
+        $sitemaps_pr = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord && is_string($sitemaps_pr = App::frontend()->context()->sitemap_urls->priority) ? $sitemaps_pr : '';
         echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->sitemap_urls->priority,
+            $sitemaps_pr,
             $_params_,
             $_tag_
         );
+        unset($sitemaps_pr);
     }
 
     /**
@@ -101,10 +107,12 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
+        $sitemaps_lastmod = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord && is_string($sitemaps_lastmod = App::frontend()->context()->sitemap_urls->lastmod) ? $sitemaps_lastmod : '';
         echo App::frontend()->context()::global_filters(
-            App::frontend()->context()->sitemap_urls->lastmod,
+            $sitemaps_lastmod,
             $_params_,
             $_tag_
         );
+        unset($sitemaps_lastmod);
     }
 }
