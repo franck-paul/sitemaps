@@ -15,9 +15,9 @@ $this->registerModule(
     'Sitemaps',
     'Add XML Sitemaps',
     'Pep and contributors',
-    '9.4',
+    '9.5',
     [
-        'date'     => '2025-09-22T10:25:56+0200',
+        'date'     => '2026-03-08T12:14:50+0100',
         'requires' => [
             ['core', '2.36'],
             ['TemplateHelper'],
