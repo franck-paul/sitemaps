@@ -78,7 +78,7 @@ class Manage
 
                 $active = !empty($_POST['active']);
 
-                $settings->put('active', $active, 'boolean');
+                $settings->put('active', $active, App::blogWorkspace()::NS_BOOL);
 
                 foreach ($map_parts as $map_part) {
                     $pr = is_numeric($pr = $_POST[$map_part . '_pr'] ?? 0) ? (float) $pr : 0;
