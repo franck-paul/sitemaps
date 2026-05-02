@@ -59,6 +59,7 @@ class Install
                     $rename($name, $settings);
                 }
             }
+
             if (version_compare((string) $old_version, '8.0', '<')) {
                 $settings = My::settings();
                 // Remove engine settings (global only);
