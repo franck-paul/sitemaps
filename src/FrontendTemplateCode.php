@@ -53,7 +53,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
-        $sitemaps_loc = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord && is_string($sitemaps_loc = App::frontend()->context()->sitemap_urls->loc) ? $sitemaps_loc : '';
+        $sitemaps_loc = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord ? App::frontend()->context()->sitemap_urls->strField('loc') : '';
         echo App::frontend()->context()::global_filters(
             $sitemaps_loc,
             $_params_,
@@ -71,7 +71,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
-        $sitemaps_fq = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord && is_string($sitemaps_fq = App::frontend()->context()->sitemap_urls->frequency) ? $sitemaps_fq : '';
+        $sitemaps_fq = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord ? App::frontend()->context()->sitemap_urls->strField('frequency') : '';
         echo App::frontend()->context()::global_filters(
             $sitemaps_fq,
             $_params_,
@@ -89,7 +89,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
-        $sitemaps_pr = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord && is_string($sitemaps_pr = App::frontend()->context()->sitemap_urls->priority) ? $sitemaps_pr : '';
+        $sitemaps_pr = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord ? App::frontend()->context()->sitemap_urls->strField('priority') : '';
         echo App::frontend()->context()::global_filters(
             $sitemaps_pr,
             $_params_,
@@ -107,7 +107,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_,
     ): void {
-        $sitemaps_lastmod = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord && is_string($sitemaps_lastmod = App::frontend()->context()->sitemap_urls->lastmod) ? $sitemaps_lastmod : '';
+        $sitemaps_lastmod = App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord ? App::frontend()->context()->sitemap_urls->strField('lastmod') : '';
         echo App::frontend()->context()::global_filters(
             $sitemaps_lastmod,
             $_params_,

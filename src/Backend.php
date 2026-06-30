@@ -43,11 +43,11 @@ class Backend
 
         App::behavior()->addBehavior('adminDashboardFavoritesV2', static function (Favorites $favs): string {
             $favs->register('sitemaps', [
-                'title'       => __('Sitemaps'),
-                'url'         => My::manageUrl(),
-                'small-icon'  => My::icons(),
-                'large-icon'  => My::icons(),
-                'permissions' => My::checkContext(My::MENU),
+                'title'          => __('Sitemaps'),
+                'url'            => My::manageUrl(),
+                'menu-icon'      => My::icon(),
+                'dashboard-icon' => My::icon(),
+                'permissions'    => My::checkContext(My::MENU),
             ]);
 
             return '';
