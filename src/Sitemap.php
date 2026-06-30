@@ -165,12 +165,12 @@ class Sitemap
 
         if ($rs) {
             while ($rs->fetch()) {
-                $post_upddt  = is_string($post_upddt = $rs->post_upddt) ? $post_upddt : 'now';
-                $comments_dt = is_string($comments_dt = $rs->comments_dt) ? $comments_dt : null;
+                $post_upddt  = $rs->strField('post_upddt', true) ?: 'now';
+                $comments_dt = $rs->strField('comments_dt', true);
                 $last_ts     = $comments_dt !== null ? max(strtotime($post_upddt), strtotime($comments_dt)) : strtotime($post_upddt);
-                $post_url    = is_string($post_url = $rs->post_url) ? $post_url : '';
-                if ($last_ts !== false && $post_upddt !== '') {
-                    $post_tz = is_string($post_tz = $rs->post_tz) ? $post_tz : 'UTC';
+                $post_url    = $rs->strField('post_url');
+                if ($last_ts !== false) {
+                    $post_tz = $rs->strField('post_tz', true) ?: 'UTC';
                     $last_dt = Date::iso8601($last_ts, $post_tz);
                     $url     = App::blog()->url() . App::url()->getURLFor($base_url, Html::sanitizeURL($post_url));
                     $this->addEntry($url, $prio, $freq, $last_dt);
@@ -229,7 +229,7 @@ class Sitemap
 
             $cats = App::blog()->getCategories(['post_type' => 'post']);
             while ($cats->fetch()) {
-                $cat_url = is_string($cat_url = $cats->cat_url) ? $cat_url : '';
+                $cat_url = $cats->strField('cat_url');
                 $this->addEntry(
                     App::blog()->url() . App::url()->getURLFor('category', $cat_url),
                     $prio,
@@ -248,7 +248,7 @@ class Sitemap
             $tags = $meta->getMetadata(['meta_type' => 'tag']);
             $tags = $meta->computeMetaStats($tags);
             while ($tags->fetch()) {
-                $meta_id = is_string($meta_id = $tags->meta_id) ? $meta_id : '';
+                $meta_id = $tags->strField('meta_id');
                 $this->addEntry(
                     App::blog()->url() . App::url()->getURLFor('tag', rawurlencode($meta_id)),
                     $prio,
