@@ -165,10 +165,16 @@ class Sitemap
 
         if ($rs) {
             while ($rs->fetch()) {
-                $post_upddt  = $rs->strField('post_upddt', true) ?: 'now';
+                $post_upddt  = $rs->strField('post_upddt', true);
                 $comments_dt = $rs->strField('comments_dt', true);
-                $last_ts     = $comments_dt !== null ? max(strtotime($post_upddt), strtotime($comments_dt)) : strtotime($post_upddt);
-                $post_url    = $rs->strField('post_url');
+
+                if ($post_upddt === null) {
+                    $post_upddt = 'now';
+                }
+
+                $last_ts = $comments_dt !== null ? max(strtotime($post_upddt), strtotime($comments_dt)) : strtotime($post_upddt);
+
+                $post_url = $rs->strField('post_url');
                 if ($last_ts !== false) {
                     $post_tz = $rs->strField('post_tz', true) ?: 'UTC';
                     $last_dt = Date::iso8601($last_ts, $post_tz);
