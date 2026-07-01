@@ -256,7 +256,7 @@ class Sitemap
             while ($tags->fetch()) {
                 $meta_id = $tags->strField('meta_id');
                 $this->addEntry(
-                    App::blog()->url() . App::url()->getURLFor('tag', rawurlencode($meta_id)),
+                    App::blog()->url() . App::url()->getURLFor('tag', rawurlencode((string) $meta_id)),
                     $prio,
                     $freq
                 );
