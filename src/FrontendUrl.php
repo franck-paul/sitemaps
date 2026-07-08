@@ -26,7 +26,7 @@ class FrontendUrl extends Url
     public static function sitemap(): void
     {
         $settings = My::settings();
-        if (!$settings->active) {
+        if (!$settings->getBool('active')) {
             self::p404();
         }
 

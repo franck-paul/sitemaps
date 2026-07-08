@@ -154,17 +154,16 @@ class Manage
         );
         echo App::backend()->notices()->getNotices();
 
-        $active = is_bool($active = $settings->active) && $active;
-
+        $active      = $settings->getBool('active', false);
         $sitemap_url = App::blog()->url() . App::url()->getURLFor('gsitemap');
 
         // First tab (options)
 
         $lines = [];
         foreach ($map_parts as $key => $value) {
-            $url = is_bool($url = $settings->get($value . '_url')) && $url;
-            $pr  = is_numeric($pr = $settings->get($value . '_pr')) ? (float) $pr : 0;
-            $fq  = is_numeric($fq = $settings->get($value . '_fq')) ? (int) $fq : 0;
+            $url = $settings->getBool($value . '_url', false);
+            $pr  = $settings->getFloat($value . '_pr', false);
+            $fq  = $settings->getInt($value . '_fq', false);
 
             $lines[] = (new Tr())
                 ->items([

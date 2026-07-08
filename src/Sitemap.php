@@ -51,8 +51,8 @@ class Sitemap
         $this->settings = My::settings();
 
         // Default post types
-        $posts_fq = is_numeric($posts_fq = $this->settings->posts_fq) ? (int) $posts_fq : 0;
-        $posts_pr = is_numeric($posts_pr = $this->settings->posts_pr) ? (float) $posts_pr : 0.3;
+        $posts_fq = $this->settings->getInt('posts_fq', false);
+        $posts_pr = $this->settings->getFloat('posts_pr', false) ?: 0.3;
         $this->addPostType(
             'post',
             'post',
@@ -60,8 +60,8 @@ class Sitemap
             $posts_pr
         );
 
-        $pages_fq = is_numeric($pages_fq = $this->settings->pages_fq) ? (int) $pages_fq : 0;
-        $pages_pr = is_numeric($pages_pr = $this->settings->pages_pr) ? (float) $pages_pr : 0.3;
+        $pages_fq = $this->settings->getInt('pages_fq', false);
+        $pages_pr = $this->settings->getFloat('pages_pr', false) ?: 0.3;
         $this->addPostType(
             'page',
             'pages',
@@ -77,7 +77,7 @@ class Sitemap
      */
     public function getURLs(): array
     {
-        if ($this->settings->active && $this->urls === []) {
+        if ($this->settings->getBool('active') && $this->urls === []) {
             $this->collectURLs();
         }
 
@@ -188,9 +188,9 @@ class Sitemap
     protected function collectURLs(): void
     {
         // Homepage URL
-        if ($this->settings->home_url) {
-            $fq   = is_numeric($fq = $this->settings->home_fq) ? (int) $fq : 0;
-            $pr   = is_numeric($pr = $this->settings->home_pr) ? (float) $pr : 0;
+        if ($this->settings->getBool('home_url')) {
+            $fq   = $this->settings->getInt('home_fq', false);
+            $pr   = $this->settings->getFloat('home_pr', false);
             $freq = $this->getFrequency($fq);
             $prio = $this->getPriority($pr);
 
@@ -198,9 +198,9 @@ class Sitemap
         }
 
         // Main syndication feeds URLs
-        if ($this->settings->feeds_url) {
-            $fq   = is_numeric($fq = $this->settings->feeds_fq) ? (int) $fq : 0;
-            $pr   = is_numeric($pr = $this->settings->feeds_pr) ? (float) $pr : 0;
+        if ($this->settings->getBool('feeds_url')) {
+            $fq   = $this->settings->getInt('feeds_fq', false);
+            $pr   = $this->settings->getFloat('feeds_pr', false);
             $freq = $this->getFrequency($fq);
             $prio = $this->getPriority($pr);
 
@@ -217,19 +217,19 @@ class Sitemap
         }
 
         // Posts entries URLs
-        if ($this->settings->posts_url) {
+        if ($this->settings->getBool('posts_url')) {
             $this->collectEntriesURLs('post');
         }
 
         // Pages entries URLs
-        if (App::plugins()->moduleExists('pages') && $this->settings->pages_url) {
+        if (App::plugins()->moduleExists('pages') && $this->settings->getBool('pages_url')) {
             $this->collectEntriesURLs('page');
         }
 
         // Categories URLs
-        if ($this->settings->cats_url) {
-            $fq   = is_numeric($fq = $this->settings->cats_fq) ? (int) $fq : 0;
-            $pr   = is_numeric($pr = $this->settings->cats_pr) ? (float) $pr : 0;
+        if ($this->settings->getBool('cats_url')) {
+            $fq   = $this->settings->getInt('cats_fq', false);
+            $pr   = $this->settings->getFloat('cats_pr', false);
             $freq = $this->getFrequency($fq);
             $prio = $this->getPriority($pr);
 
@@ -244,9 +244,9 @@ class Sitemap
             }
         }
 
-        if (App::plugins()->moduleExists('tags') && $this->settings->tags_url) {
-            $fq   = is_numeric($fq = $this->settings->tags_fq) ? (int) $fq : 0;
-            $pr   = is_numeric($pr = $this->settings->tags_pr) ? (float) $pr : 0;
+        if (App::plugins()->moduleExists('tags') && $this->settings->getBool('tags_url')) {
+            $fq   = $this->settings->getInt('tags_fq', false);
+            $pr   = $this->settings->getFloat('tags_pr', false);
             $freq = $this->getFrequency($fq);
             $prio = $this->getPriority($pr);
 

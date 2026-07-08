@@ -29,7 +29,7 @@ class My extends MyPlugin
      */
     public static function tplPath(): string
     {
-        $theme  = is_string($theme = App::blog()->settings()->system->theme) ? $theme : '';
+        $theme  = App::blog()->settings()->get('system')->getStr('theme', false);
         $tplset = $theme !== '' ? App::themes()->moduleInfo($theme, 'tplset') : '' ;
         $tplset = is_string($tplset) ? $tplset : '';
         if ($tplset !== '' && is_dir(implode(DIRECTORY_SEPARATOR, [My::path(), Utility::TPL_ROOT, $tplset]))) {
