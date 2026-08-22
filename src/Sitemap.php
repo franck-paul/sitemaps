@@ -168,9 +168,7 @@ class Sitemap
                 $post_upddt  = $rs->strField('post_upddt', true);
                 $comments_dt = $rs->strField('comments_dt', true);
 
-                if ($post_upddt === null) {
-                    $post_upddt = 'now';
-                }
+                $post_upddt ??= 'now';
 
                 $last_ts = $comments_dt !== null ? max(strtotime($post_upddt), strtotime($comments_dt)) : strtotime($post_upddt);
 
