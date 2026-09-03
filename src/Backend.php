@@ -41,8 +41,8 @@ class Backend
 
         My::addBackendMenuItem(Menus::MENU_BLOG);
 
-        App::behavior()->addBehavior('adminDashboardFavoritesV2', static function (Favorites $favs): string {
-            $favs->register('sitemaps', [
+        App::behavior()->addBehavior('adminDashboardFavoritesV2', static function (Favorites $favorites): string {
+            $favorites->register('sitemaps', [
                 'title'          => __('Sitemaps'),
                 'url'            => My::manageUrl(),
                 'menu-icon'      => My::icon(),

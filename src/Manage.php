@@ -64,7 +64,7 @@ class Manage
             try {
                 $settings = My::settings();
 
-                $map_parts = new ArrayObject([
+                $arrayObject = new ArrayObject([
                     __('Homepage')   => 'home',
                     __('Feeds')      => 'feeds',
                     __('Posts')      => 'posts',
@@ -74,13 +74,13 @@ class Manage
                 ]);
 
                 # --BEHAVIOR-- sitemapsDefineParts
-                App::behavior()->callBehavior('sitemapsDefineParts', $map_parts);
+                App::behavior()->callBehavior('sitemapsDefineParts', $arrayObject);
 
                 $active = !empty($_POST['active']);
 
                 $settings->put('active', $active, App::blogWorkspace()::NS_BOOL);
 
-                foreach ($map_parts as $map_part) {
+                foreach ($arrayObject as $map_part) {
                     $pr = is_numeric($pr = $_POST[$map_part . '_pr'] ?? 0) ? (float) $pr : 0;
                     $fq = is_numeric($fq = $_POST[$map_part . '_fq'] ?? 0) ? (int) $fq : 0;
 
@@ -125,7 +125,7 @@ class Manage
             new Option(__('never'), '6'),
         ];
 
-        $map_parts = new ArrayObject([
+        $arrayObject = new ArrayObject([
             __('Homepage')   => 'home',
             __('Feeds')      => 'feeds',
             __('Posts')      => 'posts',
@@ -135,7 +135,7 @@ class Manage
         ]);
 
         # --BEHAVIOR-- sitemapsDefineParts
-        App::behavior()->callBehavior('sitemapsDefineParts', $map_parts);
+        App::behavior()->callBehavior('sitemapsDefineParts', $arrayObject);
 
         $default_tab = 'options';
         if (isset($_GET['notifications'])) {
@@ -160,7 +160,7 @@ class Manage
         // First tab (options)
 
         $lines = [];
-        foreach ($map_parts as $key => $value) {
+        foreach ($arrayObject as $key => $value) {
             $url = $settings->getBool($value . '_url', false);
             $pr  = $settings->getFloat($value . '_pr', false);
             $fq  = $settings->getInt($value . '_fq', false);

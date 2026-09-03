@@ -131,27 +131,27 @@ class Sitemap
 
         // Let's have fun !
 
-        $sql = new SelectStatement();
-        $sql
+        $selectStatement = new SelectStatement();
+        $selectStatement
             ->columns([
                 'p.post_id',
                 'p.post_url',
                 'p.post_tz',
                 'p.post_upddt',
-                $sql->as($sql->max('c.comment_upddt'), 'comments_dt'),
+                $selectStatement->as($selectStatement->max('c.comment_upddt'), 'comments_dt'),
             ])
-            ->from($sql->as(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME, 'p'))
+            ->from($selectStatement->as(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME, 'p'))
             ->join(
                 (new JoinStatement())
                     ->left()
-                    ->from($sql->as(App::db()->con()->prefix() . App::blog()::COMMENT_TABLE_NAME, 'c'))
+                    ->from($selectStatement->as(App::db()->con()->prefix() . App::blog()::COMMENT_TABLE_NAME, 'c'))
                     ->on('c.post_id = p.post_id')
                     ->statement()
             )
-            ->where('p.blog_id = ' . $sql->quote(App::blog()->id()))
-            ->and('p.post_type = ' . $sql->quote($type))
+            ->where('p.blog_id = ' . $selectStatement->quote(App::blog()->id()))
+            ->and('p.post_type = ' . $selectStatement->quote($type))
             ->and('p.post_status = ' . App::status()->post()::PUBLISHED)
-            ->and($sql->isNull('p.post_password'))
+            ->and($selectStatement->isNull('p.post_password'))
             ->group([
                 'p.post_id',
                 'p.post_url',
@@ -161,7 +161,7 @@ class Sitemap
             ])
             ->order('p.post_dt ASC')
         ;
-        $rs = $sql->select();
+        $rs = $selectStatement->select();
 
         if ($rs) {
             while ($rs->fetch()) {

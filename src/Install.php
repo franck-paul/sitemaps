@@ -41,9 +41,9 @@ class Install
             if (version_compare((string) $old_version, '3.0', '<')) {
                 // Rename old settings
                 // Change settings names (remove sitemaps_ prefix in them)
-                $rename = static function (string $name, BlogWorkspaceInterface $settings): void {
-                    if ($settings->settingExists('sitemaps_' . $name, true)) {
-                        $settings->rename('sitemaps_' . $name, $name);
+                $rename = static function (string $name, BlogWorkspaceInterface $blogWorkspace): void {
+                    if ($blogWorkspace->settingExists('sitemaps_' . $name, true)) {
+                        $blogWorkspace->rename('sitemaps_' . $name, $name);
                     }
                 };
                 $settings = My::settings();
