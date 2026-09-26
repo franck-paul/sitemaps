@@ -84,13 +84,9 @@ class Manage
                     $pr = is_numeric($pr = $_POST[$map_part . '_pr'] ?? 0) ? (float) $pr : 0;
                     $fq = is_numeric($fq = $_POST[$map_part . '_fq'] ?? 0) ? (int) $fq : 0;
 
-                    ${$map_part . '_url'} = !empty($_POST[$map_part . '_url']);
-                    ${$map_part . '_pr'}  = min(abs($pr), 1);
-                    ${$map_part . '_fq'}  = min(abs($fq), 6);
-
-                    $settings->put($map_part . '_url', ${$map_part . '_url'}, App::blogWorkspace()::NS_BOOL);
-                    $settings->put($map_part . '_pr', ${$map_part . '_pr'}, App::blogWorkspace()::NS_DOUBLE);
-                    $settings->put($map_part . '_fq', ${$map_part . '_fq'}, App::blogWorkspace()::NS_INT);
+                    $settings->put($map_part . '_url', !empty($_POST[$map_part . '_url']), App::blogWorkspace()::NS_BOOL);
+                    $settings->put($map_part . '_pr', min(abs($pr), 1), App::blogWorkspace()::NS_DOUBLE);
+                    $settings->put($map_part . '_fq', min(abs($fq), 6), App::blogWorkspace()::NS_INT);
                 }
 
                 App::blog()->triggerBlog();
