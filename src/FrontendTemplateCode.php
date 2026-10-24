@@ -39,7 +39,10 @@ class FrontendTemplateCode
         string $_has_HTML,
         string $_content_HTML,
     ): void {
-        if (!is_null(App::frontend()->context()->sitemap_urls->$_has_HTML)) : ?>
+        if (
+            App::frontend()->context()->sitemap_urls instanceof \Dotclear\Database\MetaRecord
+            && !is_null(App::frontend()->context()->sitemap_urls->field('$_has_HTML'))
+        ) : ?>
             $_content_HTML
         <?php endif;
     }
