@@ -172,7 +172,7 @@ class Manage
                     (new Td())
                         ->items([
                             (new Decimal($value . '_pr'))
-                                ->value((float) $pr)
+                                ->value($pr)
                                 ->size(4)
                                 ->maxlength(4)
                                 ->step('0.1'),

@@ -38,7 +38,7 @@ class Install
         try {
             // Update
             $old_version = App::version()->getVersion(My::id());
-            if (version_compare((string) $old_version, '3.0', '<')) {
+            if (version_compare($old_version, '3.0', '<')) {
                 // Rename old settings
                 // Change settings names (remove sitemaps_ prefix in them)
                 $rename = static function (string $name, BlogWorkspaceInterface $blogWorkspace): void {
@@ -60,7 +60,7 @@ class Install
                 }
             }
 
-            if (version_compare((string) $old_version, '8.0', '<')) {
+            if (version_compare($old_version, '8.0', '<')) {
                 $settings = My::settings();
                 // Remove engine settings (global only);
                 $settings->dropEvery('engines', true);
