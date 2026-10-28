@@ -39,7 +39,7 @@ class FrontendTemplate
      */
     public static function SitemapEntryIf(array|ArrayObject $attr, string $content): string
     {
-        if (isset($attr['has_attr']) && in_array($attr['has_attr'], ['frequency', 'priority', 'lastmod'])) {
+        if (isset($attr['has_attr']) && in_array($attr['has_attr'], ['frequency', 'priority', 'lastmod'], true)) {
             return Code::getPHPTemplateBlockCode(
                 FrontendTemplateCode::SitemapEntryIf(...),
                 [
