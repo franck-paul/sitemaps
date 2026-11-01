@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\sitemaps;
 
 use Dotclear\App;
+use Dotclear\Database\MetaRecord;
 use Dotclear\Database\Statement\JoinStatement;
 use Dotclear\Database\Statement\SelectStatement;
 use Dotclear\Helper\Date;
@@ -77,7 +78,7 @@ class Sitemap
      */
     public function getURLs(): array
     {
-        if ($this->settings->getBool('active') && $this->urls === []) {
+        if ($this->settings->getBool('active', false) && $this->urls === []) {
             $this->collectURLs();
         }
 
@@ -86,7 +87,7 @@ class Sitemap
 
     public function addPostType(string $type, string $base_url, int $freq = 0, float $priority = 0.3): bool
     {
-        if (preg_match('!^([a-z_-]+)$!', $type)) {
+        if ((bool) preg_match('!^([a-z_-]+)$!', $type)) {
             $this->post_types[$type] = [
                 'base_url'  => $base_url,
                 'frequency' => $this->getFrequency($freq),
@@ -163,7 +164,7 @@ class Sitemap
         ;
         $rs = $selectStatement->select();
 
-        if ($rs) {
+        if ($rs instanceof MetaRecord) {
             while ($rs->fetch()) {
                 $post_upddt  = $rs->strField('post_upddt', true);
                 $comments_dt = $rs->strField('comments_dt', true);
@@ -186,7 +187,7 @@ class Sitemap
     protected function collectURLs(): void
     {
         // Homepage URL
-        if ($this->settings->getBool('home_url')) {
+        if ($this->settings->getBool('home_url', false)) {
             $fq   = $this->settings->getInt('home_fq', false);
             $pr   = $this->settings->getFloat('home_pr', false);
             $freq = $this->getFrequency($fq);
@@ -196,7 +197,7 @@ class Sitemap
         }
 
         // Main syndication feeds URLs
-        if ($this->settings->getBool('feeds_url')) {
+        if ($this->settings->getBool('feeds_url', false)) {
             $fq   = $this->settings->getInt('feeds_fq', false);
             $pr   = $this->settings->getFloat('feeds_pr', false);
             $freq = $this->getFrequency($fq);
@@ -215,17 +216,17 @@ class Sitemap
         }
 
         // Posts entries URLs
-        if ($this->settings->getBool('posts_url')) {
+        if ($this->settings->getBool('posts_url', false)) {
             $this->collectEntriesURLs('post');
         }
 
         // Pages entries URLs
-        if (App::plugins()->moduleExists('pages') && $this->settings->getBool('pages_url')) {
+        if (App::plugins()->moduleExists('pages') && $this->settings->getBool('pages_url', false)) {
             $this->collectEntriesURLs('page');
         }
 
         // Categories URLs
-        if ($this->settings->getBool('cats_url')) {
+        if ($this->settings->getBool('cats_url', false)) {
             $fq   = $this->settings->getInt('cats_fq', false);
             $pr   = $this->settings->getFloat('cats_pr', false);
             $freq = $this->getFrequency($fq);
@@ -242,7 +243,7 @@ class Sitemap
             }
         }
 
-        if (App::plugins()->moduleExists('tags') && $this->settings->getBool('tags_url')) {
+        if (App::plugins()->moduleExists('tags') && $this->settings->getBool('tags_url', false)) {
             $fq   = $this->settings->getInt('tags_fq', false);
             $pr   = $this->settings->getFloat('tags_pr', false);
             $freq = $this->getFrequency($fq);
