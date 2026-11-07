@@ -18,9 +18,9 @@ if (isset($this) && is_object($this) && method_exists($this, 'registerModule') &
         'Sitemaps',
         'Add XML Sitemaps',
         'Pep and contributors',
-        '10.0',
+        '10.1',
         [
-            'date'     => '2026-08-03T10:10:27+0200',
+            'date'     => '2026-11-07T17:06:11+0100',
             'requires' => [
                 ['core', '2.39'],
                 ['TemplateHelper'],
